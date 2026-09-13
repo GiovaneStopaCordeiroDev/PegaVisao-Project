@@ -1,69 +1,146 @@
+/* =========================
+   CARROSSEL
+========================= */
+
 .carrossel {
-    width: 100%;
-    height: calc(100vh - 80px);
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  height: calc(100vh - 80px);
+  position: relative;
+  overflow: hidden;
 }
 
 .carrossel-imagens {
-    display: flex;
-    width: 100%;
-    height: 100%;
-
-    transition: transform 0.8s ease-in-out;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease-in-out;
 }
 
 .carrossel-imagens img {
-    min-width: 100%;
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-    object-position: center top;
-
-    flex-shrink: 0;
-    display: block;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  flex-shrink: 0;
+  display: block;
 }
 
 
-/* Bolinhas */
+/* =========================
+   BOLINHAS
+========================= */
 
 .indicadores {
-    position: absolute;
-
-    bottom: 25px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    display: flex;
-    gap: 10px;
-
-    z-index: 2;
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 2;
 }
 
 .bolinha {
-    width: 12px;
-    height: 12px;
-
-    padding: 0;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: rgba(255, 255, 255, 0.5);
-
-    cursor: pointer;
-
-    transition: all 0.3s ease;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .bolinha:hover {
-    background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .bolinha.ativa {
-    background-color: white;
+  background-color: white;
+  transform: scale(1.2);
+}
 
-    transform: scale(1.2);
+
+/* =========================
+   TABLETS
+========================= */
+
+@media (max-width: 900px) {
+
+  .carrossel {
+    height: 55vh;
+  }
+
+  .indicadores {
+    bottom: 18px;
+    gap: 8px;
+  }
+
+  .bolinha {
+    width: 10px;
+    height: 10px;
+  }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+  .carrossel {
+    height: 35vh;
+    min-height: 200px;
+    max-height: 300px;
+  }
+
+  .carrossel-imagens {
+    height: 100%;
+  }
+
+  .carrossel-imagens img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .indicadores {
+    bottom: 12px;
+    gap: 7px;
+  }
+
+  .bolinha {
+    width: 9px;
+    height: 9px;
+  }
+
+  .bolinha.ativa {
+    transform: scale(1.15);
+  }
+}
+
+
+/* =========================
+   CELULARES PEQUENOS
+========================= */
+
+@media (max-width: 380px) {
+
+  .carrossel {
+    height: 30vh;
+    min-height: 180px;
+    max-height: 240px;
+  }
+
+  .indicadores {
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .bolinha {
+    width: 8px;
+    height: 8px;
+  }
 }
