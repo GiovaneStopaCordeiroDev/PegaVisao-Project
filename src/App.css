@@ -165,28 +165,11 @@ body {
     .info-produto {
         padding: 18px;
     }
-
-    .nome-produto {
-        font-size: 18px;
-    }
-
-    .descricao-produto {
-        font-size: 14px;
-    }
-
-    .preco-produto {
-        font-size: 23px;
-    }
-
-    .botao-carrinho-produto {
-        padding: 12px;
-        font-size: 14px;
-    }
 }
 
 
 /* ==================================================
-   NOTEBOOK / TELAS MÉDIAS
+   NOTEBOOK / TABLET
 ================================================== */
 
 @media (min-width: 701px) and (max-width: 1199px) {
@@ -213,26 +196,80 @@ body {
 @media (max-width: 700px) {
 
     .produtos-lista {
-        margin: 5% 5%;
-        gap: 15px;
-    }
+        width: 100%;
+        margin: 30px 0;
+        padding: 0 12px;
 
-    .card-produto {
-        width: 200px;
-    }
-}
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
 
-
-@media (max-width: 500px) {
-
-    .produtos-lista {
-        margin: 5% 20px;
-        flex-direction: column;
-        align-items: center;
+        gap: 12px;
     }
 
     .card-produto {
         width: 100%;
-        max-width: 350px;
+        min-height: 0;
+        border-radius: 12px;
+    }
+
+    .imagem-produto {
+        height: 180px;
+    }
+
+    .info-produto {
+        padding: 12px;
+    }
+
+    .nome-produto {
+        font-size: 15px;
+    }
+
+    .descricao-produto {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    .preco-produto {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .botao-carrinho-produto {
+        padding: 9px 6px;
+        font-size: 12px;
+    }
+}
+
+
+/* ==================================================
+   CELULAR PEQUENO
+================================================== */
+
+@media (max-width: 400px) {
+
+    .produtos-lista {
+        padding: 0 10px;
+        gap: 10px;
+    }
+
+    .imagem-produto {
+        height: 160px;
+    }
+
+    .info-produto {
+        padding: 10px;
+    }
+
+    .nome-produto {
+        font-size: 14px;
+    }
+
+    .preco-produto {
+        font-size: 17px;
+    }
+
+    .botao-carrinho-produto {
+        font-size: 11px;
+        padding: 8px 4px;
     }
 }

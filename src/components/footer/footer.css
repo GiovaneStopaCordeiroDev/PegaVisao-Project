@@ -1,45 +1,150 @@
-*{
+* {
     padding: 0;
     margin: 0;
-    
+    box-sizing: border-box;
 }
 
 footer {
     width: 100%;
+    min-height: 300px;
+
     margin-top: 5%;
-    height: 30vh;
+    padding: 40px 30px;
+
     background-color: #07232e;
+
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
+
     text-align: center;
-     justify-content: space-evenly;
     gap: 35px;
 }
 
 .conteudo-footer {
+    width: 100%;
+    max-width: 1000px;
+
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 150px;
-}
-.footer-coluna{
-    display: flex;
-    flex-direction: column;
-    gap: 10px
+    align-items: flex-start;
+
+    gap: 100px;
 }
 
-.footer-coluna, a, h4{
+.footer-coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-coluna a,
+.footer-coluna h4 {
     color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
     text-decoration: none;
 }
 
- h4{
+.footer-coluna a {
+    font-size: 14px;
+}
+
+.footer-coluna a:hover {
+    color: #17E4B9;
+}
+
+h4 {
     font-weight: 600;
     font-size: 1.2rem;
- }
+}
 
- h3{
+h3 {
     color: #FFFFFF;
- }
+}
+
+
+/* ==================================================
+   TABLET
+================================================== */
+
+@media (max-width: 900px) {
+
+    footer {
+        padding: 35px 25px;
+    }
+
+    .conteudo-footer {
+        gap: 50px;
+    }
+}
+
+
+/* ==================================================
+   CELULAR
+================================================== */
+
+@media (max-width: 700px) {
+
+    footer {
+        min-height: 350px;
+
+        margin-top: 40px;
+        padding: 40px 20px;
+
+        gap: 30px;
+    }
+
+    .conteudo-footer {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 30px;
+    }
+
+    .footer-coluna {
+        align-items: center;
+        gap: 8px;
+    }
+
+    .footer-coluna a {
+        font-size: 14px;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+}
+
+
+/* ==================================================
+   CELULAR PEQUENO
+================================================== */
+
+@media (max-width: 400px) {
+
+    footer {
+        min-height: 330px;
+        padding: 30px 15px;
+    }
+
+    .conteudo-footer {
+        gap: 25px;
+    }
+
+    .footer-coluna {
+        gap: 6px;
+    }
+
+    .footer-coluna a {
+        font-size: 13px;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+}
