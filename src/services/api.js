@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://localhost:7263"
+    baseURL: "https://pegavisao-project-api.onrender.com"
 });
 
 export default api;
