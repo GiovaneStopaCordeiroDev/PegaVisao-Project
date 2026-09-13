@@ -1,0 +1,450 @@
+.painel-admin {
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.h1-produtos {
+  color: #ffffff;
+}
+
+/* =========================
+   TÍTULO + BOTÃO ADICIONAR
+========================= */
+
+.titulo-produtos {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.titulo-produtos h1 {
+  margin: 0;
+}
+
+.botao-adicionar-produto {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #17e4b9;
+  color: #091d24;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.botao-adicionar-produto:hover {
+  opacity: 0.85;
+}
+
+/* =========================
+   LISTA DE PRODUTOS
+========================= */
+
+.lista-produtos-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 250px));
+  gap: 20px;
+}
+
+/* =========================
+   CARD DO PRODUTO
+========================= */
+
+.card-produto-admin {
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-sizing: border-box;
+}
+
+.imagem-produto-admin {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-produto-admin h2 {
+  margin: 10px 15px 5px;
+  font-size: 18px;
+}
+
+.card-produto-admin p {
+  margin: 5px 15px 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* =========================
+   BOTÕES DO CARD
+========================= */
+
+.acoes-produto {
+  display: flex;
+  gap: 10px;
+  padding: 10px 15px 15px;
+}
+
+.acoes-produto button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* EDITAR */
+
+.botao-editar {
+  background-color: #17e4b9;
+  color: #091d24;
+}
+
+.botao-editar:hover {
+  opacity: 0.8;
+}
+
+/* EXCLUIR */
+
+.botao-excluir {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.botao-excluir:hover {
+  background-color: #c0392b;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   CAIXA DO MODAL
+========================= */
+
+.modal-editar {
+  position: relative;
+
+  width: 500px;
+  max-width: 90%;
+
+  max-height: 90vh;
+
+  padding: 30px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+}
+
+.modal-editar h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+/* =========================
+   FORMULÁRIO
+========================= */
+
+.modal-editar form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-editar label {
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+.modal-editar input,
+.modal-editar textarea,
+.modal-editar select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.modal-editar input:focus,
+.modal-editar textarea:focus,
+.modal-editar select:focus {
+  border-color: #17e4b9;
+}
+
+/* =========================
+   TEXTAREA
+========================= */
+
+.modal-editar textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* =========================
+   SELECT DA CATEGORIA
+========================= */
+
+.modal-editar select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.modal-editar select option {
+  padding: 10px;
+}
+
+/* =========================
+   BOTÃO X
+========================= */
+
+.botao-fechar-modal {
+  position: absolute;
+
+  top: 10px;
+  right: 15px;
+
+  border: none;
+
+  background: transparent;
+
+  font-size: 30px;
+
+  cursor: pointer;
+
+  line-height: 1;
+}
+
+.botao-fechar-modal:hover {
+  opacity: 0.6;
+}
+
+/* =========================
+   VARIAÇÕES
+========================= */
+
+.variacoes-container {
+  margin-top: 20px;
+
+  padding: 18px;
+
+  background-color: #f7f7f7;
+
+  border: 1px solid #e1e1e1;
+
+  border-radius: 10px;
+
+  box-sizing: border-box;
+}
+
+.variacoes-container h3 {
+  margin: 0 0 15px;
+
+  color: #091d24;
+
+  font-size: 17px;
+}
+
+/* =========================
+   LINHA DA VARIAÇÃO
+========================= */
+
+.linha-variacao {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr 90px 38px;
+
+  gap: 8px;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+.linha-variacao input {
+  width: 100%;
+
+  min-width: 0;
+
+  padding: 9px;
+
+  box-sizing: border-box;
+}
+
+/* =========================
+   BOTÃO REMOVER VARIAÇÃO
+========================= */
+
+.botao-remover-variacao {
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background-color: #e74c3c;
+
+  color: white;
+
+  font-size: 22px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-remover-variacao:hover {
+  background-color: #c0392b;
+}
+
+/* =========================
+   BOTÃO ADICIONAR VARIAÇÃO
+========================= */
+
+.botao-adicionar-variacao {
+  width: 100%;
+
+  margin-top: 5px;
+
+  padding: 10px;
+
+  border: 1px dashed #17e4b9;
+
+  border-radius: 6px;
+
+  background-color: white;
+
+  color: #091d24;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-adicionar-variacao:hover {
+  background-color: #effffb;
+}
+
+/* =========================
+   BOTÃO ALTERAR / ADICIONAR
+========================= */
+
+.botao-alterar {
+  width: 100%;
+
+  margin-top: 15px;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #17e4b9;
+
+  color: #091d24;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-alterar:hover {
+  opacity: 0.85;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 600px) {
+  .painel-admin {
+    padding: 20px;
+  }
+
+  .titulo-produtos {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 15px;
+  }
+
+  .botao-adicionar-produto {
+    width: 100%;
+  }
+
+  .modal-editar {
+    width: 100%;
+
+    max-width: 100%;
+
+    padding: 25px 20px;
+  }
+
+  .linha-variacao {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .linha-variacao input[type="number"] {
+    grid-column: 1;
+  }
+
+  .botao-remover-variacao {
+    grid-column: 2;
+
+    justify-self: end;
+  }
+}
