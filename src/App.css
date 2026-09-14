@@ -14,7 +14,6 @@ body {
   color: #222;
 }
 
-
 /* =========================================
    CATEGORIAS
 ========================================= */
@@ -40,23 +39,18 @@ body {
   background-color: white;
   border-radius: 12px;
   padding: 25px 15px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   text-decoration: none;
   color: #222;
-
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .categoria-home:hover {
   transform: translateY(-5px);
-
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
@@ -70,7 +64,6 @@ body {
   font-weight: bold;
 }
 
-
 /* =========================================
    SEÇÕES DE CATEGORIA
 ========================================= */
@@ -78,7 +71,6 @@ body {
 .secao-categoria {
   width: 90%;
   max-width: 1200px;
-
   margin: 50px auto;
   scroll-margin-top: 100px;
 }
@@ -87,7 +79,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   margin-bottom: 20px;
 }
 
@@ -98,7 +89,6 @@ body {
 .cabecalho-categoria a {
   text-decoration: none;
   color: #007bff;
-
   font-weight: bold;
 }
 
@@ -106,19 +96,15 @@ body {
   text-decoration: underline;
 }
 
-
 /* =========================================
    LISTA DE PRODUTOS
 ========================================= */
 
 .produtos-lista {
   display: grid;
-
   grid-template-columns: repeat(4, 1fr);
-
   gap: 20px;
 }
-
 
 /* =========================================
    CARD DO PRODUTO
@@ -126,31 +112,22 @@ body {
 
 .card-produto {
   background-color: white;
-
   border-radius: 12px;
-
   overflow: hidden;
-
   text-decoration: none;
-
   color: #222;
-
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
-
   display: flex;
   flex-direction: column;
 }
 
 .card-produto:hover {
   transform: translateY(-5px);
-
   box-shadow: 0 7px 18px rgba(0, 0, 0, 0.15);
 }
-
 
 /* =========================================
    IMAGEM DO PRODUTO
@@ -158,14 +135,10 @@ body {
 
 .imagem-produto {
   width: 100%;
-
   height: 260px;
-
   object-fit: cover;
-
   display: block;
 }
-
 
 /* =========================================
    INFORMAÇÕES DO PRODUTO
@@ -173,26 +146,20 @@ body {
 
 .info-produto {
   padding: 15px;
-
   display: flex;
   flex-direction: column;
-
   flex: 1;
 }
 
 .nome-produto {
   font-size: 18px;
-
   margin-bottom: 8px;
 }
 
 .descricao-produto {
   font-size: 14px;
-
   color: #666;
-
   line-height: 1.4;
-
   margin-bottom: 12px;
 
   display: -webkit-box;
@@ -204,14 +171,10 @@ body {
 
 .preco-produto {
   font-size: 21px;
-
   font-weight: bold;
-
   margin-top: auto;
-
   margin-bottom: 15px;
 }
-
 
 /* =========================================
    BOTÃO CARRINHO
@@ -219,30 +182,20 @@ body {
 
 .botao-carrinho-produto {
   width: 100%;
-
   border: none;
-
   border-radius: 8px;
-
   padding: 11px;
-
   background-color: #07232e;
-
   color: white;
-
   font-size: 14px;
-
   font-weight: bold;
-
   cursor: pointer;
-
   transition: background-color 0.2s ease;
 }
 
 .botao-carrinho-produto:hover {
   background-color: #0d3b4b;
 }
-
 
 /* =========================================
    TABLET
@@ -263,7 +216,6 @@ body {
   }
 }
 
-
 /* =========================================
    CELULAR
 ========================================= */
@@ -272,25 +224,21 @@ body {
 
   .categorias-home {
     width: 92%;
-
     margin: 30px auto;
   }
 
   .titulo-categorias {
     font-size: 22px;
-
     margin-bottom: 18px;
   }
 
   .lista-categorias {
     grid-template-columns: repeat(2, 1fr);
-
     gap: 12px;
   }
 
   .categoria-home {
     padding: 18px 10px;
-
     border-radius: 10px;
   }
 
@@ -302,14 +250,13 @@ body {
     font-size: 15px;
   }
 
-
-  /* SEÇÕES */
+  /* =====================================
+     SEÇÕES
+  ===================================== */
 
   .secao-categoria {
     width: 92%;
-
     margin: 35px auto;
-
     scroll-margin-top: 80px;
   }
 
@@ -325,19 +272,40 @@ body {
     font-size: 14px;
   }
 
-
-  /* PRODUTOS */
+  /* =====================================
+     PRODUTOS - ROLAGEM HORIZONTAL
+  ===================================== */
 
   .produtos-lista {
-    grid-template-columns: repeat(2, 1fr);
-
+    display: flex;
     gap: 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+
+    padding-bottom: 8px;
+
+    /* Permite deslizar naturalmente no celular */
+    -webkit-overflow-scrolling: touch;
+
+    /* Esconde a barra de rolagem */
+    scrollbar-width: none;
   }
 
+  .produtos-lista::-webkit-scrollbar {
+    display: none;
+  }
 
-  /* CARD */
+  /* =====================================
+     CARD
+  ===================================== */
 
   .card-produto {
+    flex: 0 0 210px;
+    width: 210px;
+
     border-radius: 9px;
   }
 
@@ -351,29 +319,24 @@ body {
 
   .nome-produto {
     font-size: 15px;
-
     margin-bottom: 5px;
   }
 
   .descricao-produto {
     font-size: 12px;
-
     margin-bottom: 8px;
   }
 
   .preco-produto {
     font-size: 17px;
-
     margin-bottom: 10px;
   }
 
   .botao-carrinho-produto {
     font-size: 12px;
-
     padding: 9px;
   }
 }
-
 
 /* =========================================
    CELULARES PEQUENOS
@@ -382,7 +345,12 @@ body {
 @media (max-width: 380px) {
 
   .produtos-lista {
-    gap: 8px;
+    gap: 10px;
+  }
+
+  .card-produto {
+    flex: 0 0 190px;
+    width: 190px;
   }
 
   .imagem-produto {
@@ -405,4 +373,3 @@ body {
     padding: 8px 5px;
   }
 }
-
