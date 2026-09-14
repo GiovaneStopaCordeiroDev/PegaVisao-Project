@@ -1,31 +1,53 @@
 import { useEffect, useState } from "react";
+
 import { Link, useSearchParams } from "react-router-dom";
+
 import api from "../../services/api";
+
 import "./Produtos.css";
 
 export function Produtos() {
 
   const [produtos, setProdutos] = useState([]);
+
   const [filtrosAbertos, setFiltrosAbertos] = useState(false);
 
   const [busca, setBusca] = useState("");
+
   const [categoria, setCategoria] = useState("");
+
   const [tamanho, setTamanho] = useState("");
+
   const [cor, setCor] = useState("");
+
   const [precoMaximo, setPrecoMaximo] = useState("");
 
   const [searchParams] = useSearchParams();
+
 
   // =========================================
   // CATEGORIAS
   // =========================================
 
   const categorias = [
-    { id: 8, nome: "Camisetas" },
-    { id: 6, nome: "Moletons" },
-    { id: 7, nome: "Calças" },
-    { id: 5, nome: "Tênis" }
+    {
+      id: 8,
+      nome: "Camisetas"
+    },
+    {
+      id: 6,
+      nome: "Moletons"
+    },
+    {
+      id: 7,
+      nome: "Calças"
+    },
+    {
+      id: 5,
+      nome: "Tênis"
+    }
   ];
+
 
   // =========================================
   // CARREGAR PRODUTOS
@@ -45,7 +67,10 @@ export function Produtos() {
 
       } catch (error) {
 
-        console.error("Erro ao carregar produtos:", error);
+        console.error(
+          "Erro ao carregar produtos:",
+          error
+        );
 
       }
 
@@ -55,19 +80,24 @@ export function Produtos() {
 
   }, []);
 
+
   // =========================================
   // LER CATEGORIA DA URL
   // =========================================
 
   useEffect(() => {
 
-    const categoriaUrl = searchParams.get("categoria");
+    const categoriaUrl =
+      searchParams.get("categoria");
 
     if (categoriaUrl) {
+
       setCategoria(categoriaUrl);
+
     }
 
   }, [searchParams]);
+
 
   // =========================================
   // OPÇÕES DE TAMANHO
@@ -83,68 +113,105 @@ export function Produtos() {
     "XG"
   ];
 
+
   // =========================================
   // OPÇÕES DE COR
   // =========================================
 
   const cores = [
     ...new Set(
-      produtos.flatMap(produto =>
-        produto.variacoes?.map(variacao => variacao.cor) || []
+      produtos.flatMap(
+        (produto) =>
+          produto.variacoes?.map(
+            (variacao) => variacao.cor
+          ) || []
       )
     )
   ];
+
 
   // =========================================
   // FILTRAR PRODUTOS
   // =========================================
 
-  const produtosFiltrados = produtos.filter(produto => {
+  const produtosFiltrados = produtos.filter(
+    (produto) => {
 
-    // BUSCA
-    const textoBusca = busca.toLowerCase();
+      // =====================================
+      // BUSCA
+      // =====================================
 
-    const correspondeBusca =
-      produto.nome?.toLowerCase().includes(textoBusca) ||
-      produto.descricao?.toLowerCase().includes(textoBusca);
+      const textoBusca =
+        busca.trim().toLowerCase();
 
-    // CATEGORIA
-    const correspondeCategoria =
-      categoria === "" ||
-      produto.categoriaId === Number(categoria);
+      const nome =
+        produto.nome?.toLowerCase() || "";
 
-    // TAMANHO
-    const correspondeTamanho =
-      tamanho === "" ||
-      produto.variacoes?.some(
-        variacao =>
-          variacao.tamanho === tamanho &&
-          variacao.estoque > 0
+      const descricao =
+        produto.descricao?.toLowerCase() || "";
+
+      const correspondeBusca =
+        textoBusca === "" ||
+        nome.includes(textoBusca) ||
+        descricao.includes(textoBusca);
+
+
+      // =====================================
+      // CATEGORIA
+      // =====================================
+
+      const correspondeCategoria =
+        categoria === "" ||
+        produto.categoriaId === Number(categoria);
+
+
+      // =====================================
+      // TAMANHO
+      // =====================================
+
+      const correspondeTamanho =
+        tamanho === "" ||
+        produto.variacoes?.some(
+          (variacao) =>
+            variacao.tamanho === tamanho &&
+            variacao.estoque > 0
+        );
+
+
+      // =====================================
+      // COR
+      // =====================================
+
+      const correspondeCor =
+        cor === "" ||
+        produto.variacoes?.some(
+          (variacao) =>
+            variacao.cor === cor &&
+            variacao.estoque > 0
+        );
+
+
+      // =====================================
+      // PREÇO
+      // =====================================
+
+      const correspondePreco =
+        precoMaximo === "" ||
+        Number(produto.preco) <=
+          Number(precoMaximo);
+
+
+      return (
+        correspondeBusca &&
+        correspondeCategoria &&
+        correspondeTamanho &&
+        correspondeCor &&
+        correspondePreco
       );
 
-    // COR
-    const correspondeCor =
-      cor === "" ||
-      produto.variacoes?.some(
-        variacao =>
-          variacao.cor === cor &&
-          variacao.estoque > 0
-      );
+    }
+  );
 
-    // PREÇO
-    const correspondePreco =
-      precoMaximo === "" ||
-      Number(produto.preco) <= Number(precoMaximo);
-
-    return (
-      correspondeBusca &&
-      correspondeCategoria &&
-      correspondeTamanho &&
-      correspondeCor &&
-      correspondePreco
-    );
-
-  });
 
   // =========================================
   // LIMPAR FILTROS
@@ -153,12 +220,17 @@ export function Produtos() {
   function limparFiltros() {
 
     setBusca("");
+
     setCategoria("");
+
     setTamanho("");
+
     setCor("");
+
     setPrecoMaximo("");
 
   }
+
 
   // =========================================
   // RENDERIZAR CARD
@@ -167,6 +239,7 @@ export function Produtos() {
   function renderizarProduto(produto) {
 
     return (
+
       <Link
         key={produto.id}
         to={`/produto/${produto.id}`}
@@ -178,36 +251,48 @@ export function Produtos() {
           alt={produto.nome}
         />
 
+
         <div className="produto-card-filtro-info">
 
-          <h3>
+          <h3 className="produto-card-nome">
             {produto.nome}
           </h3>
+
 
           <p className="produto-card-descricao">
             {produto.descricao}
           </p>
 
-          <strong>
+
+          <strong className="produto-card-preco">
+
             R$ {Number(produto.preco)
               .toFixed(2)
               .replace(".", ",")}
+
           </strong>
 
         </div>
 
       </Link>
+
     );
 
   }
+
+
+  // =========================================
+  // INTERFACE
+  // =========================================
 
   return (
 
     <main className="pagina-produtos">
 
-      {/* =========================================
+
+      {/* =====================================
           CABEÇALHO
-      ========================================= */}
+      ===================================== */}
 
       <div className="topo-produtos">
 
@@ -215,11 +300,13 @@ export function Produtos() {
           Produtos
         </h1>
 
+
         <div className="barra-busca">
 
           <span>
             🔎
           </span>
+
 
           <input
             type="text"
@@ -234,9 +321,10 @@ export function Produtos() {
 
       </div>
 
-      {/* =========================================
+
+      {/* =====================================
           BOTÃO FILTROS - MOBILE
-      ========================================= */}
+      ===================================== */}
 
       <button
         className="botao-filtros-mobile"
@@ -244,7 +332,10 @@ export function Produtos() {
           setFiltrosAbertos(!filtrosAbertos)
         }
       >
-        ⚙ Filtros
+
+        <span>
+          ⚙ Filtros
+        </span>
 
         <span>
           {filtrosAbertos ? "▲" : "▼"}
@@ -252,19 +343,23 @@ export function Produtos() {
 
       </button>
 
-      {/* =========================================
+
+      {/* =====================================
           CONTEÚDO
-      ========================================= */}
+      ===================================== */}
 
       <div className="conteudo-produtos">
 
-        {/* =========================================
+
+        {/* ===================================
             FILTROS
-        ========================================= */}
+        =================================== */}
 
         <aside
           className={`filtros-produtos ${
-            filtrosAbertos ? "filtros-abertos" : ""
+            filtrosAbertos
+              ? "filtros-abertos"
+              : ""
           }`}
         >
 
@@ -274,13 +369,19 @@ export function Produtos() {
               Filtros
             </h2>
 
-            <button onClick={limparFiltros}>
+
+            <button
+              onClick={limparFiltros}
+            >
               Limpar
             </button>
 
           </div>
 
-          {/* CATEGORIA */}
+
+          {/* =================================
+              CATEGORIA
+          ================================= */}
 
           <div className="grupo-filtro">
 
@@ -288,7 +389,8 @@ export function Produtos() {
               Categoria
             </h3>
 
-            {categorias.map(item => (
+
+            {categorias.map((item) => (
 
               <label key={item.id}>
 
@@ -296,10 +398,13 @@ export function Produtos() {
                   type="radio"
                   name="categoria"
                   checked={
-                    categoria === String(item.id)
+                    categoria ===
+                    String(item.id)
                   }
                   onChange={() =>
-                    setCategoria(String(item.id))
+                    setCategoria(
+                      String(item.id)
+                    )
                   }
                 />
 
@@ -308,6 +413,7 @@ export function Produtos() {
               </label>
 
             ))}
+
 
             <label>
 
@@ -326,7 +432,10 @@ export function Produtos() {
 
           </div>
 
-          {/* TAMANHO */}
+
+          {/* =================================
+              TAMANHO
+          ================================= */}
 
           <div className="grupo-filtro">
 
@@ -334,9 +443,10 @@ export function Produtos() {
               Tamanho
             </h3>
 
+
             <div className="opcoes-filtro">
 
-              {tamanhos.map(item => (
+              {tamanhos.map((item) => (
 
                 <button
                   key={item}
@@ -347,11 +457,15 @@ export function Produtos() {
                   }
                   onClick={() =>
                     setTamanho(
-                      tamanho === item ? "" : item
+                      tamanho === item
+                        ? ""
+                        : item
                     )
                   }
                 >
+
                   {item}
+
                 </button>
 
               ))}
@@ -360,13 +474,17 @@ export function Produtos() {
 
           </div>
 
-          {/* COR */}
+
+          {/* =================================
+              COR
+          ================================= */}
 
           <div className="grupo-filtro">
 
             <h3>
               Cor
             </h3>
+
 
             <select
               value={cor}
@@ -379,7 +497,8 @@ export function Produtos() {
                 Todas as cores
               </option>
 
-              {cores.map(item => (
+
+              {cores.map((item) => (
 
                 <option
                   key={item}
@@ -394,7 +513,10 @@ export function Produtos() {
 
           </div>
 
-          {/* PREÇO */}
+
+          {/* =================================
+              PREÇO
+          ================================= */}
 
           <div className="grupo-filtro">
 
@@ -402,19 +524,23 @@ export function Produtos() {
               Preço máximo
             </h3>
 
+
             <div className="campo-preco">
 
               <span>
                 R$
               </span>
 
+
               <input
                 type="number"
                 min="0"
-                placeholder="Valor Máximo(Ex: R$130.00)"
+                placeholder="Ex: 130"
                 value={precoMaximo}
                 onChange={(event) =>
-                  setPrecoMaximo(event.target.value)
+                  setPrecoMaximo(
+                    event.target.value
+                  )
                 }
               />
 
@@ -422,7 +548,10 @@ export function Produtos() {
 
           </div>
 
-          {/* LIMPAR */}
+
+          {/* =================================
+              LIMPAR
+          ================================= */}
 
           <button
             className="botao-limpar-filtros"
@@ -433,29 +562,36 @@ export function Produtos() {
 
         </aside>
 
-        {/* =========================================
+
+        {/* ===================================
             PRODUTOS
-        ========================================= */}
+        =================================== */}
 
         <section className="resultado-produtos">
+
 
           <div className="cabecalho-resultados">
 
             <p>
+
               <strong>
                 {produtosFiltrados.length}
               </strong>{" "}
+
               produto(s) encontrado(s)
+
             </p>
 
           </div>
+
 
           {produtosFiltrados.length > 0 ? (
 
             <div className="grid-produtos-filtro">
 
               {produtosFiltrados.map(
-                produto => renderizarProduto(produto)
+                (produto) =>
+                  renderizarProduto(produto)
               )}
 
             </div>
@@ -469,8 +605,10 @@ export function Produtos() {
               </h2>
 
               <p>
-                Tente alterar ou remover alguns filtros.
+                Tente alterar ou remover
+                alguns filtros.
               </p>
+
 
               <button
                 onClick={limparFiltros}
@@ -489,4 +627,5 @@ export function Produtos() {
     </main>
 
   );
+
 }
