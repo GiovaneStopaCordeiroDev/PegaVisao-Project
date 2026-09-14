@@ -5,6 +5,7 @@ import Footer from "./components/footer/footer";
 import { Carrossel } from "./components/carrossel/carrossel";
 import Header from "./components/header/header";
 import { PainelAdmin } from "./components/painelAdmin/PainelAdmin";
+import { Produtos } from "./pages/produtos/Produtos";
 import { PaginaProduto } from "./pages/paginaProduto/paginaProduto";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
@@ -115,7 +116,7 @@ function App() {
 
               <section className="categorias-home">
                 <h2 className="titulo-categorias">
-                  Compre por categoria
+                  Busque sua categoria
                 </h2>
 
                 <div className="lista-categorias">
@@ -189,7 +190,7 @@ function App() {
                       Camisetas
                     </h2>
 
-                    <a href="#camisetas">
+                    <a href="/produtos?categoria=8">
                       Ver mais
                     </a>
                   </div>
@@ -214,7 +215,7 @@ function App() {
                       Moletons
                     </h2>
 
-                    <a href="#moletons">
+                    <a href="/produtos?categoria=6">
                       Ver mais
                     </a>
                   </div>
@@ -239,7 +240,7 @@ function App() {
                       Calças
                     </h2>
 
-                    <a href="#calcas">
+                    <a href="/produtos?categoria=7">
                       Ver mais
                     </a>
                   </div>
@@ -264,7 +265,7 @@ function App() {
                       Tênis
                     </h2>
 
-                    <a href="#tenis">
+                   <a href="/produtos?categoria=5">
                       Ver mais
                     </a>
                   </div>
@@ -311,6 +312,12 @@ function App() {
           element={
             <PainelAdmin />
           }
+        />
+
+           {/* PRODUTOS */}
+        <Route
+          path="/produtos"
+          element={<Produtos />}
         />
 
       </Routes>
