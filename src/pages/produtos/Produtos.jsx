@@ -78,6 +78,8 @@ export function Produtos() {
     "M",
     "G",
     "GG",
+    "G1",
+    "G2",
     "XG"
   ];
 
@@ -409,7 +411,7 @@ export function Produtos() {
               <input
                 type="number"
                 min="0"
-                placeholder="Ex: 130"
+                placeholder="Valor Máximo(Ex: R$130.00)"
                 value={precoMaximo}
                 onChange={(event) =>
                   setPrecoMaximo(event.target.value)
