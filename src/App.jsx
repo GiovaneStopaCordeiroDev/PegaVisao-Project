@@ -1,6 +1,6 @@
 import api from "./services/api";
 import { useState, useEffect } from "react";
-import { Carrinho } from "./pages/carrinho/Carrinho";
+import { Carrinho } from "./pages/carrinho/carrinho";
 import Footer from "./components/footer/footer";
 import { Carrossel } from "./components/carrossel/carrossel";
 import Header from "./components/header/header";
