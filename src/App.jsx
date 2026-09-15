@@ -319,7 +319,14 @@ function App() {
             PEDIDOS
         ========================================= */}
 
+        
+
         <Route path="/carrinho" element={<Carrinho />} />
+
+        <Route
+            path="*"
+            element={<h1>ROTA TESTE</h1>}
+        />
 
         {/* =========================================
             PÁGINA INDIVIDUAL DO PRODUTO
