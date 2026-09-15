@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import "./Carrinho.css";
+import "./carrinho.css";
 
 export function Carrinho() {
   const [carrinho, setCarrinho] = useState([]);
