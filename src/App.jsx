@@ -1,6 +1,6 @@
 import api from "./services/api";
 import { useState, useEffect } from "react";
-
+import { Carrinho } from "./pages/carrinho/Carrinho";
 import Footer from "./components/footer/footer";
 import { Carrossel } from "./components/carrossel/carrossel";
 import Header from "./components/header/header";
@@ -520,7 +520,7 @@ function App() {
         ========================================= */}
 
         <Route
-          path="/pedidos"
+          path="/carrinho"
           element={
             <h1>
               Pedidos
