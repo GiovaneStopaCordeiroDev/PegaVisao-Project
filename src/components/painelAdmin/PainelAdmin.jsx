@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
+
 import api from "../../services/api";
+
+import { toast } from "sonner";
 
 import "./painelAdmin.css";
 
 export function PainelAdmin() {
   const [produtos, setProdutos] = useState([]);
+
   const [categorias, setCategorias] = useState([]);
 
   const [produtoEditando, setProdutoEditando] = useState(null);
+
   const [variacoesEditando, setVariacoesEditando] = useState([]);
 
   const [adicionandoProduto, setAdicionandoProduto] = useState(false);
+
   const [variacoes, setVariacoes] = useState([]);
 
   const [novoProduto, setNovoProduto] = useState({
@@ -39,6 +45,8 @@ export function PainelAdmin() {
       setProdutos(response.data);
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
+
+      toast.error("Não foi possível carregar os produtos.");
     }
   }
 
@@ -51,6 +59,8 @@ export function PainelAdmin() {
       setCategorias(response.data);
     } catch (error) {
       console.error("Erro ao carregar categorias:", error);
+
+      toast.error("Não foi possível carregar as categorias.");
     }
   }
 
@@ -138,9 +148,13 @@ export function PainelAdmin() {
     try {
       const produtoAtualizado = {
         nome: produtoEditando.nome,
+
         descricao: produtoEditando.descricao,
+
         preco: Number(produtoEditando.preco),
+
         imagemPrincipal: produtoEditando.imagemPrincipal,
+
         categoriaId: Number(produtoEditando.categoriaId),
 
         variacoes: variacoesEditando.map((variacao) => ({
@@ -155,7 +169,9 @@ export function PainelAdmin() {
 
       await api.put(`/Produto/${produtoEditando.id}`, produtoAtualizado);
 
-      alert("Produto alterado com sucesso!");
+      toast.success("Produto alterado com sucesso!", {
+        description: "As informações do produto foram atualizadas.",
+      });
 
       fecharEdicao();
 
@@ -165,7 +181,9 @@ export function PainelAdmin() {
 
       console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
-      alert("Não foi possível alterar o produto.");
+      toast.error("Não foi possível alterar o produto.", {
+        description: "Verifique os dados e tente novamente.",
+      });
     }
   }
 
@@ -173,26 +191,38 @@ export function PainelAdmin() {
   // EXCLUIR PRODUTO
   // =========================
 
-  async function excluirProduto(id) {
-    const confirmar = window.confirm(
-      "Tem certeza que deseja excluir este produto?",
-    );
+  function excluirProduto(id) {
+    toast.warning("Excluir este produto?", {
+      description: "Essa ação não poderá ser desfeita.",
 
-    if (!confirmar) {
-      return;
-    }
+      action: {
+        label: "Excluir",
 
-    try {
-      await api.delete(`/Produto/${id}`);
+        onClick: async () => {
+          try {
+            await api.delete(`/Produto/${id}`);
 
-      alert("Produto excluído com sucesso!");
+            toast.success("Produto excluído com sucesso!", {
+              description: "O produto foi removido da loja.",
+            });
 
-      carregarProdutos();
-    } catch (error) {
-      console.error("Erro ao excluir produto:", error);
+            carregarProdutos();
+          } catch (error) {
+            console.error("Erro ao excluir produto:", error);
 
-      alert("Não foi possível excluir o produto.");
-    }
+            console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
+
+            toast.error("Não foi possível excluir o produto.", {
+              description: "Verifique se o produto pode ser removido.",
+            });
+          }
+        },
+      },
+
+      cancel: {
+        label: "Cancelar",
+      },
+    });
   }
 
   // =========================
@@ -255,9 +285,13 @@ export function PainelAdmin() {
     try {
       const produto = {
         nome: novoProduto.nome,
+
         descricao: novoProduto.descricao,
+
         preco: Number(novoProduto.preco),
+
         imagemPrincipal: novoProduto.imagemPrincipal,
+
         categoriaId: Number(novoProduto.categoriaId),
 
         variacoes: variacoes.map((variacao) => ({
@@ -271,7 +305,9 @@ export function PainelAdmin() {
 
       await api.post("/Produto", produto);
 
-      alert("Produto adicionado com sucesso!");
+      toast.success("Produto adicionado com sucesso!", {
+        description: "O produto já está disponível na loja.",
+      });
 
       setAdicionandoProduto(false);
 
@@ -291,7 +327,9 @@ export function PainelAdmin() {
 
       console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
-      alert("Não foi possível adicionar o produto.");
+      toast.error("Não foi possível adicionar o produto.", {
+        description: "Verifique os dados e tente novamente.",
+      });
     }
   }
 
@@ -540,6 +578,7 @@ export function PainelAdmin() {
               className="botao-fechar-modal"
               onClick={() => {
                 setAdicionandoProduto(false);
+
                 setVariacoes([]);
               }}
             >

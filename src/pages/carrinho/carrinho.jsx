@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { toast } from "sonner";
+
 import "./carrinho.css";
 
 export function Carrinho() {
@@ -16,23 +18,30 @@ export function Carrinho() {
   }, []);
 
   function removerItem(index) {
-    const confirmar = window.confirm(
-        "Tem certeza que deseja remover este produto do carrinho?"
-    );
+    toast.warning("Excluir produto?", {
+      description: "Tem certeza que deseja remover este produto do carrinho?",
 
-    if (!confirmar) return;
+      action: {
+        label: "Excluir",
 
-    const novoCarrinho = [...carrinho];
+        onClick: () => {
+          const novoCarrinho = [...carrinho];
 
-    novoCarrinho.splice(index, 1);
+          novoCarrinho.splice(index, 1);
 
-    setCarrinho(novoCarrinho);
+          setCarrinho(novoCarrinho);
 
-    localStorage.setItem(
-        "carrinho",
-        JSON.stringify(novoCarrinho)
-    );
-}
+          localStorage.setItem("carrinho", JSON.stringify(novoCarrinho));
+
+          toast.success("Produto removido do carrinho");
+        },
+      },
+
+      cancel: {
+        label: "Cancelar",
+      },
+    });
+  }
 
   const subtotal = carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
@@ -63,16 +72,16 @@ export function Carrinho() {
 
             {carrinho.map((item, index) => (
               <div
-                    className="card-carrinho"
-                    key={`${item.variacaoId}-${index}`}
+                className="card-carrinho"
+                key={`${item.variacaoId}-${index}`}
               >
+                <button
+                  className="botao-remover"
+                  onClick={() => removerItem(index)}
+                >
+                  ✕
+                </button>
 
-                    <button
-                        className="botao-remover"
-                        onClick={() => removerItem(index)}
-                    >
-                        ✕
-                    </button>
                 <img
                   src={item.imagem}
                   alt={item.nome}

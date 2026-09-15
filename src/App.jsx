@@ -1,19 +1,30 @@
 import api from "./services/api";
+
 import { useState, useEffect } from "react";
+
 import { Carrinho } from "./pages/carrinho/carrinho";
+
 import Footer from "./components/footer/footer";
+
 import { Carrossel } from "./components/carrossel/carrossel";
+
 import Header from "./components/header/header";
+
 import { PainelAdmin } from "./components/painelAdmin/PainelAdmin";
+
 import { Produtos } from "./pages/produtos/Produtos";
+
 import { PaginaProduto } from "./pages/paginaProduto/paginaProduto";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+import { Toaster } from "sonner";
 
 import "./App.css";
 
 function App() {
   const [produtos, setProdutos] = useState([]);
+
   const [busca, setBusca] = useState("");
 
   // =========================================
@@ -48,15 +59,19 @@ function App() {
     }
 
     // Nome
+
     const nome = produto.nome?.toLowerCase() || "";
 
     // Descrição
+
     const descricao = produto.descricao?.toLowerCase() || "";
 
     // Categoria
+
     const categoria = produto.categoria?.nome?.toLowerCase() || "";
 
     // Variações
+
     const variacoes = produto.variacoes || [];
 
     const encontrouVariacao = variacoes.some((variacao) => {
@@ -110,12 +125,15 @@ function App() {
           <p className="descricao-produto">{produto.descricao}</p>
 
           <p className="preco-produto">
-            R$ {produto.preco.toFixed(2).replace(".", ",")}
+            R$ {Number(produto.preco).toFixed(2).replace(".", ",")}
           </p>
 
           <button
             className="botao-carrinho-produto"
-            onClick={(event) => event.preventDefault()}
+            onClick={(event) => {
+              event.preventDefault();
+              window.location.href = `/produto/${produto.id}`;
+            }}
           >
             Adicionar ao carrinho
           </button>
@@ -130,28 +148,34 @@ function App() {
 
   return (
     <BrowserRouter>
+      {/* =====================================
+                SONNER
+            ===================================== */}
+
+      <Toaster position="top-right" richColors closeButton />
+
       <Header />
 
       <Routes>
         {/* =========================================
-            HOME
-        ========================================= */}
+                    HOME
+                ========================================= */}
 
         <Route
           path="/"
           element={
             <>
               {/* =====================================
-                  CARROSSEL
-              ===================================== */}
+                                CARROSSEL
+                            ===================================== */}
 
               <section>
                 <Carrossel />
               </section>
 
               {/* =====================================
-                  BUSCA
-              ===================================== */}
+                                BUSCA
+                            ===================================== */}
 
               <section className="busca-home">
                 <div className="campo-busca">
@@ -167,8 +191,8 @@ function App() {
               </section>
 
               {/* =====================================
-                  RESULTADOS DA BUSCA
-              ===================================== */}
+                                RESULTADOS DA BUSCA
+                            ===================================== */}
 
               {busca.trim() !== "" && (
                 <section className="secao-busca">
@@ -187,8 +211,8 @@ function App() {
               )}
 
               {/* =====================================
-                  CATEGORIAS
-              ===================================== */}
+                                CATEGORIAS
+                            ===================================== */}
 
               {busca.trim() === "" && (
                 <>
@@ -231,8 +255,8 @@ function App() {
                   </section>
 
                   {/* =================================
-                      CAMISETAS
-                  ================================= */}
+                                        CAMISETAS
+                                    ================================= */}
 
                   {camisetas.length > 0 && (
                     <section className="secao-categoria" id="camisetas">
@@ -249,8 +273,8 @@ function App() {
                   )}
 
                   {/* =================================
-                      MOLETONS
-                  ================================= */}
+                                        MOLETONS
+                                    ================================= */}
 
                   {moletons.length > 0 && (
                     <section className="secao-categoria" id="moletons">
@@ -267,8 +291,8 @@ function App() {
                   )}
 
                   {/* =================================
-                      CALÇAS
-                  ================================= */}
+                                        CALÇAS
+                                    ================================= */}
 
                   {calcas.length > 0 && (
                     <section className="secao-categoria" id="calcas">
@@ -285,8 +309,8 @@ function App() {
                   )}
 
                   {/* =================================
-                      TÊNIS
-                  ================================= */}
+                                        TÊNIS
+                                    ================================= */}
 
                   {tenis.length > 0 && (
                     <section className="secao-categoria" id="tenis">
@@ -305,8 +329,8 @@ function App() {
               )}
 
               {/* =====================================
-                  FOOTER
-              ===================================== */}
+                                FOOTER
+                            ===================================== */}
 
               <footer>
                 <Footer />
@@ -315,34 +339,33 @@ function App() {
           }
         />
 
-        {/* =========================================g
-            PEDIDOS
-        ========================================= */}
-
-        
+        {/* =========================================
+                    CARRINHO
+                ========================================= */}
 
         <Route path="/carrinho" element={<Carrinho />} />
 
-        <Route
-            path="*"
-            element={<h1>ROTA TESTE</h1>}
-        />
+        {/* =========================================
+                    ROTA TESTE
+                ========================================= */}
+
+        <Route path="*" element={<h1>ROTA TESTE</h1>} />
 
         {/* =========================================
-            PÁGINA INDIVIDUAL DO PRODUTO
-        ========================================= */}
+                    PÁGINA INDIVIDUAL DO PRODUTO
+                ========================================= */}
 
         <Route path="/produto/:id" element={<PaginaProduto />} />
 
         {/* =========================================
-            PAINEL ADMIN
-        ========================================= */}
+                    PAINEL ADMIN
+                ========================================= */}
 
         <Route path="/admin" element={<PainelAdmin />} />
 
         {/* =========================================
-            PRODUTOS
-        ========================================= */}
+                    PRODUTOS
+                ========================================= */}
 
         <Route path="/produtos" element={<Produtos />} />
       </Routes>
