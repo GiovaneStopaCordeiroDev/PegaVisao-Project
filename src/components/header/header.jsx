@@ -19,7 +19,7 @@ function Header() {
 
                 <button
                     className="botao-carrinho"
-                    onClick={() => navigate("/pedidos")}
+                    onClick={() => navigate("/carrinho")}
                 >
                     <ShoppingCart
                         size={28}
