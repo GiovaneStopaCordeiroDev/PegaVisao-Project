@@ -1,6 +1,9 @@
 import "./header.css";
+
 import { ShoppingCart } from "lucide-react";
+
 import { useNavigate } from "react-router-dom";
+
 import logo from "../../assets/imgHeaderLogo.png";
 
 function Header() {
@@ -9,6 +12,7 @@ function Header() {
 
     return (
         <header>
+
             <div className="conteudo-header">
 
                 <img
@@ -29,6 +33,7 @@ function Header() {
                 </button>
 
             </div>
+
         </header>
     );
 }

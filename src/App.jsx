@@ -8,17 +8,11 @@ import { PainelAdmin } from "./components/painelAdmin/PainelAdmin";
 import { Produtos } from "./pages/produtos/Produtos";
 import { PaginaProduto } from "./pages/paginaProduto/paginaProduto";
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 import "./App.css";
 
 function App() {
-
   const [produtos, setProdutos] = useState([]);
   const [busca, setBusca] = useState("");
 
@@ -27,27 +21,19 @@ function App() {
   // =========================================
 
   useEffect(() => {
-
     async function carregarProdutos() {
-
       try {
-
         const response = await api.get("/Produto");
 
         console.log("RESPOSTA DA API:", response.data);
 
         setProdutos(response.data);
-
       } catch (error) {
-
         console.error("ERRO:", error);
-
       }
-
     }
 
     carregarProdutos();
-
   }, []);
 
   // =========================================
@@ -55,7 +41,6 @@ function App() {
   // =========================================
 
   const produtosFiltrados = produtos.filter((produto) => {
-
     const termo = busca.trim().toLowerCase();
 
     if (!termo) {
@@ -69,25 +54,17 @@ function App() {
     const descricao = produto.descricao?.toLowerCase() || "";
 
     // Categoria
-    const categoria =
-      produto.categoria?.nome?.toLowerCase() || "";
+    const categoria = produto.categoria?.nome?.toLowerCase() || "";
 
     // Variações
     const variacoes = produto.variacoes || [];
 
     const encontrouVariacao = variacoes.some((variacao) => {
+      const cor = variacao.cor?.toLowerCase() || "";
 
-      const cor =
-        variacao.cor?.toLowerCase() || "";
+      const tamanho = variacao.tamanho?.toLowerCase() || "";
 
-      const tamanho =
-        variacao.tamanho?.toLowerCase() || "";
-
-      return (
-        cor.includes(termo) ||
-        tamanho.includes(termo)
-      );
-
+      return cor.includes(termo) || tamanho.includes(termo);
     });
 
     return (
@@ -96,43 +73,31 @@ function App() {
       categoria.includes(termo) ||
       encontrouVariacao
     );
-
   });
 
   // =========================================
   // PRODUTOS POR CATEGORIA
   // =========================================
 
-  const tenis = produtos.filter(
-    (produto) => produto.categoriaId === 5
-  );
+  const tenis = produtos.filter((produto) => produto.categoriaId === 5);
 
-  const moletons = produtos.filter(
-    (produto) => produto.categoriaId === 6
-  );
+  const moletons = produtos.filter((produto) => produto.categoriaId === 6);
 
-  const calcas = produtos.filter(
-    (produto) => produto.categoriaId === 7
-  );
+  const calcas = produtos.filter((produto) => produto.categoriaId === 7);
 
-  const camisetas = produtos.filter(
-    (produto) => produto.categoriaId === 8
-  );
+  const camisetas = produtos.filter((produto) => produto.categoriaId === 8);
 
   // =========================================
   // RENDERIZAR CARDS
   // =========================================
 
   function renderizarProdutos(lista) {
-
     return lista.map((produto) => (
-
       <Link
         key={produto.id}
         to={`/produto/${produto.id}`}
         className="card-produto"
       >
-
         <img
           src={produto.imagemPrincipal}
           alt={produto.nome}
@@ -140,14 +105,9 @@ function App() {
         />
 
         <div className="info-produto">
+          <h3 className="nome-produto">{produto.nome}</h3>
 
-          <h3 className="nome-produto">
-            {produto.nome}
-          </h3>
-
-          <p className="descricao-produto">
-            {produto.descricao}
-          </p>
+          <p className="descricao-produto">{produto.descricao}</p>
 
           <p className="preco-produto">
             R$ {produto.preco.toFixed(2).replace(".", ",")}
@@ -159,13 +119,9 @@ function App() {
           >
             Adicionar ao carrinho
           </button>
-
         </div>
-
       </Link>
-
     ));
-
   }
 
   // =========================================
@@ -173,13 +129,10 @@ function App() {
   // =========================================
 
   return (
-
     <BrowserRouter>
-
       <Header />
 
       <Routes>
-
         {/* =========================================
             HOME
         ========================================= */}
@@ -188,7 +141,6 @@ function App() {
           path="/"
           element={
             <>
-
               {/* =====================================
                   CARROSSEL
               ===================================== */}
@@ -197,310 +149,160 @@ function App() {
                 <Carrossel />
               </section>
 
-
               {/* =====================================
                   BUSCA
               ===================================== */}
 
               <section className="busca-home">
-
                 <div className="campo-busca">
-
-                  <span className="icone-busca">
-                    🔍
-                  </span>
+                  <span className="icone-busca">🔍</span>
 
                   <input
                     type="text"
                     placeholder="Buscar produtos..."
                     value={busca}
-                    onChange={(event) =>
-                      setBusca(event.target.value)
-                    }
+                    onChange={(event) => setBusca(event.target.value)}
                   />
-
                 </div>
-
               </section>
-
 
               {/* =====================================
                   RESULTADOS DA BUSCA
               ===================================== */}
 
               {busca.trim() !== "" && (
-
                 <section className="secao-busca">
-
                   <div className="cabecalho-categoria">
-
-                    <h2>
-                      Resultados para "{busca}"
-                    </h2>
-
+                    <h2>Resultados para "{busca}"</h2>
                   </div>
 
-
                   {produtosFiltrados.length > 0 ? (
-
                     <div className="produtos-lista">
-
-                      {renderizarProdutos(
-                        produtosFiltrados
-                      )}
-
+                      {renderizarProdutos(produtosFiltrados)}
                     </div>
-
                   ) : (
-
-                    <p className="nenhum-produto">
-                      Nenhum produto encontrado.
-                    </p>
-
+                    <p className="nenhum-produto">Nenhum produto encontrado.</p>
                   )}
-
                 </section>
-
               )}
-
 
               {/* =====================================
                   CATEGORIAS
               ===================================== */}
 
               {busca.trim() === "" && (
-
                 <>
-
                   <section className="categorias-home">
-
-                    <h2 className="titulo-categorias">
-                      Busque sua categoria
-                    </h2>
-
+                    <h2 className="titulo-categorias">Busque sua categoria</h2>
 
                     <div className="lista-categorias">
-
-
                       {/* CAMISETAS */}
 
-                      <a
-                        href="#camisetas"
-                        className="categoria-home"
-                      >
+                      <a href="#camisetas" className="categoria-home">
+                        <div className="icone-categoria">👕</div>
 
-                        <div className="icone-categoria">
-                          👕
-                        </div>
-
-                        <span>
-                          Camisetas
-                        </span>
-
+                        <span>Camisetas</span>
                       </a>
-
 
                       {/* MOLETONS */}
 
-                      <a
-                        href="#moletons"
-                        className="categoria-home"
-                      >
+                      <a href="#moletons" className="categoria-home">
+                        <div className="icone-categoria">🧥</div>
 
-                        <div className="icone-categoria">
-                          🧥
-                        </div>
-
-                        <span>
-                          Moletons
-                        </span>
-
+                        <span>Moletons</span>
                       </a>
-
 
                       {/* CALÇAS */}
 
-                      <a
-                        href="#calcas"
-                        className="categoria-home"
-                      >
+                      <a href="#calcas" className="categoria-home">
+                        <div className="icone-categoria">👖</div>
 
-                        <div className="icone-categoria">
-                          👖
-                        </div>
-
-                        <span>
-                          Calças
-                        </span>
-
+                        <span>Calças</span>
                       </a>
-
 
                       {/* TÊNIS */}
 
-                      <a
-                        href="#tenis"
-                        className="categoria-home"
-                      >
+                      <a href="#tenis" className="categoria-home">
+                        <div className="icone-categoria">👟</div>
 
-                        <div className="icone-categoria">
-                          👟
-                        </div>
-
-                        <span>
-                          Tênis
-                        </span>
-
+                        <span>Tênis</span>
                       </a>
-
                     </div>
-
                   </section>
-
 
                   {/* =================================
                       CAMISETAS
                   ================================= */}
 
                   {camisetas.length > 0 && (
-
-                    <section
-                      className="secao-categoria"
-                      id="camisetas"
-                    >
-
+                    <section className="secao-categoria" id="camisetas">
                       <div className="cabecalho-categoria">
+                        <h2>Camisetas</h2>
 
-                        <h2>
-                          Camisetas
-                        </h2>
-
-                        <a href="/produtos?categoria=8">
-                          Ver mais
-                        </a>
-
+                        <a href="/produtos?categoria=8">Ver mais</a>
                       </div>
-
 
                       <div className="produtos-lista">
-
                         {renderizarProdutos(camisetas)}
-
                       </div>
-
                     </section>
-
                   )}
-
 
                   {/* =================================
                       MOLETONS
                   ================================= */}
 
                   {moletons.length > 0 && (
-
-                    <section
-                      className="secao-categoria"
-                      id="moletons"
-                    >
-
+                    <section className="secao-categoria" id="moletons">
                       <div className="cabecalho-categoria">
+                        <h2>Moletons</h2>
 
-                        <h2>
-                          Moletons
-                        </h2>
-
-                        <a href="/produtos?categoria=6">
-                          Ver mais
-                        </a>
-
+                        <a href="/produtos?categoria=6">Ver mais</a>
                       </div>
-
 
                       <div className="produtos-lista">
-
                         {renderizarProdutos(moletons)}
-
                       </div>
-
                     </section>
-
                   )}
-
 
                   {/* =================================
                       CALÇAS
                   ================================= */}
 
                   {calcas.length > 0 && (
-
-                    <section
-                      className="secao-categoria"
-                      id="calcas"
-                    >
-
+                    <section className="secao-categoria" id="calcas">
                       <div className="cabecalho-categoria">
+                        <h2>Calças</h2>
 
-                        <h2>
-                          Calças
-                        </h2>
-
-                        <a href="/produtos?categoria=7">
-                          Ver mais
-                        </a>
-
+                        <a href="/produtos?categoria=7">Ver mais</a>
                       </div>
-
 
                       <div className="produtos-lista">
-
                         {renderizarProdutos(calcas)}
-
                       </div>
-
                     </section>
-
                   )}
-
 
                   {/* =================================
                       TÊNIS
                   ================================= */}
 
                   {tenis.length > 0 && (
-
-                    <section
-                      className="secao-categoria"
-                      id="tenis"
-                    >
-
+                    <section className="secao-categoria" id="tenis">
                       <div className="cabecalho-categoria">
+                        <h2>Tênis</h2>
 
-                        <h2>
-                          Tênis
-                        </h2>
-
-                        <a href="/produtos?categoria=5">
-                          Ver mais
-                        </a>
-
+                        <a href="/produtos?categoria=5">Ver mais</a>
                       </div>
-
 
                       <div className="produtos-lista">
-
                         {renderizarProdutos(tenis)}
-
                       </div>
-
                     </section>
-
                   )}
-
                 </>
-
               )}
-
 
               {/* =====================================
                   FOOTER
@@ -509,67 +311,36 @@ function App() {
               <footer>
                 <Footer />
               </footer>
-
             </>
           }
         />
 
-
-        {/* =========================================
+        {/* =========================================g
             PEDIDOS
         ========================================= */}
 
-        <Route
-          path="/carrinho"
-          element={
-            <h1>
-              Pedidos
-            </h1>
-          }
-        />
-
+        <Route path="/carrinho" element={<Carrinho />} />
 
         {/* =========================================
             PÁGINA INDIVIDUAL DO PRODUTO
         ========================================= */}
 
-        <Route
-          path="/produto/:id"
-          element={
-            <PaginaProduto />
-          }
-        />
-
+        <Route path="/produto/:id" element={<PaginaProduto />} />
 
         {/* =========================================
             PAINEL ADMIN
         ========================================= */}
 
-        <Route
-          path="/admin"
-          element={
-            <PainelAdmin />
-          }
-        />
-
+        <Route path="/admin" element={<PainelAdmin />} />
 
         {/* =========================================
             PRODUTOS
         ========================================= */}
 
-        <Route
-          path="/produtos"
-          element={
-            <Produtos />
-          }
-        />
-
+        <Route path="/produtos" element={<Produtos />} />
       </Routes>
-
     </BrowserRouter>
-
   );
-
 }
 
 export default App;
