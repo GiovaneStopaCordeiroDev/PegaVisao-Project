@@ -15,6 +15,25 @@ export function Carrinho() {
     setCarrinho(carrinhoSalvo);
   }, []);
 
+  function removerItem(index) {
+    const confirmar = window.confirm(
+        "Tem certeza que deseja remover este produto do carrinho?"
+    );
+
+    if (!confirmar) return;
+
+    const novoCarrinho = [...carrinho];
+
+    novoCarrinho.splice(index, 1);
+
+    setCarrinho(novoCarrinho);
+
+    localStorage.setItem(
+        "carrinho",
+        JSON.stringify(novoCarrinho)
+    );
+}
+
   const subtotal = carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
@@ -44,9 +63,16 @@ export function Carrinho() {
 
             {carrinho.map((item, index) => (
               <div
-                className="card-carrinho"
-                key={`${item.variacaoId}-${index}`}
+                    className="card-carrinho"
+                    key={`${item.variacaoId}-${index}`}
               >
+
+                    <button
+                        className="botao-remover"
+                        onClick={() => removerItem(index)}
+                    >
+                        ✕
+                    </button>
                 <img
                   src={item.imagem}
                   alt={item.nome}

@@ -99,6 +99,37 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card-carrinho {
+    position: relative;
+}
+
+.botao-remover {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #e53935;
+    color: white;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.botao-remover:hover {
+    transform: scale(1.1);
+    background-color: #c62828;
+}
+
 .card-carrinho:hover {
     transform: translateY(-2px);
 
