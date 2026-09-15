@@ -98,3 +98,5 @@ export function Carrinho() {
 
     );
 }
+
+export default Carrinho;
