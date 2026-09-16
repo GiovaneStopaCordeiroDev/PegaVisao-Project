@@ -11,7 +11,7 @@
 .top-header {
     width: 100%;
     max-width: 1400px;
-    min-height: 100px;
+    min-height: 120px;
 
     margin: 0 auto;
 
@@ -25,10 +25,11 @@
     box-sizing: border-box;
 }
 
+
 /* LOGO */
 
 .logo-header {
-    width: 220px;
+    width: 300px;
     height: auto;
 
     cursor: pointer;
