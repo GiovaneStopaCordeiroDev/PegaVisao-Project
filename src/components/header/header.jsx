@@ -1,6 +1,6 @@
 import "./header.css";
 
-import { Search, ShoppingCart, User } from "lucide-react";
+import { ShoppingCart, Search, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,6 +28,7 @@ function Header() {
 
             <div className="top-header">
 
+                {/* LOGO */}
                 <img
                     src={logo}
                     alt="PegaVisão"
@@ -35,8 +36,52 @@ function Header() {
                     onClick={() => navigate("/")}
                 />
 
+                {/* PESQUISA */}
+                <form
+                    className="barra-pesquisa"
+                    onSubmit={realizarBusca}
+                >
+                    <input
+                        type="text"
+                        placeholder="O que você está procurando?"
+                        value={busca}
+                        onChange={(event) => setBusca(event.target.value)}
+                    />
+
+                    <button
+                        type="submit"
+                        aria-label="Pesquisar"
+                    >
+                        <Search size={22} />
+                    </button>
+                </form>
+
+                {/* LOGIN + CARRINHO */}
+                <div className="acoes-header">
+
+                    <button
+                        className="icone-header"
+                        type="button"
+                        onClick={() => navigate("/login")}
+                        aria-label="Login"
+                    >
+                        <User size={27} />
+                    </button>
+
+                    <button
+                        className="icone-header"
+                        type="button"
+                        onClick={() => navigate("/carrinho")}
+                        aria-label="Carrinho"
+                    >
+                        <ShoppingCart size={27} />
+                    </button>
+
+                </div>
+
             </div>
 
+            {/* MENU */}
             <nav className="menu-header">
 
                 <a href="/">
