@@ -241,15 +241,15 @@
     }
 
     /* LOGO */
-    .logo-header {
-        width: min(480px, calc(100vw - 34px));
-        max-width: none;
-        max-height: 150px;
-        height: auto;
+        .logo-header {
+            width: calc(100vw - 20px);
+            max-width: none;
+            max-height: none;
+            height: auto;
 
-        object-fit: contain;
-        display: block;
-    }
+            object-fit: contain;
+            display: block;
+        }
     /* LOGIN */
     .logo-acoes .icone-header:first-child {
         position: absolute;
