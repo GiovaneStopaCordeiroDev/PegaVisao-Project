@@ -242,7 +242,7 @@
 
     /* LOGO */
         .logo-header {
-            width: calc(100vw - 50px);
+            width: calc(100vw - 80px);
             max-width: none;
             max-height: none;
             height: auto;
