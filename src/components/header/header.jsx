@@ -1,3 +1,4 @@
+
 import "./header.css";
 
 import { ShoppingCart, Search, User } from "lucide-react";
@@ -30,63 +31,60 @@ function Header() {
 
             <div className="top-header">
 
-                {/* LOGO */}
-                <img
-                    src={logo}
-                    alt="PegaVisão"
-                    className="logo-header"
-                    onClick={() => navigate("/")}
-                />
+                {/* LOGO + LOGIN + CARRINHO */}
+                <div className="logo-acoes">
 
-                {/* BUSCA + LOGIN + CARRINHO */}
-                <div className="busca-acoes">
-
-                    <form
-                        className="barra-pesquisa"
-                        onSubmit={realizarBusca}
+                    {/* LOGIN */}
+                    <button
+                        className="icone-header"
+                        type="button"
+                        onClick={() => navigate("/login")}
+                        aria-label="Login"
                     >
-                        <input
-                            type="text"
-                            placeholder="O que você está procurando?"
-                            value={busca}
-                            onChange={(event) =>
-                                setBusca(event.target.value)
-                            }
-                        />
+                        <User size={27} />
+                    </button>
 
-                        <button
-                            type="submit"
-                            aria-label="Pesquisar"
-                        >
-                            <Search size={22} />
-                        </button>
-                    </form>
+                    {/* LOGO */}
+                    <img
+                        src={logo}
+                        alt="PegaVisão"
+                        className="logo-header"
+                        onClick={() => navigate("/")}
+                    />
 
-                    <div className="acoes-header">
-
-                        {/* LOGIN */}
-                        <button
-                            className="icone-header"
-                            type="button"
-                            onClick={() => navigate("/login")}
-                            aria-label="Login"
-                        >
-                            <User size={27} />
-                        </button>
-
-                        {/* CARRINHO */}
-                        <button
-                            className="icone-header"
-                            type="button"
-                            onClick={() => navigate("/carrinho")}
-                            aria-label="Carrinho"
-                        >
-                            <ShoppingCart size={27} />
-                        </button>
-
-                    </div>
+                    {/* CARRINHO */}
+                    <button
+                        className="icone-header"
+                        type="button"
+                        onClick={() => navigate("/carrinho")}
+                        aria-label="Carrinho"
+                    >
+                        <ShoppingCart size={27} />
+                    </button>
 
                 </div>
+
+                {/* BARRA DE PESQUISA */}
+                <form
+                    className="barra-pesquisa"
+                    onSubmit={realizarBusca}
+                >
+                    <input
+                        type="text"
+                        placeholder="O que você está procurando?"
+                        value={busca}
+                        onChange={(event) =>
+                            setBusca(event.target.value)
+                        }
+                    />
+
+                    <button
+                        type="submit"
+                        aria-label="Pesquisar"
+                    >
+                        <Search size={22} />
+                    </button>
+                </form>
 
             </div>
 
