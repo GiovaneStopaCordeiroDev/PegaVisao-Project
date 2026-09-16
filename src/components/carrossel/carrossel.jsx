@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import "./carrossel.css";
 
 import imgcarrossel1 from "../../assets/imgcarrossel1.jpg";
-import imgcarrossel2 from "../../assets/imgcarrossel2.jpg";
+import imgcarrossel2 from "../../assets/imgcarrossel2.png";
 import imgcarrossel3 from "../../assets/imgcarrossel3.png";
 
 export function Carrossel() {

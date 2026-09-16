@@ -1,7 +1,9 @@
 .header {
     width: 100%;
-    background-color: #050505;
+    background-color: #c7c400;
     border-bottom: 1px solid #222;
+    position: relative;
+
 }
 
 .top-header {

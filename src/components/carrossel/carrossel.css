@@ -1,15 +1,37 @@
+/* =========================================
+   CARROSSEL
+========================================= */
+
 .carrossel {
     width: 100%;
-    height: calc(100vh - 80px);
+
+    /*
+       O header fica no fluxo normal da página.
+       Por isso o carrossel não precisa descontar
+       a altura do header.
+    */
+    height: calc(100vh - 130px);
+
+    min-height: 500px;
+
     position: relative;
+
     overflow: hidden;
+
     background-color: #000;
 }
 
+
+/* =========================================
+   IMAGENS
+========================================= */
+
 .carrossel-imagens {
     display: flex;
+
     width: 100%;
     height: 100%;
+
     transition: transform 0.8s ease-in-out;
 }
 
@@ -17,42 +39,56 @@
     min-width: 100%;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+
     flex-shrink: 0;
+
+    object-fit: cover;
+
+    display: block;
 }
 
 
-/* BOTÕES */
+/* =========================================
+   BOTÕES
+========================================= */
 
 .carrossel-botao {
     position: absolute;
+
     top: 50%;
+
     transform: translateY(-50%);
 
     width: 45px;
     height: 45px;
 
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
     border: none;
     border-radius: 50%;
 
     background-color: rgba(0, 0, 0, 0.45);
-    color: white;
+
+    color: #fff;
 
     font-size: 25px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     cursor: pointer;
 
     z-index: 5;
 
-    transition: 0.3s;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
 }
 
 .carrossel-botao:hover {
     background-color: rgba(0, 0, 0, 0.75);
+
+    transform: translateY(-50%) scale(1.05);
 }
 
 .carrossel-botao.anterior {
@@ -64,7 +100,9 @@
 }
 
 
-/* INDICADORES */
+/* =========================================
+   INDICADORES
+========================================= */
 
 .carrossel-indicadores {
     position: absolute;
@@ -75,6 +113,9 @@
     transform: translateX(-50%);
 
     display: flex;
+
+    align-items: center;
+
     gap: 10px;
 
     z-index: 5;
@@ -84,6 +125,8 @@
     width: 10px;
     height: 10px;
 
+    padding: 0;
+
     border: none;
     border-radius: 50%;
 
@@ -91,23 +134,30 @@
 
     cursor: pointer;
 
-    transition: 0.3s;
+    transition:
+        width 0.3s ease,
+        background-color 0.3s ease;
 }
 
 .indicador.ativo {
     width: 25px;
+
     border-radius: 10px;
 
-    background-color: white;
+    background-color: #fff;
 }
 
 
-/* TABLET */
+/* =========================================
+   TABLET
+========================================= */
 
 @media (max-width: 900px) {
 
     .carrossel {
         height: 60vh;
+
+        min-height: 400px;
     }
 
     .carrossel-botao {
@@ -117,15 +167,28 @@
         font-size: 22px;
     }
 
+    .carrossel-botao.anterior {
+        left: 15px;
+    }
+
+    .carrossel-botao.proximo {
+        right: 15px;
+    }
+
 }
 
 
-/* CELULAR */
+/* =========================================
+   CELULAR
+========================================= */
 
 @media (max-width: 600px) {
 
     .carrossel {
+        width: 100%;
+
         height: 35vh;
+
         min-height: 220px;
         max-height: 350px;
     }
@@ -151,6 +214,7 @@
 
     .carrossel-indicadores {
         bottom: 10px;
+
         gap: 6px;
     }
 
@@ -161,6 +225,37 @@
 
     .indicador.ativo {
         width: 18px;
+    }
+
+}
+
+
+/* =========================================
+   CELULAR PEQUENO
+========================================= */
+
+@media (max-width: 380px) {
+
+    .carrossel {
+        height: 32vh;
+
+        min-height: 200px;
+        max-height: 300px;
+    }
+
+    .carrossel-botao {
+        width: 29px;
+        height: 29px;
+
+        font-size: 15px;
+    }
+
+    .carrossel-botao.anterior {
+        left: 6px;
+    }
+
+    .carrossel-botao.proximo {
+        right: 6px;
     }
 
 }
