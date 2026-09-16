@@ -1,4 +1,3 @@
-
 * {
     margin: 0;
     padding: 0;
@@ -11,9 +10,10 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #0a0a0a;
-    color: #222;
+    background-color: #000;
+    color: #fff;
 }
+
 
 /* =========================================
    BUSCA
@@ -22,7 +22,7 @@ body {
 .busca-home {
     width: 90%;
     max-width: 1200px;
-    margin: 35px auto 20px;
+    margin: 35px auto 25px;
 }
 
 .campo-busca {
@@ -33,28 +33,31 @@ body {
     display: flex;
     align-items: center;
 
-    background-color: white;
+    background-color: #fff;
 
     border: 1px solid #ddd;
-    border-radius: 12px;
+    border-radius: 10px;
 
     padding: 0 18px;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
 
-    transition: border-color 0.2s ease,
-                box-shadow 0.2s ease;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .campo-busca:focus-within {
-    border-color: #07232e;
+    border-color: #000;
 
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    box-shadow:
+        0 0 0 2px rgba(255, 255, 255, 0.15);
 }
 
 .icone-busca {
-    font-size: 20px;
+    font-size: 19px;
     margin-right: 10px;
+    color: #000;
 }
 
 .campo-busca input {
@@ -67,12 +70,13 @@ body {
     background: transparent;
 
     font-size: 16px;
-    color: #222;
+    color: #000;
 }
 
 .campo-busca input::placeholder {
-    color: #888;
+    color: #777;
 }
+
 
 /* =========================================
    RESULTADOS DA BUSCA
@@ -81,16 +85,15 @@ body {
 .secao-busca {
     width: 90%;
     max-width: 1200px;
-
     margin: 40px auto;
 }
 
 .nenhum-produto {
     font-size: 16px;
-    color: #666;
-
+    color: #aaa;
     margin-top: 20px;
 }
+
 
 /* =========================================
    CATEGORIAS
@@ -99,10 +102,11 @@ body {
 .categorias-home {
     width: 90%;
     max-width: 1200px;
-    margin: 40px auto;
+    margin: 45px auto;
 }
 
 .titulo-categorias {
+    color: #fff;
     font-size: 28px;
     margin-bottom: 25px;
 }
@@ -114,9 +118,10 @@ body {
 }
 
 .categoria-home {
-    background-color: white;
+    background-color: #fff;
 
-    border-radius: 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
 
     padding: 25px 15px;
 
@@ -126,9 +131,10 @@ body {
     justify-content: center;
 
     text-decoration: none;
-    color: #222;
+    color: #000;
 
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow:
+        0 4px 15px rgba(255, 255, 255, 0.04);
 
     transition:
         transform 0.2s ease,
@@ -139,18 +145,19 @@ body {
     transform: translateY(-5px);
 
     box-shadow:
-        0 6px 18px rgba(0, 0, 0, 0.15);
+        0 8px 25px rgba(255, 255, 255, 0.08);
 }
 
 .icone-categoria {
-    font-size: 45px;
+    font-size: 42px;
     margin-bottom: 10px;
 }
 
 .categoria-home span {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
 }
+
 
 /* =========================================
    SEÇÕES DE CATEGORIA
@@ -160,7 +167,7 @@ body {
     width: 90%;
     max-width: 1200px;
 
-    margin: 50px auto;
+    margin: 55px auto;
 
     scroll-margin-top: 100px;
 }
@@ -170,22 +177,33 @@ body {
     align-items: center;
     justify-content: space-between;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .cabecalho-categoria h2 {
+    color: #fff;
     font-size: 28px;
 }
 
 .cabecalho-categoria a {
     text-decoration: none;
-    color: #007bff;
+
+    color: #fff;
+
+    font-size: 14px;
     font-weight: bold;
+
+    border-bottom: 1px solid #fff;
+
+    padding-bottom: 3px;
+
+    transition: opacity 0.2s ease;
 }
 
 .cabecalho-categoria a:hover {
-    text-decoration: underline;
+    opacity: 0.6;
 }
+
 
 /* =========================================
    LISTA DE PRODUTOS
@@ -196,66 +214,100 @@ body {
 
     grid-template-columns: repeat(4, 1fr);
 
-    gap: 20px;
+    gap: 22px;
 }
+
 
 /* =========================================
    CARD DO PRODUTO
 ========================================= */
 
 .card-produto {
-    background-color: white;
+    background-color: #fff;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
     overflow: hidden;
 
-    text-decoration: none;
-    color: #222;
+    color: #000;
 
     box-shadow:
-        0 3px 10px rgba(0, 0, 0, 0.08);
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        0 5px 20px rgba(255, 255, 255, 0.05);
 
     display: flex;
     flex-direction: column;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
 .card-produto:hover {
     transform: translateY(-5px);
 
     box-shadow:
-        0 7px 18px rgba(0, 0, 0, 0.15);
+        0 10px 30px rgba(255, 255, 255, 0.09);
 }
 
+
 /* =========================================
-   IMAGEM DO PRODUTO
+   LINK DO CARD
 ========================================= */
+
+.link-card-produto {
+    display: flex;
+    flex-direction: column;
+
+    text-decoration: none;
+
+    color: #000;
+
+    flex: 1;
+}
+
+
+/* =========================================
+   CONTAINER DA IMAGEM
+========================================= */
+
+.imagem-card-container {
+    width: 100%;
+    height: 270px;
+
+    background-color: #f2f2f2;
+
+    overflow: hidden;
+}
 
 .imagem-produto {
     width: 100%;
-    height: 260px;
+    height: 100%;
 
     object-fit: cover;
 
     display: block;
+
+    transition: transform 0.35s ease;
 }
+
+.card-produto:hover .imagem-produto {
+    transform: scale(1.04);
+}
+
 
 /* =========================================
    INFORMAÇÕES DO PRODUTO
 ========================================= */
 
 .info-produto {
-    padding: 15px;
+    padding: 16px;
 
     display: flex;
     flex-direction: column;
 
     flex: 1;
 }
+
 
 /* =========================================
    NOME DO PRODUTO
@@ -264,15 +316,16 @@ body {
 .nome-produto {
     display: block;
 
-    color: #222;
+    color: #000;
 
     font-size: 18px;
     font-weight: bold;
 
     line-height: 1.3;
 
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
 }
+
 
 /* =========================================
    DESCRIÇÃO
@@ -285,15 +338,15 @@ body {
 
     line-height: 1.4;
 
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 
     display: -webkit-box;
-
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
     overflow: hidden;
 }
+
 
 /* =========================================
    PREÇO
@@ -304,9 +357,20 @@ body {
 
     font-weight: bold;
 
+    color: #000;
+
     margin-top: auto;
-    margin-bottom: 15px;
 }
+
+
+/* =========================================
+   ÁREA DO BOTÃO
+========================================= */
+
+.area-botao-card {
+    padding: 0 16px 16px;
+}
+
 
 /* =========================================
    BOTÃO CARRINHO
@@ -315,29 +379,37 @@ body {
 .botao-carrinho-produto {
     width: 100%;
 
-    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius: 8px;
+    border: 1px solid #000;
+    border-radius: 7px;
 
-    padding: 11px;
+    padding: 12px;
 
-    background-color: #07232e;
+    background-color: #000;
 
-    color: white;
+    color: #fff;
+
+    text-decoration: none;
 
     font-size: 14px;
-
     font-weight: bold;
 
     cursor: pointer;
 
     transition:
-        background-color 0.2s ease;
+        background-color 0.2s ease,
+        color 0.2s ease;
 }
 
 .botao-carrinho-produto:hover {
-    background-color: #0d3b4b;
+    background-color: #fff;
+
+    color: #000;
 }
+
 
 /* =========================================
    TABLET
@@ -353,10 +425,12 @@ body {
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .imagem-produto {
+    .imagem-card-container {
         height: 230px;
     }
+
 }
+
 
 /* =========================================
    CELULAR
@@ -366,16 +440,19 @@ body {
 
     .busca-home {
         width: 92%;
+
         margin: 25px auto 15px;
     }
 
     .campo-busca {
-        border-radius: 10px;
+        border-radius: 9px;
+
         padding: 0 14px;
     }
 
     .campo-busca input {
         height: 48px;
+
         font-size: 15px;
     }
 
@@ -383,29 +460,40 @@ body {
         font-size: 18px;
     }
 
+
+    /* RESULTADOS */
+
     .secao-busca {
         width: 92%;
+
         margin: 30px auto;
     }
 
+
+    /* CATEGORIAS */
+
     .categorias-home {
         width: 92%;
+
         margin: 30px auto;
     }
 
     .titulo-categorias {
         font-size: 22px;
+
         margin-bottom: 18px;
     }
 
     .lista-categorias {
         grid-template-columns: repeat(2, 1fr);
+
         gap: 12px;
     }
 
     .categoria-home {
         padding: 18px 10px;
-        border-radius: 10px;
+
+        border-radius: 9px;
     }
 
     .icone-categoria {
@@ -416,12 +504,12 @@ body {
         font-size: 15px;
     }
 
-    /* =====================================
-       SEÇÕES
-    ===================================== */
+
+    /* SEÇÕES */
 
     .secao-categoria {
         width: 92%;
+
         margin: 35px auto;
 
         scroll-margin-top: 80px;
@@ -436,8 +524,9 @@ body {
     }
 
     .cabecalho-categoria a {
-        font-size: 14px;
+        font-size: 13px;
     }
+
 
     /* =====================================
        PRODUTOS - ROLAGEM HORIZONTAL
@@ -464,8 +553,9 @@ body {
         display: none;
     }
 
+
     /* =====================================
-       CARD
+       CARD MOBILE
     ===================================== */
 
     .card-produto {
@@ -476,27 +566,33 @@ body {
         border-radius: 9px;
     }
 
-    .imagem-produto {
+
+    /* IMAGEM */
+
+    .imagem-card-container {
         height: 180px;
     }
 
+
+    /* INFORMAÇÕES */
+
     .info-produto {
-        padding: 10px;
+        padding: 11px;
     }
 
+
+    /* NOME */
+
     .nome-produto {
-        display: block;
-
-        color: #222;
-
         font-size: 15px;
-
-        font-weight: bold;
 
         line-height: 1.3;
 
         margin-bottom: 5px;
     }
+
+
+    /* DESCRIÇÃO */
 
     .descricao-produto {
         font-size: 12px;
@@ -504,10 +600,20 @@ body {
         margin-bottom: 8px;
     }
 
+
+    /* PREÇO */
+
     .preco-produto {
         font-size: 17px;
 
         margin-bottom: 10px;
+    }
+
+
+    /* BOTÃO */
+
+    .area-botao-card {
+        padding: 0 11px 11px;
     }
 
     .botao-carrinho-produto {
@@ -515,7 +621,9 @@ body {
 
         padding: 9px;
     }
+
 }
+
 
 /* =========================================
    CELULARES PEQUENOS
@@ -533,24 +641,34 @@ body {
         width: 190px;
     }
 
-    .imagem-produto {
+    .imagem-card-container {
         height: 150px;
     }
 
     .info-produto {
-        padding: 8px;
+        padding: 9px;
     }
 
     .nome-produto {
         font-size: 14px;
     }
 
+    .descricao-produto {
+        font-size: 11px;
+    }
+
     .preco-produto {
         font-size: 16px;
     }
 
+    .area-botao-card {
+        padding: 0 9px 9px;
+    }
+
     .botao-carrinho-produto {
         padding: 8px 5px;
-    }
-}
 
+        font-size: 11px;
+    }
+
+}

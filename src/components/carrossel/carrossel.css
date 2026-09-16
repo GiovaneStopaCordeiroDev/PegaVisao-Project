@@ -1,146 +1,166 @@
-/* =========================
-   CARROSSEL
-========================= */
-
 .carrossel {
-  width: 100%;
-  height: calc(100vh - 80px);
-  position: relative;
-  overflow: hidden;
+    width: 100%;
+    height: calc(100vh - 80px);
+    position: relative;
+    overflow: hidden;
+    background-color: #000;
 }
 
 .carrossel-imagens {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.8s ease-in-out;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease-in-out;
 }
 
 .carrossel-imagens img {
-  min-width: 100%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  flex-shrink: 0;
-  display: block;
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 
-/* =========================
-   BOLINHAS
-========================= */
+/* BOTÕES */
 
-.indicadores {
-  position: absolute;
-  bottom: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 2;
+.carrossel-botao {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: rgba(0, 0, 0, 0.45);
+    color: white;
+
+    font-size: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 5;
+
+    transition: 0.3s;
 }
 
-.bolinha {
-  width: 12px;
-  height: 12px;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  transition: all 0.3s ease;
+.carrossel-botao:hover {
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
-.bolinha:hover {
-  background-color: rgba(255, 255, 255, 0.8);
+.carrossel-botao.anterior {
+    left: 20px;
 }
 
-.bolinha.ativa {
-  background-color: white;
-  transform: scale(1.2);
+.carrossel-botao.proximo {
+    right: 20px;
 }
 
 
-/* =========================
-   TABLETS
-========================= */
+/* INDICADORES */
+
+.carrossel-indicadores {
+    position: absolute;
+
+    bottom: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: 10px;
+
+    z-index: 5;
+}
+
+.indicador {
+    width: 10px;
+    height: 10px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: rgba(255, 255, 255, 0.5);
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.indicador.ativo {
+    width: 25px;
+    border-radius: 10px;
+
+    background-color: white;
+}
+
+
+/* TABLET */
 
 @media (max-width: 900px) {
 
-  .carrossel {
-    height: 55vh;
-  }
+    .carrossel {
+        height: 60vh;
+    }
 
-  .indicadores {
-    bottom: 18px;
-    gap: 8px;
-  }
+    .carrossel-botao {
+        width: 40px;
+        height: 40px;
 
-  .bolinha {
-    width: 10px;
-    height: 10px;
-  }
+        font-size: 22px;
+    }
+
 }
 
 
-/* =========================
-   CELULAR
-========================= */
+/* CELULAR */
 
 @media (max-width: 600px) {
 
-  .carrossel {
-    height: 35vh;
-    min-height: 200px;
-    max-height: 300px;
-  }
+    .carrossel {
+        height: 35vh;
+        min-height: 220px;
+        max-height: 350px;
+    }
 
-  .carrossel-imagens {
-    height: 100%;
-  }
+    .carrossel-imagens img {
+        object-fit: cover;
+    }
 
-  .carrossel-imagens img {
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
+    .carrossel-botao {
+        width: 32px;
+        height: 32px;
 
-  .indicadores {
-    bottom: 12px;
-    gap: 7px;
-  }
+        font-size: 17px;
+    }
 
-  .bolinha {
-    width: 9px;
-    height: 9px;
-  }
+    .carrossel-botao.anterior {
+        left: 8px;
+    }
 
-  .bolinha.ativa {
-    transform: scale(1.15);
-  }
-}
+    .carrossel-botao.proximo {
+        right: 8px;
+    }
 
+    .carrossel-indicadores {
+        bottom: 10px;
+        gap: 6px;
+    }
 
-/* =========================
-   CELULARES PEQUENOS
-========================= */
+    .indicador {
+        width: 7px;
+        height: 7px;
+    }
 
-@media (max-width: 380px) {
+    .indicador.ativo {
+        width: 18px;
+    }
 
-  .carrossel {
-    height: 30vh;
-    min-height: 180px;
-    max-height: 240px;
-  }
-
-  .indicadores {
-    bottom: 10px;
-    gap: 6px;
-  }
-
-  .bolinha {
-    width: 8px;
-    height: 8px;
-  }
 }
