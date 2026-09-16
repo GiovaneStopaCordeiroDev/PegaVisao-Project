@@ -83,12 +83,11 @@
     background-color: #222;
 }
 
-/* ÍCONES */
+/* ICONE DO USUARIO E CARRINHO */
 .acoes-header {
     display: flex;
     align-items: center;
     gap: 18px;
-
     flex-shrink: 0;
 }
 
@@ -147,6 +146,7 @@
 
     font-size: 13px;
     font-weight: 600;
+
     text-transform: uppercase;
     letter-spacing: 0.5px;
 
@@ -208,6 +208,7 @@
         flex-direction: column;
 
         padding: 15px;
+
         gap: 14px;
     }
 
