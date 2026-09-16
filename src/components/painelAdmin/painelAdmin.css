@@ -32,8 +32,8 @@
   padding: 12px 18px;
   border: none;
   border-radius: 6px;
-  background-color: #17e4b9;
-  color: #091d24;
+  background-color: #ecd717;
+  color: #1f1f1f;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
@@ -118,8 +118,8 @@
 ========================= */
 
 .botao-editar {
-  background-color: #17e4b9;
-  color: #091d24;
+  background-color: #ecd717;
+  color: #1f1f1f;
 }
 
 .botao-editar:hover {
