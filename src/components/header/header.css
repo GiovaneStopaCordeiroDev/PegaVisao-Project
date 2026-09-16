@@ -4,7 +4,10 @@
     border-bottom: 1px solid #222;
     position: relative;
     z-index: 1000;
+     overflow: visible;
 }
+
+
 
 /* PARTE SUPERIOR */
 
@@ -23,6 +26,7 @@
 
     gap: 30px;
     box-sizing: border-box;
+     overflow: visible;
 }
 
 
