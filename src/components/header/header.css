@@ -33,7 +33,7 @@
 /* LOGO */
 
 .logo-header {
-    width: 300px;
+    width: 220px;
     height: auto;
 
     cursor: pointer;
@@ -245,7 +245,7 @@
     }
 
     .logo-header {
-        width: 180px;
+        width: 350px;
     }
 
     .barra-pesquisa {
@@ -293,7 +293,7 @@
 @media (max-width: 400px) {
 
     .logo-header {
-        width: 160px;
+        width: 280px;
     }
 
     .top-header {
