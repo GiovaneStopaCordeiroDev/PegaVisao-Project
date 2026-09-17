@@ -263,8 +263,10 @@ body {
 
 .botao-whatsapp {
   position: fixed;
+
   right: 25px;
-  bottom: 25px;
+  top: 50%;
+  transform: translateY(-50%);
 
   width: 60px;
   height: 60px;
@@ -290,15 +292,14 @@ body {
 }
 
 .botao-whatsapp:hover {
-  transform: scale(1.08);
+  transform: translateY(-50%) scale(1.08);
 
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
 .botao-whatsapp:active {
-  transform: scale(0.95);
+  transform: translateY(-50%) scale(0.95);
 }
-
 /* =========================================
    ROTA NÃO ENCONTRADA
 ========================================= */
@@ -358,11 +359,11 @@ body {
     width: 52px;
     height: 52px;
 
-    right: 18px;
-    bottom: 18px;
+    right: 15px;
 
     font-size: 29px;
   }
+
   .secao-categoria {
     width: 92%;
     margin: 35px auto;
