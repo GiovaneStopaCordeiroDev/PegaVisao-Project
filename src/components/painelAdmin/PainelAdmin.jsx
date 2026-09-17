@@ -1,22 +1,14 @@
 import { useEffect, useState } from "react";
-
 import api from "../../services/api";
-
 import { toast } from "sonner";
-
 import "./painelAdmin.css";
 
 export function PainelAdmin() {
   const [produtos, setProdutos] = useState([]);
-
   const [categorias, setCategorias] = useState([]);
-
   const [produtoEditando, setProdutoEditando] = useState(null);
-
   const [variacoesEditando, setVariacoesEditando] = useState([]);
-
   const [adicionandoProduto, setAdicionandoProduto] = useState(false);
-
   const [variacoes, setVariacoes] = useState([]);
 
   const [novoProduto, setNovoProduto] = useState({
@@ -45,6 +37,7 @@ export function PainelAdmin() {
       setProdutos(response.data);
     } catch (error) {
       console.error("Erro ao carregar produtos:", error);
+      console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
       toast.error("Não foi possível carregar os produtos.");
     }
@@ -59,6 +52,7 @@ export function PainelAdmin() {
       setCategorias(response.data);
     } catch (error) {
       console.error("Erro ao carregar categorias:", error);
+      console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
       toast.error("Não foi possível carregar as categorias.");
     }
@@ -87,7 +81,6 @@ export function PainelAdmin() {
 
   function fecharEdicao() {
     setProdutoEditando(null);
-
     setVariacoesEditando([]);
   }
 
@@ -148,13 +141,9 @@ export function PainelAdmin() {
     try {
       const produtoAtualizado = {
         nome: produtoEditando.nome,
-
         descricao: produtoEditando.descricao,
-
         preco: Number(produtoEditando.preco),
-
         imagemPrincipal: produtoEditando.imagemPrincipal,
-
         categoriaId: Number(produtoEditando.categoriaId),
 
         variacoes: variacoesEditando.map((variacao) => ({
@@ -178,7 +167,6 @@ export function PainelAdmin() {
       carregarProdutos();
     } catch (error) {
       console.error("Erro ao alterar produto:", error);
-
       console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
       toast.error("Não foi possível alterar o produto.", {
@@ -209,7 +197,6 @@ export function PainelAdmin() {
             carregarProdutos();
           } catch (error) {
             console.error("Erro ao excluir produto:", error);
-
             console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
             toast.error("Não foi possível excluir o produto.", {
@@ -285,13 +272,9 @@ export function PainelAdmin() {
     try {
       const produto = {
         nome: novoProduto.nome,
-
         descricao: novoProduto.descricao,
-
         preco: Number(novoProduto.preco),
-
         imagemPrincipal: novoProduto.imagemPrincipal,
-
         categoriaId: Number(novoProduto.categoriaId),
 
         variacoes: variacoes.map((variacao) => ({
@@ -324,7 +307,6 @@ export function PainelAdmin() {
       carregarProdutos();
     } catch (error) {
       console.error("Erro ao adicionar produto:", error);
-
       console.error("RESPOSTA DO SERVIDOR:", error.response?.data);
 
       toast.error("Não foi possível adicionar o produto.", {
@@ -369,7 +351,7 @@ export function PainelAdmin() {
 
             <h2>{produto.nome}</h2>
 
-            <p>R$ {produto.preco}</p>
+            <p>R$ {Number(produto.preco).toFixed(2)}</p>
 
             <div className="acoes-produto">
               <button
@@ -473,9 +455,7 @@ export function PainelAdmin() {
                 ))}
               </select>
 
-              {/* =========================
-                  VARIAÇÕES
-              ========================= */}
+              {/* VARIAÇÕES */}
 
               <div className="variacoes-container">
                 <h3>Variações do produto</h3>
@@ -485,8 +465,6 @@ export function PainelAdmin() {
                     className="linha-variacao"
                     key={variacao.id > 0 ? variacao.id : `nova-${index}`}
                   >
-                    {/* COR */}
-
                     <input
                       type="text"
                       placeholder="Cor"
@@ -501,8 +479,6 @@ export function PainelAdmin() {
                       required
                     />
 
-                    {/* TAMANHO */}
-
                     <input
                       type="text"
                       placeholder="Tamanho"
@@ -516,8 +492,6 @@ export function PainelAdmin() {
                       }
                       required
                     />
-
-                    {/* ESTOQUE */}
 
                     <input
                       type="number"
@@ -534,8 +508,6 @@ export function PainelAdmin() {
                       required
                     />
 
-                    {/* REMOVER */}
-
                     <button
                       type="button"
                       className="botao-remover-variacao"
@@ -546,8 +518,6 @@ export function PainelAdmin() {
                   </div>
                 ))}
 
-                {/* ADICIONAR VARIAÇÃO */}
-
                 <button
                   type="button"
                   className="botao-adicionar-variacao"
@@ -556,8 +526,6 @@ export function PainelAdmin() {
                   + Adicionar variação
                 </button>
               </div>
-
-              {/* SALVAR */}
 
               <button type="submit" className="botao-alterar">
                 Alterar
@@ -578,7 +546,6 @@ export function PainelAdmin() {
               className="botao-fechar-modal"
               onClick={() => {
                 setAdicionandoProduto(false);
-
                 setVariacoes([]);
               }}
             >
@@ -657,17 +624,13 @@ export function PainelAdmin() {
                 ))}
               </select>
 
-              {/* =========================
-                  VARIAÇÕES
-              ========================= */}
+              {/* VARIAÇÕES */}
 
               <div className="variacoes-container">
                 <h3>Variações do produto</h3>
 
                 {variacoes.map((variacao, index) => (
                   <div className="linha-variacao" key={index}>
-                    {/* COR */}
-
                     <input
                       type="text"
                       placeholder="Cor"
@@ -677,8 +640,6 @@ export function PainelAdmin() {
                       }
                     />
 
-                    {/* TAMANHO */}
-
                     <input
                       type="text"
                       placeholder="Tamanho"
@@ -687,8 +648,6 @@ export function PainelAdmin() {
                         alterarVariacao(index, "tamanho", event.target.value)
                       }
                     />
-
-                    {/* ESTOQUE */}
 
                     <input
                       type="number"
@@ -704,8 +663,6 @@ export function PainelAdmin() {
                       }
                     />
 
-                    {/* REMOVER */}
-
                     <button
                       type="button"
                       className="botao-remover-variacao"
@@ -716,8 +673,6 @@ export function PainelAdmin() {
                   </div>
                 ))}
 
-                {/* ADICIONAR VARIAÇÃO */}
-
                 <button
                   type="button"
                   className="botao-adicionar-variacao"
@@ -726,8 +681,6 @@ export function PainelAdmin() {
                   + Adicionar variação
                 </button>
               </div>
-
-              {/* SALVAR */}
 
               <button type="submit" className="botao-alterar">
                 Adicionar produto

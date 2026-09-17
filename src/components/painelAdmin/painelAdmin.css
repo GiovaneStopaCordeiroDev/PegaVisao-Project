@@ -12,7 +12,6 @@
   color: #ffffff;
 }
 
-
 /* =========================
    TÍTULO + BOTÃO ADICIONAR
 ========================= */
@@ -44,32 +43,30 @@
   opacity: 0.85;
 }
 
-
 /* =========================
    LISTA DE PRODUTOS
 ========================= */
 
 .lista-produtos-admin {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 220px));
-    gap: 18px;
-    width: 100%;
-    justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 220px));
+  gap: 18px;
+  width: 100%;
+  justify-content: start;
 }
-
 
 /* =========================
    CARD DO PRODUTO
 ========================= */
 
 .card-produto-admin {
-    width: 100%;
-    max-width: 220px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    background: white;
-    box-sizing: border-box;
+  width: 100%;
+  max-width: 220px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-sizing: border-box;
 }
 
 .imagem-produto-admin {
@@ -79,17 +76,28 @@
   display: block;
 }
 
+/* =========================
+   NOME DO PRODUTO
+========================= */
+
 .card-produto-admin h2 {
   margin: 10px 12px 5px;
   font-size: 17px;
+  line-height: 1.2;
+  color: #091d24;
+  font-weight: 700;
 }
+
+/* =========================
+   PREÇO DO PRODUTO
+========================= */
 
 .card-produto-admin p {
   margin: 5px 12px 10px;
   font-size: 15px;
   font-weight: 600;
+  color: #091d24;
 }
-
 
 /* =========================
    BOTÕES DO CARD
@@ -112,7 +120,6 @@
   transition: 0.2s;
 }
 
-
 /* =========================
    EDITAR
 ========================= */
@@ -126,7 +133,6 @@
   opacity: 0.8;
 }
 
-
 /* =========================
    EXCLUIR
 ========================= */
@@ -139,7 +145,6 @@
 .botao-excluir:hover {
   background-color: #c0392b;
 }
-
 
 /* =========================
    MODAL
@@ -156,7 +161,6 @@
   padding: 20px;
   box-sizing: border-box;
 }
-
 
 /* =========================
    CAIXA DO MODAL
@@ -179,7 +183,6 @@
   margin-top: 0;
   margin-bottom: 25px;
 }
-
 
 /* =========================
    FORMULÁRIO
@@ -214,7 +217,6 @@
   border-color: #17e4b9;
 }
 
-
 /* =========================
    TEXTAREA
 ========================= */
@@ -223,7 +225,6 @@
   min-height: 100px;
   resize: vertical;
 }
-
 
 /* =========================
    SELECT DA CATEGORIA
@@ -237,7 +238,6 @@
 .modal-editar select option {
   padding: 10px;
 }
-
 
 /* =========================
    BOTÃO X
@@ -258,7 +258,6 @@
   opacity: 0.6;
 }
 
-
 /* =========================
    VARIAÇÕES
 ========================= */
@@ -278,7 +277,6 @@
   font-size: 17px;
 }
 
-
 /* =========================
    LINHA DA VARIAÇÃO
 ========================= */
@@ -297,7 +295,6 @@
   padding: 9px;
   box-sizing: border-box;
 }
-
 
 /* =========================
    BOTÃO REMOVER VARIAÇÃO
@@ -321,7 +318,6 @@
   background-color: #c0392b;
 }
 
-
 /* =========================
    BOTÃO ADICIONAR VARIAÇÃO
 ========================= */
@@ -343,7 +339,6 @@
 .botao-adicionar-variacao:hover {
   background-color: #effffb;
 }
-
 
 /* =========================
    BOTÃO ALTERAR / ADICIONAR
@@ -367,13 +362,11 @@
   opacity: 0.85;
 }
 
-
 /* =========================
    RESPONSIVIDADE - TABLET
 ========================= */
 
 @media (max-width: 900px) {
-
   .painel-admin {
     padding: 25px 20px;
   }
@@ -392,18 +385,15 @@
   }
 }
 
-
 /* =========================
    RESPONSIVIDADE - CELULAR
 ========================= */
 
 @media (max-width: 600px) {
-
   .painel-admin {
     width: 100%;
     padding: 15px 10px;
   }
-
 
   /* TÍTULO */
 
@@ -418,7 +408,6 @@
     font-size: 24px;
   }
 
-
   /* BOTÃO ADICIONAR */
 
   .botao-adicionar-produto {
@@ -426,7 +415,6 @@
     padding: 10px;
     font-size: 14px;
   }
-
 
   /* GRID DOS PRODUTOS */
 
@@ -436,7 +424,6 @@
     gap: 10px;
   }
 
-
   /* CARD */
 
   .card-produto-admin {
@@ -445,7 +432,6 @@
     border-radius: 8px;
   }
 
-
   /* IMAGEM */
 
   .imagem-produto-admin {
@@ -453,23 +439,24 @@
     height: 150px;
   }
 
-
   /* NOME */
 
   .card-produto-admin h2 {
     margin: 8px 8px 4px;
     font-size: 14px;
     line-height: 1.2;
+    color: #091d24;
+    font-weight: 700;
   }
-
 
   /* PREÇO */
 
   .card-produto-admin p {
     margin: 4px 8px 8px;
     font-size: 13px;
+    color: #091d24;
+    font-weight: 600;
   }
-
 
   /* BOTÕES */
 
@@ -483,7 +470,6 @@
     font-size: 11px;
     border-radius: 5px;
   }
-
 
   /* MODAL */
 
@@ -503,7 +489,6 @@
     font-size: 20px;
     margin-bottom: 20px;
   }
-
 
   /* VARIAÇÕES */
 
@@ -526,13 +511,11 @@
   }
 }
 
-
 /* =========================
    CELULARES MUITO PEQUENOS
 ========================= */
 
 @media (max-width: 380px) {
-
   .painel-admin {
     padding: 12px 8px;
   }
@@ -547,10 +530,12 @@
 
   .card-produto-admin h2 {
     font-size: 13px;
+    color: #091d24;
   }
 
   .card-produto-admin p {
     font-size: 12px;
+    color: #091d24;
   }
 
   .acoes-produto {
