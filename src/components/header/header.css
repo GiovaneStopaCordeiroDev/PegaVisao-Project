@@ -1,123 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .header {
-    width: 100%;
-    background-color: #000;
-    border-bottom: 1px solid #222;
-    position: relative;
-    z-index: 1000;
-    overflow: visible;
+  width: 100%;
+  background-color: #000;
+  border-bottom: 1px solid #222;
+  position: relative;
+  z-index: 1000;
 }
 
 /* =========================
-   PARTE SUPERIOR
+   TOPO
 ========================= */
 
 .top-header {
-    width: 100%;
-    max-width: 1400px;
-    min-height: 145px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 30px;
-    gap: 30px;
-    box-sizing: border-box;
-    overflow: visible;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
 }
 
 /* =========================
-   LOGO + AÇÕES
+   LOGO
 ========================= */
 
-.logo-acoes {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-shrink: 0;
-}
-
 .logo-header {
-    width: 270px;
-    height: auto;
-    cursor: pointer;
-    display: block;
-    flex-shrink: 0;
-    object-fit: contain;
+  width: 340px;
+  height: auto;
+  cursor: pointer;
+  object-fit: contain;
 }
 
 /* =========================
-   PESQUISA
+   LINHA INFERIOR
+========================= */
+
+.header-inferior {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* =========================
+   BUSCA
 ========================= */
 
 .barra-pesquisa {
-    flex: 1;
-    max-width: 650px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    overflow: hidden;
+  flex: 1;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .barra-pesquisa input {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    padding: 0 14px;
-    background-color: transparent;
-    color: #000;
-    font-size: 14px;
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 14px;
+  font-size: 14px;
 }
 
 .barra-pesquisa input::placeholder {
-    color: #777;
+  color: #777;
 }
 
 .barra-pesquisa button {
-    width: 55px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background-color: #000;
-    color: #fff;
-    cursor: pointer;
+  width: 55px;
+  height: 100%;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .barra-pesquisa button:hover {
-    background-color: #222;
+  background: #222;
 }
 
 /* =========================
    ÍCONES
 ========================= */
 
-.acoes-header {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    flex-shrink: 0;
-}
-
 .icone-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    border: none;
-    background: none;
-    color: #fff;
-    cursor: pointer;
-    transition: color 0.2s ease;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: color 0.2s ease;
 }
 
 .icone-header:hover {
-    color: #aaa;
+  color: #bdbdbd;
 }
 
 /* =========================
@@ -125,51 +123,47 @@
 ========================= */
 
 .menu-header {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 42px;
-    background-color: #000;
-    border-top: 1px solid #1f1f1f;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 1001;
+  width: 100%;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 42px;
+
+  background-color: #000;
+  border-top: 1px solid #1f1f1f;
 }
 
 .menu-header a {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding: 0;
-    text-decoration: none;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
+  text-decoration: none;
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  position: relative;
 }
 
 .menu-header a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 9px;
-    width: 0;
-    height: 1px;
-    background-color: #fff;
-    transition: width 0.25s ease;
-}
+  content: "";
 
-.menu-header a:hover {
-    color: #aaa;
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+
+  width: 0;
+  height: 1px;
+
+  background: #fff;
+  transition: 0.25s;
 }
 
 .menu-header a:hover::after {
-    width: 100%;
+  width: 100%;
 }
 
 /* =========================
@@ -177,32 +171,13 @@
 ========================= */
 
 @media (max-width: 900px) {
+  .logo-header {
+    width: 280px;
+  }
 
-    .top-header {
-        min-height: 120px;
-        padding: 10px 20px;
-        gap: 20px;
-    }
-
-    .logo-header {
-        width: 230px;
-    }
-
-    .logo-acoes {
-        gap: 12px;
-    }
-
-    .barra-pesquisa {
-        max-width: 500px;
-    }
-
-    .acoes-header {
-        gap: 10px;
-    }
-
-    .menu-header {
-        gap: 30px;
-    }
+  .menu-header {
+    gap: 24px;
+  }
 }
 
 /* =========================
@@ -210,169 +185,60 @@
 ========================= */
 
 @media (max-width: 768px) {
+  .top-header {
+    padding: 15px 12px;
+  }
 
-    .top-header {
-        width: 100%;
-        min-height: auto;
-        padding: 8px 0 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        box-sizing: border-box;
-    }
+  .logo-header {
+    width: 240px;
+  }
 
-    .logo-acoes {
-        width: 100%;
-        min-height: 150px;
+  .header-inferior {
+    gap: 8px;
+  }
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+  .icone-header {
+    width: 42px;
+    height: 42px;
+  }
 
-        position: relative;
+  .barra-pesquisa {
+    height: 44px;
+  }
 
-        gap: 0;
-        box-sizing: border-box;
-    }
+  .menu-header {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0 15px;
+    gap: 24px;
+    scrollbar-width: none;
+  }
 
-    .acoes-header {
-        display: contents;
-    }
+  .menu-header::-webkit-scrollbar {
+    display: none;
+  }
 
-    /* LOGO */
-        .logo-header {
-            width: calc(100vw - 80px);
-            max-width: none;
-            max-height: none;
-            height: auto;
-
-            object-fit: contain;
-            display: block;
-        }
-    /* LOGIN */
-    .logo-acoes .icone-header:first-child {
-        position: absolute;
-
-        left: 3px;
-        top: 50%;
-        transform: translateY(-50%);
-
-        margin: 0;
-        padding: 4px;
-
-        z-index: 2;
-    }
-
-    /* CARRINHO */
-    .logo-acoes .icone-header:last-child {
-        position: absolute;
-
-        right: 3px;
-        top: 50%;
-        transform: translateY(-50%);
-
-        margin: 0;
-        padding: 4px;
-
-        z-index: 2;
-    }
-
-    .icone-header svg {
-        width: 28px;
-        height: 28px;
-    }
-
-    /* BUSCA */
-    .barra-pesquisa {
-        width: 100%;
-        max-width: none;
-        height: 48px;
-        flex: none;
-        box-sizing: border-box;
-    }
-
-    .barra-pesquisa input {
-        font-size: 14px;
-    }
-
-    .barra-pesquisa button {
-        width: 52px;
-    }
-
-    /* MENU */
-    .menu-header {
-        height: 48px;
-        padding: 0 15px;
-        justify-content: flex-start;
-        gap: 28px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-        scrollbar-width: none;
-    }
-
-    .menu-header::-webkit-scrollbar {
-        display: none;
-    }
-
-    .menu-header a {
-        flex-shrink: 0;
-        font-size: 12px;
-    }
+  .menu-header a {
+    flex-shrink: 0;
+    font-size: 12px;
+  }
 }
-
 
 /* =========================
    CELULARES PEQUENOS
 ========================= */
 
 @media (max-width: 400px) {
+  .logo-header {
+    width: 200px;
+  }
 
-    .top-header {
-        padding: 5px 0 12px;
-        gap: 6px;
-    }
+  .icone-header {
+    width: 38px;
+    height: 38px;
+  }
 
-    .logo-acoes {
-        min-height: 135px;
-        width: 100%;
-    }
-
-    .logo-header {
-        /*
-           Grande, mas deixa espaço
-           para os dois ícones.
-        */
-        width: calc(100vw - 48px);
-
-        max-width: none;
-        max-height: 130px;
-    }
-
-    .logo-acoes .icone-header:first-child {
-        left: 2px;
-    }
-
-    .logo-acoes .icone-header:last-child {
-        right: 2px;
-    }
-
-    .icone-header svg {
-        width: 25px;
-        height: 25px;
-    }
-
-    .barra-pesquisa {
-        height: 46px;
-    }
-
-    .barra-pesquisa button {
-        width: 50px;
-    }
-
-    .menu-header {
-        padding: 0 12px;
-        gap: 24px;
-    }
+  .barra-pesquisa {
+    height: 42px;
+  }
 }
