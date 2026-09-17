@@ -18,6 +18,8 @@ import { PaginaProduto } from "./pages/paginaProduto/paginaProduto";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
+import { FaWhatsapp } from "react-icons/fa";
+
 import { Toaster } from "sonner";
 
 import "./App.css";
@@ -110,7 +112,17 @@ function App() {
 
       <Header />
 
-      <Routes>
+      <a
+        href="https://wa.me/5514991851217"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="botao-whatsapp"
+        aria-label="Fale conosco pelo WhatsApp"
+      >
+        <FaWhatsapp />
+      </a>
+
+      <Routes>  
         {/* =========================================
                     HOME
                 ========================================= */}

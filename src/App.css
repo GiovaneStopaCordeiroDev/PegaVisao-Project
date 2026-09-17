@@ -258,6 +258,48 @@ body {
 }
 
 /* =========================================
+   BOTÃO WHATSAPP
+========================================= */
+
+.botao-whatsapp {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #25d366;
+  color: white;
+
+  border-radius: 50%;
+
+  font-size: 34px;
+
+  text-decoration: none;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+  z-index: 9999;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao-whatsapp:hover {
+  transform: scale(1.08);
+
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.botao-whatsapp:active {
+  transform: scale(0.95);
+}
+
+/* =========================================
    ROTA NÃO ENCONTRADA
 ========================================= */
 
@@ -310,7 +352,17 @@ body {
    CELULAR
 ========================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+
+  .botao-whatsapp {
+    width: 52px;
+    height: 52px;
+
+    right: 18px;
+    bottom: 18px;
+
+    font-size: 29px;
+  }
   .secao-categoria {
     width: 92%;
     margin: 35px auto;
