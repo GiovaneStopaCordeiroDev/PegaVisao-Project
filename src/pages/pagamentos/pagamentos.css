@@ -1,0 +1,551 @@
+.pagina-pagamento {
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px 40px;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+}
+
+/* ==========================================
+   CABEÇALHO
+========================================== */
+
+.cabecalho-pagamento {
+  max-width: 1200px;
+  margin: 0 auto 35px;
+}
+
+.cabecalho-pagamento h1 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  color: #111;
+}
+
+.cabecalho-pagamento p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+/* ==========================================
+   CONTEÚDO
+========================================== */
+
+.conteudo-pagamento {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: 1fr 380px;
+
+  gap: 30px;
+  align-items: start;
+}
+
+.area-pagamento {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==========================================
+   BLOCOS
+========================================== */
+
+.bloco-pagamento {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-sizing: border-box;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+}
+
+.bloco-pagamento h2 {
+  margin: 0 0 22px;
+  font-size: 21px;
+  color: #111;
+}
+
+/* ==========================================
+   OPÇÕES DE PAGAMENTO
+========================================== */
+
+.opcoes-pagamento {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.opcao-pagamento {
+  width: 100%;
+
+  border: 2px solid #ddd;
+  background-color: #fff;
+  border-radius: 10px;
+
+  padding: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  cursor: pointer;
+  text-align: left;
+
+  transition: 0.2s;
+}
+
+.opcao-pagamento:hover {
+  border-color: #111;
+}
+
+.opcao-pagamento.selecionado {
+  border-color: #f4d000;
+  background-color: #fffbea;
+}
+
+.icone-pagamento {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background-color: #111;
+  color: #f4d000;
+
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.texto-opcao {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.texto-opcao strong {
+  color: #111;
+  font-size: 16px;
+}
+
+.texto-opcao span {
+  color: #777;
+  font-size: 14px;
+}
+
+.radio-pagamento {
+  width: 22px;
+  height: 22px;
+
+  border: 2px solid #aaa;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selecionado .radio-pagamento {
+  border-color: #111;
+}
+
+.selecionado .radio-pagamento span {
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+  background-color: #f4d000;
+}
+
+/* ==========================================
+   ENDEREÇO
+========================================== */
+
+.titulo-endereco-pagamento {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titulo-endereco-pagamento h2 {
+  margin-bottom: 20px;
+}
+
+.titulo-endereco-pagamento button {
+  border: none;
+  background: none;
+
+  color: #111;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.titulo-endereco-pagamento button:hover {
+  text-decoration: underline;
+}
+
+.endereco-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  color: #555;
+  font-size: 15px;
+}
+
+.endereco-resumo strong {
+  color: #111;
+  font-size: 16px;
+  margin-bottom: 3px;
+}
+
+/* ==========================================
+   BOTÃO PAGAR
+========================================== */
+
+.botao-pagar {
+  width: 100%;
+
+  padding: 17px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: #f4d000;
+  color: #111;
+
+  font-size: 17px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-pagar:hover {
+  background-color: #e0c000;
+}
+
+.botao-pagar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   PIX GERADO
+========================================== */
+
+.pix-gerado {
+  text-align: center;
+}
+
+.pix-gerado h2 {
+  margin-bottom: 10px;
+}
+
+.pix-gerado > p {
+  margin: 0 0 25px;
+
+  color: #666;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   QR CODE
+========================================== */
+
+.qr-code-container {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 10px 0 25px;
+}
+
+.qr-code-pix {
+  width: 280px;
+  height: 280px;
+
+  max-width: 100%;
+
+  object-fit: contain;
+
+  padding: 10px;
+
+  background-color: #fff;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   CÓDIGO PIX
+========================================== */
+
+.pix-codigo {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  text-align: left;
+}
+
+.pix-codigo > strong {
+  color: #111;
+  font-size: 16px;
+}
+
+.pix-codigo-box {
+  width: 100%;
+
+  max-height: 100px;
+
+  padding: 14px;
+
+  box-sizing: border-box;
+
+  background-color: #f5f5f5;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  word-break: break-all;
+
+  color: #555;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   BOTÃO COPIAR PIX
+========================================== */
+
+.botao-copiar-pix {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+  border-radius: 9px;
+
+  background-color: #111;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.botao-copiar-pix:hover {
+  background-color: #2a2a2a;
+}
+
+/* ==========================================
+   INFORMAÇÕES DO PIX
+========================================== */
+
+.pix-informacoes {
+  margin-top: 25px;
+  padding-top: 20px;
+
+  border-top: 1px solid #ddd;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  text-align: center;
+}
+
+.pix-informacoes strong {
+  color: #111;
+  font-size: 16px;
+}
+
+.pix-informacoes span {
+  color: #777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ==========================================
+   RESUMO DO PEDIDO
+========================================== */
+
+.resumo-pagamento {
+  background-color: #fff;
+
+  border-radius: 12px;
+
+  padding: 25px;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+
+  position: sticky;
+  top: 20px;
+}
+
+.resumo-pagamento h2 {
+  margin: 0 0 20px;
+
+  font-size: 21px;
+  color: #111;
+}
+
+.itens-resumo-pagamento {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.item-resumo-pagamento {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-resumo-pagamento img {
+  width: 65px;
+  height: 65px;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+}
+
+.informacoes-item {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.informacoes-item strong {
+  color: #111;
+  font-size: 14px;
+}
+
+.informacoes-item span {
+  color: #777;
+  font-size: 12px;
+}
+
+.item-resumo-pagamento > strong {
+  font-size: 14px;
+  color: #111;
+
+  white-space: nowrap;
+}
+
+.linha-resumo-pagamento {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 12px;
+
+  color: #555;
+  font-size: 15px;
+}
+
+.resumo-pagamento hr {
+  border: none;
+
+  border-top: 1px solid #ddd;
+
+  margin: 20px 0;
+}
+
+.total-pagamento {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-pagamento span {
+  font-size: 18px;
+  font-weight: 700;
+
+  color: #111;
+}
+
+.total-pagamento strong {
+  font-size: 23px;
+  color: #111;
+}
+
+/* ==========================================
+   RESPONSIVO
+========================================== */
+
+@media (max-width: 900px) {
+  .conteudo-pagamento {
+    grid-template-columns: 1fr;
+  }
+
+  .resumo-pagamento {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .pagina-pagamento {
+    padding: 30px 15px;
+  }
+
+  .cabecalho-pagamento h1 {
+    font-size: 28px;
+  }
+
+  .bloco-pagamento {
+    padding: 20px;
+  }
+
+  .opcao-pagamento {
+    padding: 14px;
+  }
+
+  .icone-pagamento {
+    width: 45px;
+    height: 45px;
+  }
+
+  .item-resumo-pagamento img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .qr-code-pix {
+    width: 240px;
+    height: 240px;
+  }
+
+  .pix-codigo-box {
+    max-height: 120px;
+    font-size: 11px;
+  }
+}

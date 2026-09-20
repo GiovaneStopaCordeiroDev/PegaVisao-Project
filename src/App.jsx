@@ -6,6 +6,18 @@ import { Carrinho } from "./pages/carrinho/carrinho";
 
 import Footer from "./components/footer/footer";
 
+import { Login } from "./pages/login/login";
+
+import { Cadastro } from "./pages/cadastro/cadastro";
+
+import { Checkout } from "./pages/checkout/checkout";
+
+import { Pedidos } from "./pages/pedidos/pedidos";
+
+import { Pagamento } from "./pages/pagamentos/pagamentos";
+
+import { ProtectedRoute } from "./components/protectedroute/protectedroute";
+
 import { Carrossel } from "./components/carrossel/carrossel";
 
 import Header from "./components/header/header";
@@ -123,6 +135,38 @@ function App() {
       </a>
 
       <Routes>  
+
+        {/* =========================================
+                    LOGIN
+                ========================================= */}
+
+        <Route path="/login" element={<Login />} />
+
+        {/* =========================================
+                    CHECKOUT
+                ========================================= */}
+
+        <Route path="/checkout" element={<Checkout />} />
+
+        {/* =========================================
+                    PAGAMENTOS
+                ========================================= */}
+
+        <Route path="/pagamento" element={<Pagamento />} />
+
+       {/* =========================================
+                    PAGAMENTOS
+                ========================================= */}
+
+        <Route path="/pedidos" element={<Pedidos />} />
+
+        {/* =========================================
+                    CADASTRO
+                ========================================= */}
+        <Route path="/cadastro" element={<Cadastro />} />
+
+
+
         {/* =========================================
                     HOME
                 ========================================= */}
@@ -228,7 +272,14 @@ function App() {
                     PAINEL ADMIN
                 ========================================= */}
 
-        <Route path="/admin" element={<PainelAdmin />} />
+        <Route
+            path="/admin"
+            element={
+                <ProtectedRoute adminOnly={true}>
+                    <PainelAdmin />
+                </ProtectedRoute>
+            }
+        />
 
         {/* =========================================
                     PRODUTOS

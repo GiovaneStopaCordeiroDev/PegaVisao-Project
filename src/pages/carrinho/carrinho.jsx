@@ -1,21 +1,37 @@
 import { useEffect, useState } from "react";
-
 import { toast } from "sonner";
-
+import { useNavigate } from "react-router-dom";
+import { getUsuarioLogado } from "../../services/auth";
 import "./carrinho.css";
 
 export function Carrinho() {
+  const navigate = useNavigate();
+
   const [carrinho, setCarrinho] = useState([]);
-
-  const [pagamentoAberto, setPagamentoAberto] = useState(false);
-
-  const [formaPagamento, setFormaPagamento] = useState("");
 
   useEffect(() => {
     const carrinhoSalvo = JSON.parse(localStorage.getItem("carrinho")) || [];
 
     setCarrinho(carrinhoSalvo);
   }, []);
+
+  function finalizarCompra() {
+    const usuario = getUsuarioLogado();
+
+    if (!usuario) {
+      toast.error("Faça login para finalizar sua compra.");
+
+      navigate("/login", {
+        state: {
+          redirectTo: "/checkout",
+        },
+      });
+
+      return;
+    }
+
+    navigate("/checkout");
+  }
 
   function removerItem(index) {
     toast.warning("Excluir produto?", {
@@ -136,75 +152,10 @@ export function Carrinho() {
               <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
             </div>
 
-            <button
-              className="botao-pagamento"
-              onClick={() => setPagamentoAberto(true)}
-            >
-              Escolher forma de pagamento
+            <button className="botao-pagamento" onClick={finalizarCompra}>
+              Finalizar compra
             </button>
           </aside>
-        </div>
-      )}
-
-      {/* MODAL DE PAGAMENTO */}
-
-      {pagamentoAberto && (
-        <div className="modal-overlay">
-          <div className="modal-pagamento">
-            <button
-              className="fechar-modal"
-              onClick={() => setPagamentoAberto(false)}
-            >
-              ×
-            </button>
-
-            <h2>Forma de pagamento</h2>
-
-            <p>Escolha como deseja pagar.</p>
-
-            <label className="opcao-pagamento">
-              <input
-                type="radio"
-                name="pagamento"
-                value="PIX"
-                checked={formaPagamento === "PIX"}
-                onChange={(event) => setFormaPagamento(event.target.value)}
-              />
-
-              <span>PIX</span>
-            </label>
-
-            <label className="opcao-pagamento">
-              <input
-                type="radio"
-                name="pagamento"
-                value="Cartão de crédito"
-                checked={formaPagamento === "Cartão de crédito"}
-                onChange={(event) => setFormaPagamento(event.target.value)}
-              />
-
-              <span>Cartão de crédito</span>
-            </label>
-
-            <label className="opcao-pagamento">
-              <input
-                type="radio"
-                name="pagamento"
-                value="Cartão de débito"
-                checked={formaPagamento === "Cartão de débito"}
-                onChange={(event) => setFormaPagamento(event.target.value)}
-              />
-
-              <span>Cartão de débito</span>
-            </label>
-
-            <button
-              className="botao-continuar-pagamento"
-              disabled={!formaPagamento}
-            >
-              Continuar
-            </button>
-          </div>
         </div>
       )}
     </main>

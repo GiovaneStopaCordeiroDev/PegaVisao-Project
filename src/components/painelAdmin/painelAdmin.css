@@ -4,8 +4,11 @@
 
 .painel-admin {
   width: 100%;
+  min-height: 100vh;
   padding: 30px;
   box-sizing: border-box;
+  background-color: #0a0a0a;
+  color: #ffffff;
 }
 
 .h1-produtos {
@@ -25,6 +28,7 @@
 
 .titulo-produtos h1 {
   margin: 0;
+  color: #ffffff;
 }
 
 .botao-adicionar-produto {
@@ -62,12 +66,16 @@
 .card-produto-admin {
   width: 100%;
   max-width: 220px;
-  border: 1px solid #ddd;
+  border: 1px solid #303030;
   border-radius: 10px;
   overflow: hidden;
   background-color: #ffffff;
   box-sizing: border-box;
 }
+
+/* =========================
+   IMAGEM
+========================= */
 
 .imagem-produto-admin {
   width: 100%;
@@ -139,7 +147,7 @@
 
 .botao-excluir {
   background-color: #e74c3c;
-  color: white;
+  color: #ffffff;
 }
 
 .botao-excluir:hover {
@@ -153,7 +161,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,9 +180,10 @@
   max-width: 90%;
   max-height: 90vh;
   padding: 30px;
-  background: white;
+  background: #ffffff;
+  color: #091d24;
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -182,6 +191,7 @@
 .modal-editar h2 {
   margin-top: 0;
   margin-bottom: 25px;
+  color: #091d24;
 }
 
 /* =========================
@@ -197,6 +207,7 @@
 .modal-editar label {
   font-weight: 600;
   margin-top: 5px;
+  color: #091d24;
 }
 
 .modal-editar input,
@@ -205,16 +216,19 @@
   width: 100%;
   box-sizing: border-box;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 6px;
   font-size: 14px;
   outline: none;
+  background-color: #ffffff;
+  color: #091d24;
 }
 
 .modal-editar input:focus,
 .modal-editar textarea:focus,
 .modal-editar select:focus {
-  border-color: #17e4b9;
+  border-color: #c5b100;
+  box-shadow: 0 0 0 2px rgba(197, 177, 0, 0.15);
 }
 
 /* =========================
@@ -231,7 +245,7 @@
 ========================= */
 
 .modal-editar select {
-  background-color: white;
+  background-color: #ffffff;
   cursor: pointer;
 }
 
@@ -249,6 +263,7 @@
   right: 15px;
   border: none;
   background: transparent;
+  color: #091d24;
   font-size: 30px;
   cursor: pointer;
   line-height: 1;
@@ -265,8 +280,8 @@
 .variacoes-container {
   margin-top: 20px;
   padding: 18px;
-  background-color: #f7f7f7;
-  border: 1px solid #e1e1e1;
+  background-color: #f5f5f5;
+  border: 1px solid #dddddd;
   border-radius: 10px;
   box-sizing: border-box;
 }
@@ -307,7 +322,7 @@
   border: none;
   border-radius: 6px;
   background-color: #e74c3c;
-  color: white;
+  color: #ffffff;
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
@@ -326,9 +341,9 @@
   width: 100%;
   margin-top: 5px;
   padding: 10px;
-  border: 1px dashed #17e4b9;
+  border: 1px dashed #c5b100;
   border-radius: 6px;
-  background-color: white;
+  background-color: #ffffff;
   color: #091d24;
   font-size: 14px;
   font-weight: 600;
@@ -337,7 +352,7 @@
 }
 
 .botao-adicionar-variacao:hover {
-  background-color: #effffb;
+  background-color: #fffbea;
 }
 
 /* =========================
@@ -350,8 +365,8 @@
   padding: 12px;
   border: none;
   border-radius: 6px;
-  background: #17e4b9;
-  color: #091d24;
+  background: #c5b100;
+  color: #0a0a0a;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;

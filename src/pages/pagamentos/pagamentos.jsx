@@ -1,0 +1,479 @@
+import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
+import { toast } from "sonner";
+
+import api from "../../services/api";
+import { registrarPixPendente, concluirPixPendente } from "../../services/pixPendente";
+
+import "./pagamentos.css";
+
+export function Pagamento() {
+  const navigate = useNavigate();
+
+  const [formaPagamento, setFormaPagamento] = useState("");
+  const [finalizando, setFinalizando] = useState(false);
+
+  // Guarda os dados do Pix depois que o pedido é criado
+  const [pixData, setPixData] = useState(null);
+
+  useEffect(() => {
+    if (!pixData?.pedidoId) return;
+    let ativo = true;
+    let timer;
+    const controller = new AbortController();
+    async function consultar() {
+      try {
+        const { data } = await api.get(`/Pedido/${pixData.pedidoId}`, {
+          signal: controller.signal,
+          timeout: 10000,
+        });
+        if (!ativo) return;
+        if (data.status === "Pago") {
+          concluirPixPendente(data);
+          toast.success("Pagamento confirmado!");
+          navigate("/pedidos", { replace: true });
+          return;
+        }
+        if (data.status === "Cancelado") {
+          toast.error("Este pedido foi cancelado. Consulte seus pedidos.");
+          return;
+        }
+      } catch (error) {
+        if (!ativo) return;
+        if (error.response?.status === 401 || error.response?.status === 404) {
+          toast.error("Não foi possível consultar o pedido. Acesse Meus pedidos após entrar novamente.");
+          return;
+        }
+      }
+      if (ativo) timer = setTimeout(consultar, 5000);
+    }
+    consultar();
+    return () => {
+      ativo = false;
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [pixData?.pedidoId, navigate]);
+
+  const [carrinho] = useState(() => {
+    return JSON.parse(localStorage.getItem("carrinho")) || [];
+  });
+
+  const [endereco] = useState(() => {
+    return JSON.parse(localStorage.getItem("enderecoCheckout")) || null;
+  });
+
+  const subtotal = carrinho.reduce((total, item) => {
+    return total + Number(item.preco) * Number(item.quantidade);
+  }, 0);
+
+  const frete = 0;
+  const total = subtotal + frete;
+
+  useEffect(() => {
+    if (!endereco) {
+      toast.error("Endereço de entrega não encontrado.");
+      navigate("/checkout");
+      return;
+    }
+
+    if (carrinho.length === 0) {
+      toast.error("Seu carrinho está vazio.");
+      navigate("/carrinho");
+    }
+  }, [endereco, carrinho.length, navigate]);
+
+  async function continuarPagamento() {
+    if (!formaPagamento) {
+      toast.error("Selecione uma forma de pagamento.");
+      return;
+    }
+
+    if (!endereco) {
+      toast.error("Endereço de entrega não encontrado.");
+      navigate("/checkout");
+      return;
+    }
+
+    if (carrinho.length === 0) {
+      toast.error("Seu carrinho está vazio.");
+      navigate("/carrinho");
+      return;
+    }
+
+    try {
+      setFinalizando(true);
+
+      const pedido = {
+        itens: carrinho.map((item) => ({
+          variacaoProdutoId: Number(item.variacaoId),
+          quantidade: Number(item.quantidade),
+        })),
+
+        cep: endereco.cep,
+        rua: endereco.rua,
+        numero: endereco.numero,
+        complemento: endereco.complemento || null,
+        bairro: endereco.bairro,
+        cidade: endereco.cidade,
+        estado: endereco.estado,
+
+        formaPagamento: formaPagamento === "pix" ? "Pix" : "Cartão",
+      };
+
+      console.log("Payload enviado:", pedido);
+
+      const response = await api.post("/Pedido", pedido);
+
+      console.log("Pedido criado:", response.data);
+
+      // ==========================================
+      // PIX
+      // ==========================================
+
+      if (formaPagamento === "pix") {
+        const qrCode = response.data.pixQrCode;
+        const qrCodeBase64 = response.data.pixQrCodeBase64;
+
+        if (!qrCode) {
+          toast.error("O pedido foi criado, mas o código Pix não foi gerado.");
+          return;
+        }
+
+        // Guarda os dados do Pix na tela
+        setPixData({
+          qrCode,
+          qrCodeBase64,
+          paymentId: response.data.mercadoPagoPaymentId,
+          pedidoId: response.data.id,
+        });
+
+        registrarPixPendente(response.data.id);
+
+        toast.success("Pix gerado com sucesso!");
+
+        return;
+      }
+
+      // ==========================================
+      // CARTÃO
+      // ==========================================
+
+      const checkoutUrl = response.data.mercadoPagoCheckoutUrl;
+
+      if (!checkoutUrl) {
+        toast.error(
+          "O pedido foi criado, mas o checkout do Mercado Pago não foi gerado.",
+        );
+        return;
+      }
+
+      // Só limpa o carrinho quando temos
+      // certeza de que o checkout foi criado
+      localStorage.removeItem("carrinho");
+      localStorage.removeItem("enderecoCheckout");
+      localStorage.removeItem("formaPagamento");
+
+      // Redireciona para o Mercado Pago
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      console.error("Erro ao criar pedido:", error);
+
+      if (error.response?.status === 401) {
+        toast.error("Sua sessão expirou. Faça login novamente.");
+
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+
+        navigate("/login", {
+          state: {
+            redirectTo: "/checkout",
+          },
+        });
+
+        return;
+      }
+
+      const mensagem =
+        error.response?.data?.mensagem ||
+        error.response?.data?.erro ||
+        error.response?.data ||
+        "Não foi possível realizar o pedido.";
+
+      toast.error(
+        typeof mensagem === "string"
+          ? mensagem
+          : "Não foi possível realizar o pedido.",
+      );
+    } finally {
+      setFinalizando(false);
+    }
+  }
+
+  async function copiarPix() {
+    if (!pixData?.qrCode) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(pixData.qrCode);
+
+      toast.success("Código Pix copiado!");
+    } catch (error) {
+      console.error("Erro ao copiar código Pix:", error);
+
+      toast.error("Não foi possível copiar o código Pix.");
+    }
+  }
+
+  function voltarCheckout() {
+    if (pixData) {
+      toast.error(
+        "Finalize ou copie o código Pix antes de alterar o endereço.",
+      );
+
+      return;
+    }
+
+    navigate("/checkout");
+  }
+
+  if (!endereco) {
+    return null;
+  }
+
+  return (
+    <main className="pagina-pagamento">
+      {/* ==========================================
+          CABEÇALHO
+      ========================================== */}
+
+      <div className="cabecalho-pagamento">
+        <h1>Pagamento</h1>
+
+        <p>
+          {pixData
+            ? "Escaneie o QR Code ou copie o código Pix para pagar."
+            : "Escolha como deseja pagar seu pedido."}
+        </p>
+      </div>
+
+      <div className="conteudo-pagamento">
+        <section className="area-pagamento">
+          {/* ==========================================
+              PIX GERADO
+          ========================================== */}
+
+          {pixData ? (
+            <div className="bloco-pagamento pix-gerado">
+              <h2>Pagamento via Pix</h2>
+
+              <p>Escaneie o QR Code abaixo usando o aplicativo do seu banco.</p>
+
+              {pixData.qrCodeBase64 ? (
+                <div className="qr-code-container">
+                  <img
+                    src={`data:image/png;base64,${pixData.qrCodeBase64}`}
+                    alt="QR Code Pix"
+                    className="qr-code-pix"
+                  />
+                </div>
+              ) : (
+                <p>QR Code visual não disponível.</p>
+              )}
+
+              <div className="pix-codigo">
+                <strong>Código Pix</strong>
+
+                <div className="pix-codigo-box">
+                  <span>{pixData.qrCode}</span>
+                </div>
+
+                <button
+                  type="button"
+                  className="botao-copiar-pix"
+                  onClick={copiarPix}
+                >
+                  Copiar código Pix
+                </button>
+              </div>
+
+              <div className="pix-informacoes">
+                <strong>Pedido #{pixData.pedidoId}</strong>
+
+                <span>Após realizar o pagamento, aguarde a confirmação.</span>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* ==========================================
+                  FORMA DE PAGAMENTO
+              ========================================== */}
+
+              <div className="bloco-pagamento">
+                <h2>Forma de pagamento</h2>
+
+                <div className="opcoes-pagamento">
+                  {/* PIX */}
+
+                  <button
+                    type="button"
+                    className={`opcao-pagamento ${
+                      formaPagamento === "pix" ? "selecionado" : ""
+                    }`}
+                    onClick={() => setFormaPagamento("pix")}
+                    disabled={finalizando}
+                  >
+                    <div className="icone-pagamento">PIX</div>
+
+                    <div className="texto-opcao">
+                      <strong>Pix</strong>
+
+                      <span>Pagamento instantâneo</span>
+                    </div>
+
+                    <div className="radio-pagamento">
+                      <span />
+                    </div>
+                  </button>
+
+                  {/* CARTÃO */}
+
+                  <button
+                    type="button"
+                    className={`opcao-pagamento ${
+                      formaPagamento === "cartao" ? "selecionado" : ""
+                    }`}
+                    onClick={() => setFormaPagamento("cartao")}
+                    disabled={finalizando}
+                  >
+                    <div className="icone-pagamento">💳</div>
+
+                    <div className="texto-opcao">
+                      <strong>Cartão</strong>
+
+                      <span>Crédito ou débito</span>
+                    </div>
+
+                    <div className="radio-pagamento">
+                      <span />
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* ==========================================
+                  ENDEREÇO
+              ========================================== */}
+
+              <div className="bloco-pagamento">
+                <div className="titulo-endereco-pagamento">
+                  <h2>Endereço de entrega</h2>
+
+                  <button
+                    type="button"
+                    onClick={voltarCheckout}
+                    disabled={finalizando}
+                  >
+                    Alterar
+                  </button>
+                </div>
+
+                <div className="endereco-resumo">
+                  <strong>
+                    {endereco.rua}, {endereco.numero}
+                  </strong>
+
+                  {endereco.complemento && <span>{endereco.complemento}</span>}
+
+                  <span>{endereco.bairro}</span>
+
+                  <span>
+                    {endereco.cidade} - {endereco.estado}
+                  </span>
+
+                  <span>CEP: {endereco.cep}</span>
+                </div>
+              </div>
+
+              {/* ==========================================
+                  BOTÃO PAGAR
+              ========================================== */}
+
+              <button
+                type="button"
+                className="botao-pagar"
+                onClick={continuarPagamento}
+                disabled={finalizando}
+              >
+                {finalizando
+                  ? formaPagamento === "pix"
+                    ? "Gerando Pix..."
+                    : "Abrindo Mercado Pago..."
+                  : "Ir para pagamento"}
+              </button>
+            </>
+          )}
+        </section>
+
+        {/* ==========================================
+            RESUMO DO PEDIDO
+        ========================================== */}
+
+        <aside className="resumo-pagamento">
+          <h2>Resumo do pedido</h2>
+
+          <div className="itens-resumo-pagamento">
+            {carrinho.map((item, index) => (
+              <div
+                className="item-resumo-pagamento"
+                key={`${item.variacaoId}-${index}`}
+              >
+                <img src={item.imagem} alt={item.nome} />
+
+                <div className="informacoes-item">
+                  <strong>{item.nome}</strong>
+
+                  <span>
+                    {item.cor} / {item.tamanho}
+                  </span>
+
+                  <span>Quantidade: {item.quantidade}</span>
+                </div>
+
+                <strong>
+                  R${" "}
+                  {(Number(item.preco) * Number(item.quantidade))
+                    .toFixed(2)
+                    .replace(".", ",")}
+                </strong>
+              </div>
+            ))}
+          </div>
+
+          <div className="linha-resumo-pagamento">
+            <span>Subtotal</span>
+
+            <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
+          </div>
+
+          <div className="linha-resumo-pagamento">
+            <span>Frete</span>
+
+            <span>R$ {frete.toFixed(2).replace(".", ",")}</span>
+          </div>
+
+          <hr />
+
+          <div className="total-pagamento">
+            <span>Total</span>
+
+            <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
+          </div>
+        </aside>
+      </div>
+    </main>
+  );
+}
