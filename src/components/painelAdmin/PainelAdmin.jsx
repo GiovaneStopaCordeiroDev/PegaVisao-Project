@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { toast } from "sonner";
 import "./painelAdmin.css";
+import { MelhorEnvioConexao } from "./MelhorEnvioConexao";
 
 export function PainelAdmin() {
   const [produtos, setProdutos] = useState([]);
@@ -321,6 +322,7 @@ export function PainelAdmin() {
 
   return (
     <div className="painel-admin">
+      <MelhorEnvioConexao />
       {/* =========================
           TÍTULO + ADICIONAR
       ========================= */}

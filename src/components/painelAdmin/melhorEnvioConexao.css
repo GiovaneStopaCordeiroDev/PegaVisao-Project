@@ -1,0 +1,23 @@
+.melhor-envio-conexao {
+  margin-bottom: 28px;
+  padding: 20px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: #191919;
+  color: #fff;
+}
+.melhor-envio-conexao h2 { margin: 0 0 12px; font-size: 1.2rem; }
+.melhor-envio-conexao p { margin: 8px 0; line-height: 1.5; }
+.melhor-envio-conexao [role="alert"] { color: #ffca9c; }
+.melhor-envio-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.melhor-envio-acoes button {
+  padding: 10px 16px;
+  border: 1px solid #c5b100;
+  border-radius: 6px;
+  background: #c5b100;
+  color: #111;
+  font: inherit;
+  cursor: pointer;
+}
+.melhor-envio-acoes button:disabled { opacity: .6; cursor: wait; }
+.melhor-envio-acoes button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
