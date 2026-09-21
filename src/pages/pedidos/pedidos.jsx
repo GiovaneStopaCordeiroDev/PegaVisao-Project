@@ -13,6 +13,7 @@ export function Pedidos() {
   const [pedidos, setPedidos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [cancelando, setCancelando] = useState(null);
+  const [excluindo, setExcluindo] = useState(null);
 
   useEffect(() => {
     carregarPedidos();
@@ -123,6 +124,43 @@ export function Pedidos() {
     );
   }
 
+  function excluirPedido(pedidoId) {
+    toast.custom((t) => (
+      <div className="confirmacao-cancelamento">
+        <strong>Excluir pedido #{pedidoId}?</strong>
+        <p>Este pedido cancelado será removido da sua lista.</p>
+        <div className="acoes-confirmacao">
+          <button type="button" className="botao-voltar-confirmacao" onClick={() => toast.dismiss(t)}>
+            Voltar
+          </button>
+          <button type="button" className="botao-confirmar-cancelamento" onClick={async () => {
+            toast.dismiss(t);
+            setExcluindo(pedidoId);
+            try {
+              await api.delete(`/Pedido/${pedidoId}/cancelado`);
+              setPedidos((atuais) => atuais.filter((pedido) => pedido.id !== pedidoId));
+              toast.success("Pedido removido da sua lista.");
+            } catch (error) {
+              if (error.response?.status === 401) {
+                toast.error("Sua sessão expirou. Faça login novamente.");
+                localStorage.removeItem("token");
+                localStorage.removeItem("usuario");
+                navigate("/login");
+                return;
+              }
+              toast.error(error.response?.data?.mensagem || "Não foi possível excluir o pedido.");
+              if (error.response?.status === 409 || error.response?.status === 404) await carregarPedidos();
+            } finally {
+              setExcluindo(null);
+            }
+          }}>
+            Excluir pedido
+          </button>
+        </div>
+      </div>
+    ), { id: `excluir-pedido-${pedidoId}`, duration: Infinity, position: "top-center" });
+  }
+
   function formatarData(data) {
     if (!data) {
       return "";
@@ -211,7 +249,7 @@ export function Pedidos() {
 
       {pedidos.length === 0 ? (
         <section className="pedidos-vazio">
-          <h2>Você ainda não possui pedidos.</h2>
+          <h2>Nenhum pedido para exibir.</h2>
 
           <p>Quando realizar uma compra, seus pedidos aparecerão aqui.</p>
 
@@ -332,6 +370,14 @@ export function Pedidos() {
                     {cancelando === pedido.id
                       ? "Cancelando..."
                       : "Cancelar pedido"}
+                  </button>
+                </div>
+              )}
+              {pedido.status === "Cancelado" && (
+                <div className="acoes-pedido">
+                  <button type="button" className="botao-cancelar-pedido"
+                    onClick={() => excluirPedido(pedido.id)} disabled={excluindo !== null}>
+                    {excluindo === pedido.id ? "Excluindo..." : "Excluir pedido"}
                   </button>
                 </div>
               )}
