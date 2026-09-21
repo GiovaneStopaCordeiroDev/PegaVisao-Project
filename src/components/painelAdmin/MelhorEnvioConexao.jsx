@@ -54,7 +54,7 @@ export function MelhorEnvioConexao() {
           ? status.tokenValido ? "Conta conectada" : "Conexão precisa ser verificada"
           : "Conta não conectada"}` : "Configure a conexão da loja para preparar as cotações de frete."}
       </p>
-      <p>A conexão não compra etiquetas. O cálculo de frete no checkout será disponibilizado em uma próxima etapa.</p>
+      <p>Cadastre peso e dimensões dos produtos para calcular as opções de entrega no checkout. A compra de etiquetas é feita separadamente no Melhor Envio.</p>
       {mensagem && <p role="alert">{mensagem}</p>}
       <div className="melhor-envio-acoes">
         <button type="button" disabled={ocupado} onClick={conectar}>

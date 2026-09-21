@@ -251,10 +251,15 @@ export function Pedidos() {
                 </div>
 
                 <div className="informacao-pedido">
-                  <span>Total</span>
+                  <span>Total com frete</span>
 
                   <strong>R$ {formatarValor(pedido.valorTotal)}</strong>
                 </div>
+                {pedido.freteServico && <div className="informacao-pedido">
+                  <span>Entrega · {pedido.freteTransportadora} / {pedido.freteServico}</span>
+                  <strong>R$ {formatarValor(pedido.valorFrete)}</strong>
+                  <small>Prazo estimado: {pedido.fretePrazoDias} dias úteis após postagem</small>
+                </div>}
               </div>
 
               <div className="itens-pedido">

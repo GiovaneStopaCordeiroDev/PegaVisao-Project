@@ -2,17 +2,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import "./checkout.css";
+import { FreteCheckout } from "./FreteCheckout";
+import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 export function Checkout() {
   const navigate = useNavigate();
+  const [salvo] = useState(() => lerJsonSeguro("enderecoCheckout") || {});
+  const [freteSelecionado, setFreteSelecionado] = useState(null);
 
-  const [cep, setCep] = useState("");
-  const [rua, setRua] = useState("");
-  const [numero, setNumero] = useState("");
-  const [complemento, setComplemento] = useState("");
-  const [bairro, setBairro] = useState("");
-  const [cidade, setCidade] = useState("");
-  const [estado, setEstado] = useState("");
+  const [cep, setCep] = useState(salvo.cep || "");
+  const [rua, setRua] = useState(salvo.rua || "");
+  const [numero, setNumero] = useState(salvo.numero || "");
+  const [complemento, setComplemento] = useState(salvo.complemento || "");
+  const [bairro, setBairro] = useState(salvo.bairro || "");
+  const [cidade, setCidade] = useState(salvo.cidade || "");
+  const [estado, setEstado] = useState(salvo.estado || "");
 
   const [buscandoCep, setBuscandoCep] = useState(false);
 
@@ -20,11 +24,13 @@ export function Checkout() {
     return JSON.parse(localStorage.getItem("carrinho")) || [];
   });
 
-  const subtotal = carrinho.reduce((total, item) => {
+  const subtotal = freteSelecionado?.subtotal ?? carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
 
-  const total = subtotal;
+  const opcaoFrete = freteValido(freteSelecionado, cep, carrinho)
+    ? freteSelecionado.opcoes.find((opcao) => opcao.servicoId === freteSelecionado.servicoId) : null;
+  const total = subtotal + (opcaoFrete?.valor ?? 0);
 
   function formatarCep(valor) {
     const apenasNumeros = valor.replace(/\D/g, "").slice(0, 8);
@@ -79,6 +85,15 @@ export function Checkout() {
   function continuarPagamento(event) {
     event.preventDefault();
 
+    if (!freteValido(freteSelecionado, cep, carrinho)) {
+      toast.error("Calcule o frete e selecione uma opção de entrega válida.");
+      return;
+    }
+    if (chaveCarrinho(lerJsonSeguro("carrinho") || []) !== chaveCarrinho(carrinho)) {
+      toast.error("Seu carrinho mudou. Atualize a página e recalcule o frete.");
+      return;
+    }
+
     if (!cep || cep.replace(/\D/g, "").length !== 8) {
       toast.error("Informe um CEP válido.");
       return;
@@ -120,6 +135,7 @@ export function Checkout() {
     };
 
     localStorage.setItem("enderecoCheckout", JSON.stringify(endereco));
+    localStorage.setItem("freteCheckout", JSON.stringify(freteSelecionado));
 
     navigate("/pagamento");
   }
@@ -146,7 +162,10 @@ export function Checkout() {
                   type="text"
                   placeholder="00000-000"
                   value={cep}
-                  onChange={(event) => setCep(formatarCep(event.target.value))}
+                  onChange={(event) => {
+                    setCep(formatarCep(event.target.value));
+                    setFreteSelecionado(null);
+                  }}
                   onBlur={buscarCep}
                   maxLength={9}
                 />
@@ -240,7 +259,10 @@ export function Checkout() {
               </div>
             </div>
 
-            <button type="submit" className="botao-continuar-checkout">
+            <FreteCheckout key={`${cep.replace(/\D/g, "")}-${chaveCarrinho(carrinho)}`}
+              cep={cep.replace(/\D/g, "")} itens={carrinho} onSelecionar={setFreteSelecionado} />
+
+            <button type="submit" className="botao-continuar-checkout" disabled={!opcaoFrete}>
               Continuar para pagamento
             </button>
           </form>
@@ -276,7 +298,7 @@ export function Checkout() {
           <div className="linha-resumo-checkout">
             <span>Frete</span>
 
-            <span>R$ 0,00</span>
+            <span>{opcaoFrete ? `R$ ${opcaoFrete.valor.toFixed(2).replace(".", ",")}` : "A calcular"}</span>
           </div>
 
           <hr />

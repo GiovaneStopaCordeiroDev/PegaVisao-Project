@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import api from "../../services/api";
 import { registrarPixPendente, concluirPixPendente } from "../../services/pixPendente";
+import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 import "./pagamentos.css";
 
@@ -17,6 +18,9 @@ export function Pagamento() {
 
   // Guarda os dados do Pix depois que o pedido é criado
   const [pixData, setPixData] = useState(null);
+  const [freteSalvo] = useState(() => lerJsonSeguro("freteCheckout"));
+  const [cotacao, setCotacao] = useState(null);
+  const [pedidoCriado, setPedidoCriado] = useState(null);
 
   useEffect(() => {
     if (!pixData?.pedidoId) return;
@@ -65,12 +69,36 @@ export function Pagamento() {
     return JSON.parse(localStorage.getItem("enderecoCheckout")) || null;
   });
 
-  const subtotal = carrinho.reduce((total, item) => {
+  const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
 
-  const frete = 0;
+  const opcaoFrete = cotacao?.opcoes.find((opcao) => opcao.servicoId === freteSalvo?.servicoId);
+  const frete = pedidoCriado?.valorFrete ?? opcaoFrete?.valor ?? 0;
   const total = subtotal + frete;
+
+  useEffect(() => {
+    if (!endereco || !carrinho.length) return;
+    if (!freteValido(freteSalvo, endereco.cep, carrinho)) {
+      toast.error("Calcule o frete novamente antes de continuar.");
+      navigate("/checkout", { replace: true });
+      return;
+    }
+    const controller = new AbortController();
+    api.get(`/api/Frete/cotacoes/${freteSalvo.id}`, { signal: controller.signal })
+      .then(({ data }) => {
+        if (!freteValido({ ...data, servicoId: freteSalvo.servicoId, carrinhoChave: freteSalvo.carrinhoChave }, endereco.cep, carrinho)) {
+          throw new Error("Cotação inválida");
+        }
+        setCotacao(data);
+      })
+      .catch((error) => {
+        if (controller.signal.aborted) return;
+        toast.error(error.response?.data?.mensagem || "Não foi possível validar o frete. Calcule novamente.");
+        navigate("/checkout", { replace: true });
+      });
+    return () => controller.abort();
+  }, [freteSalvo, endereco, carrinho, navigate]);
 
   useEffect(() => {
     if (!endereco) {
@@ -86,6 +114,16 @@ export function Pagamento() {
   }, [endereco, carrinho.length, navigate]);
 
   async function continuarPagamento() {
+    if (pedidoCriado) {
+      navigate("/pedidos");
+      return;
+    }
+    if (!opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
+        chaveCarrinho(lerJsonSeguro("carrinho") || []) !== chaveCarrinho(carrinho)) {
+      toast.error("Sua cotação venceu ou o carrinho mudou. Calcule o frete novamente.");
+      navigate("/checkout");
+      return;
+    }
     if (!formaPagamento) {
       toast.error("Selecione uma forma de pagamento.");
       return;
@@ -121,11 +159,14 @@ export function Pagamento() {
         estado: endereco.estado,
 
         formaPagamento: formaPagamento === "pix" ? "Pix" : "Cartão",
+        cotacaoFreteId: cotacao.id,
+        freteServicoId: opcaoFrete.servicoId,
       };
 
       console.log("Payload enviado:", pedido);
 
       const response = await api.post("/Pedido", pedido);
+      setPedidoCriado(response.data);
 
       console.log("Pedido criado:", response.data);
 
@@ -175,11 +216,15 @@ export function Pagamento() {
       localStorage.removeItem("carrinho");
       localStorage.removeItem("enderecoCheckout");
       localStorage.removeItem("formaPagamento");
+      localStorage.removeItem("freteCheckout");
 
       // Redireciona para o Mercado Pago
       window.location.href = checkoutUrl;
     } catch (error) {
       console.error("Erro ao criar pedido:", error);
+      if (error.response?.data?.pedidoId) {
+        setPedidoCriado({ id: error.response.data.pedidoId });
+      }
 
       if (error.response?.status === 401) {
         toast.error("Sua sessão expirou. Faça login novamente.");
@@ -406,9 +451,9 @@ export function Pagamento() {
                 type="button"
                 className="botao-pagar"
                 onClick={continuarPagamento}
-                disabled={finalizando}
+                disabled={finalizando || !opcaoFrete}
               >
-                {finalizando
+                {pedidoCriado ? `Ver pedido #${pedidoCriado.id}` : finalizando
                   ? formaPagamento === "pix"
                     ? "Gerando Pix..."
                     : "Abrindo Mercado Pago..."
@@ -462,8 +507,12 @@ export function Pagamento() {
           <div className="linha-resumo-pagamento">
             <span>Frete</span>
 
-            <span>R$ {frete.toFixed(2).replace(".", ",")}</span>
+            <span>{opcaoFrete ? `R$ ${frete.toFixed(2).replace(".", ",")}` : "Validando frete..."}</span>
           </div>
+
+          {opcaoFrete && <p>{opcaoFrete.transportadora} · {opcaoFrete.servico}<br />
+            Prazo estimado: {opcaoFrete.prazoDias} dias úteis após postagem.</p>}
+          {cotacao?.sandbox && <p role="status">Frete de teste (Sandbox). A cobrança real exige frete de produção.</p>}
 
           <hr />
 

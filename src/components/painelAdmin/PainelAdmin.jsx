@@ -3,6 +3,7 @@ import api from "../../services/api";
 import { toast } from "sonner";
 import "./painelAdmin.css";
 import { MelhorEnvioConexao } from "./MelhorEnvioConexao";
+import { DadosEnvioProduto } from "./DadosEnvioProduto";
 
 export function PainelAdmin() {
   const [produtos, setProdutos] = useState([]);
@@ -144,6 +145,10 @@ export function PainelAdmin() {
         nome: produtoEditando.nome,
         descricao: produtoEditando.descricao,
         preco: Number(produtoEditando.preco),
+        pesoKg: Number(produtoEditando.pesoKg),
+        alturaCm: Number(produtoEditando.alturaCm),
+        larguraCm: Number(produtoEditando.larguraCm),
+        comprimentoCm: Number(produtoEditando.comprimentoCm),
         imagemPrincipal: produtoEditando.imagemPrincipal,
         categoriaId: Number(produtoEditando.categoriaId),
 
@@ -275,6 +280,10 @@ export function PainelAdmin() {
         nome: novoProduto.nome,
         descricao: novoProduto.descricao,
         preco: Number(novoProduto.preco),
+        pesoKg: Number(novoProduto.pesoKg),
+        alturaCm: Number(novoProduto.alturaCm),
+        larguraCm: Number(novoProduto.larguraCm),
+        comprimentoCm: Number(novoProduto.comprimentoCm),
         imagemPrincipal: novoProduto.imagemPrincipal,
         categoriaId: Number(novoProduto.categoriaId),
 
@@ -423,6 +432,8 @@ export function PainelAdmin() {
                 onChange={alterarCampo}
                 required
               />
+
+              <DadosEnvioProduto produto={produtoEditando} onChange={alterarCampo} prefixo="editar" />
 
               {/* IMAGEM */}
 
@@ -592,6 +603,8 @@ export function PainelAdmin() {
                 onChange={alterarCampoNovoProduto}
                 required
               />
+
+              <DadosEnvioProduto produto={novoProduto} onChange={alterarCampoNovoProduto} prefixo="novo" />
 
               {/* IMAGEM */}
 

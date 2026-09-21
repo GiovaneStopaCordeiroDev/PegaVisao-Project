@@ -5,6 +5,7 @@ export function registrarPixPendente(pedidoId) {
     pedidoId,
     carrinho: localStorage.getItem("carrinho"),
     endereco: localStorage.getItem("enderecoCheckout"),
+    frete: localStorage.getItem("freteCheckout"),
   }));
 }
 
@@ -28,5 +29,8 @@ export function concluirPixPendente(pedido) {
     localStorage.removeItem("formaPagamento");
   }
   localStorage.removeItem(chave);
+  if (localStorage.getItem("freteCheckout") === pendente.frete) {
+    localStorage.removeItem("freteCheckout");
+  }
   return true;
 }
