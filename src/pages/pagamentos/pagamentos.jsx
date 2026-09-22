@@ -1,3 +1,4 @@
+import { ContadorPagamento } from "../../components/ContadorPagamento";
 import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -18,6 +19,7 @@ export function Pagamento() {
 
   // Guarda os dados do Pix depois que o pedido é criado
   const [pixData, setPixData] = useState(null);
+  const [prazoVencido, setPrazoVencido] = useState(false);
   const [freteSalvo] = useState(() => lerJsonSeguro("freteCheckout"));
   const [cotacao, setCotacao] = useState(null);
   const [pedidoCriado, setPedidoCriado] = useState(null);
@@ -41,6 +43,8 @@ export function Pagamento() {
           return;
         }
         if (data.status === "Cancelado") {
+          setPrazoVencido(true);
+          navigate("/pedidos", { replace: true });
           toast.error("Este pedido foi cancelado. Consulte seus pedidos.");
           return;
         }
@@ -258,7 +262,7 @@ export function Pagamento() {
   }
 
   async function copiarPix() {
-    if (!pixData?.qrCode) {
+    if (!pixData?.qrCode || prazoVencido) {
       return;
     }
 
@@ -315,7 +319,10 @@ export function Pagamento() {
             <div className="bloco-pagamento pix-gerado">
               <h2>Pagamento via Pix</h2>
 
-              <p>Escaneie o QR Code abaixo usando o aplicativo do seu banco.</p>
+              <ContadorPagamento expiraEm={pedidoCriado?.pagamentoExpiraEm}
+                servidorAgora={pedidoCriado?.servidorAgora} onVencer={() => setPrazoVencido(true)} />
+              {!prazoVencido && <p>Escaneie o QR Code abaixo usando o aplicativo do seu banco.</p>}
+              {!prazoVencido && <>
 
               {pixData.qrCodeBase64 ? (
                 <div className="qr-code-container">
@@ -345,6 +352,8 @@ export function Pagamento() {
                 </button>
               </div>
 
+              </>}
+
               <div className="pix-informacoes">
                 <strong>Pedido #{pixData.pedidoId}</strong>
 
@@ -359,6 +368,7 @@ export function Pagamento() {
 
               <div className="bloco-pagamento">
                 <h2>Forma de pagamento</h2>
+                <p>Após gerar o pagamento, você terá 15 minutos para pagar.</p>
 
                 <div className="opcoes-pagamento">
                   {/* PIX */}

@@ -1,3 +1,4 @@
+import { ContadorPagamento } from "../../components/ContadorPagamento";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -14,6 +15,26 @@ export function Pedidos() {
   const [carregando, setCarregando] = useState(true);
   const [cancelando, setCancelando] = useState(null);
   const [excluindo, setExcluindo] = useState(null);
+  const temPendentes = pedidos.some((pedido) => pedido.status === "Pendente");
+
+  useEffect(() => {
+    if (!temPendentes) return;
+    const controller = new AbortController();
+    let timer;
+    async function atualizar() {
+      try {
+        const { data } = await api.get("/Pedido", { signal: controller.signal, timeout: 10000 });
+        if (controller.signal.aborted) return;
+        setPedidos(data);
+        data.forEach(concluirPixPendente);
+      } catch (error) {
+        if (controller.signal.aborted || error.response?.status === 401) return;
+      }
+      timer = setTimeout(atualizar, 10000);
+    }
+    timer = setTimeout(atualizar, 10000);
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, [temPendentes]);
 
   useEffect(() => {
     carregarPedidos();
@@ -359,6 +380,8 @@ export function Pedidos() {
                 <p>CEP: {pedido.cep}</p>
               </div>
 
+              {pedido.status === "Pendente" && <ContadorPagamento
+                expiraEm={pedido.pagamentoExpiraEm} servidorAgora={pedido.servidorAgora} />}
               {pedido.status === "Pendente" && (
                 <div className="acoes-pedido">
                   <button

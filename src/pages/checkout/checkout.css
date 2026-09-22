@@ -268,6 +268,12 @@
         flex-direction: column;
     }
 
+    .campo-cep input {
+        flex: none;
+        width: 100%;
+        min-height: 48px;
+    }
+
     .campo-cep button {
         width: 100%;
     }

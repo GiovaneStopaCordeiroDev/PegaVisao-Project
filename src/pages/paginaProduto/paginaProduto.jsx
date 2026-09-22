@@ -1,3 +1,4 @@
+import { GaleriaProduto } from "../../components/GaleriaProduto";
 import { useEffect, useState } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
@@ -276,15 +277,7 @@ export function PaginaProduto() {
                     IMAGEM
         ================================= */}
 
-        <div className="produto-imagem-container">
-
-          <img
-            src={produto.imagemPrincipal}
-            alt={produto.nome}
-            className="produto-imagem"
-          />
-
-        </div>
+        <GaleriaProduto key={produto.id} produto={produto} />
 
         {/* =================================
                     INFORMAÇÕES
@@ -313,9 +306,12 @@ export function PaginaProduto() {
 
           </div>
 
-          <p className="produto-parcelamento">
-            Consulte as condições de pagamento
-          </p>
+          <div className="produto-parcelamento">
+            {produto.parcelamento?.quantidade > 1 ? <>
+              <p>Até <strong>{produto.parcelamento.quantidade}x de {Number(produto.parcelamento.valorParcela).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong> sem juros</p>
+              <small>Simulação sem frete. Valores e parcelas sujeitos à disponibilidade do cartão no Mercado Pago; pode haver ajuste de centavos.</small>
+            </> : <p>{produto.parcelamento ? "Pagamento à vista. Consulte as opções no Mercado Pago." : "Consulte as condições de pagamento no Mercado Pago."}</p>}
+          </div>
 
           <div className="linha-produto"></div>
 

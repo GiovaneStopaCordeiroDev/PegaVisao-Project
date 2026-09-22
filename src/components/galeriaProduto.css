@@ -1,0 +1,5 @@
+.galeria-produto { min-width: 0; }
+.galeria-miniaturas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.galeria-miniaturas button { padding: 4px; border: 2px solid var(--pv-border); border-radius: 10px; background: var(--pv-surface); cursor: pointer; }
+.galeria-miniaturas button[aria-pressed="true"] { border-color: var(--pv-accent); }
+.galeria-miniaturas img { display: block; width: 100%; height: 90px; object-fit: contain; background: #efefec; border-radius: 6px; }

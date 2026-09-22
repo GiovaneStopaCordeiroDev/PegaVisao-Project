@@ -1,3 +1,4 @@
+import { PedidosAdmin } from "./PedidosAdmin";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { toast } from "sonner";
@@ -6,6 +7,7 @@ import { MelhorEnvioConexao } from "./MelhorEnvioConexao";
 import { DadosEnvioProduto } from "./DadosEnvioProduto";
 
 export function PainelAdmin() {
+  const [secao, setSecao] = useState("produtos");
   const [produtos, setProdutos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [produtoEditando, setProdutoEditando] = useState(null);
@@ -18,6 +20,8 @@ export function PainelAdmin() {
     descricao: "",
     preco: "",
     imagemPrincipal: "",
+    imagemSecundaria: "",
+    imagemTerciaria: "",
     categoriaId: "",
   });
 
@@ -150,6 +154,8 @@ export function PainelAdmin() {
         larguraCm: Number(produtoEditando.larguraCm),
         comprimentoCm: Number(produtoEditando.comprimentoCm),
         imagemPrincipal: produtoEditando.imagemPrincipal,
+        imagemSecundaria: produtoEditando.imagemSecundaria?.trim() || null,
+        imagemTerciaria: produtoEditando.imagemTerciaria?.trim() || null,
         categoriaId: Number(produtoEditando.categoriaId),
 
         variacoes: variacoesEditando.map((variacao) => ({
@@ -285,6 +291,8 @@ export function PainelAdmin() {
         larguraCm: Number(novoProduto.larguraCm),
         comprimentoCm: Number(novoProduto.comprimentoCm),
         imagemPrincipal: novoProduto.imagemPrincipal,
+        imagemSecundaria: novoProduto.imagemSecundaria?.trim() || null,
+        imagemTerciaria: novoProduto.imagemTerciaria?.trim() || null,
         categoriaId: Number(novoProduto.categoriaId),
 
         variacoes: variacoes.map((variacao) => ({
@@ -311,6 +319,8 @@ export function PainelAdmin() {
         descricao: "",
         preco: "",
         imagemPrincipal: "",
+    imagemSecundaria: "",
+    imagemTerciaria: "",
         categoriaId: "",
       });
 
@@ -330,7 +340,16 @@ export function PainelAdmin() {
   // =========================
 
   return (
-    <div className="painel-admin">
+    <div className="painel-admin painel-admin-layout">
+      <nav className="admin-sidebar" aria-label="Navegação do painel administrativo">
+        <strong>Painel administrativo</strong>
+        <button type="button" aria-current={secao === "produtos" ? "page" : undefined}
+          onClick={() => setSecao("produtos")}>Produtos</button>
+        <button type="button" aria-current={secao === "pedidos" ? "page" : undefined}
+          onClick={() => setSecao("pedidos")}>Pedidos</button>
+      </nav>
+      <div className="admin-conteudo">
+      {secao === "pedidos" ? <PedidosAdmin /> : <>
       <MelhorEnvioConexao />
       {/* =========================
           TÍTULO + ADICIONAR
@@ -447,6 +466,12 @@ export function PainelAdmin() {
                 required
               />
 
+              <label htmlFor="produtoEditando-imagem2">Imagem 2 (opcional)</label>
+              <input id="produtoEditando-imagem2" type="url" name="imagemSecundaria"
+                value={produtoEditando.imagemSecundaria || ""} onChange={alterarCampo} placeholder="https://..." />
+              <label htmlFor="produtoEditando-imagem3">Imagem 3 (opcional)</label>
+              <input id="produtoEditando-imagem3" type="url" name="imagemTerciaria"
+                value={produtoEditando.imagemTerciaria || ""} onChange={alterarCampo} placeholder="https://..." />
               {/* CATEGORIA */}
 
               <label>Categoria</label>
@@ -618,6 +643,12 @@ export function PainelAdmin() {
                 required
               />
 
+              <label htmlFor="novoProduto-imagem2">Imagem 2 (opcional)</label>
+              <input id="novoProduto-imagem2" type="url" name="imagemSecundaria"
+                value={novoProduto.imagemSecundaria || ""} onChange={alterarCampoNovoProduto} placeholder="https://..." />
+              <label htmlFor="novoProduto-imagem3">Imagem 3 (opcional)</label>
+              <input id="novoProduto-imagem3" type="url" name="imagemTerciaria"
+                value={novoProduto.imagemTerciaria || ""} onChange={alterarCampoNovoProduto} placeholder="https://..." />
               {/* CATEGORIA */}
 
               <label>Categoria</label>
@@ -704,6 +735,8 @@ export function PainelAdmin() {
           </div>
         </div>
       )}
+      </>}
+      </div>
     </div>
   );
 }
