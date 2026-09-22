@@ -124,7 +124,7 @@ export function PaginaProduto() {
 
     if (
       quantidade <
-      variacaoSelecionada.estoque
+      (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque)
     ) {
       setQuantidade((valor) => valor + 1);
     }
@@ -162,14 +162,14 @@ export function PaginaProduto() {
       return;
     }
 
-    if (variacaoSelecionada.estoque <= 0) {
+    if ((variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque) <= 0) {
       toast.error("Produto sem estoque.");
       return;
     }
 
     if (
       quantidade >
-      variacaoSelecionada.estoque
+      (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque)
     ) {
       toast.error(
         "Quantidade maior que o estoque disponível."
@@ -229,7 +229,7 @@ export function PaginaProduto() {
 
       if (
         novaQuantidade >
-        variacaoSelecionada.estoque
+        (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque)
       ) {
         toast.error(
           "Você atingiu o limite de estoque desse produto."
@@ -399,7 +399,7 @@ export function PaginaProduto() {
 
                   const semEstoque =
                     !variacao ||
-                    variacao.estoque <= 0;
+                    (variacao.estoqueDisponivel ?? variacao.estoque) <= 0;
 
                   return (
 
@@ -443,15 +443,15 @@ export function PaginaProduto() {
 
             <div
               className={`estoque-produto ${
-                variacaoSelecionada.estoque <= 0
+                (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque) <= 0
                   ? "estoque-esgotado"
                   : ""
               }`}
             >
 
-              {variacaoSelecionada.estoque >
+              {(variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque) >
               0
-                ? `Em estoque: ${variacaoSelecionada.estoque} unidade(s)`
+                ? `Em estoque: ${(variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque)} unidade(s)`
                 : "Produto sem estoque"}
 
             </div>
@@ -463,7 +463,7 @@ export function PaginaProduto() {
           ================================= */}
 
           {variacaoSelecionada &&
-            variacaoSelecionada.estoque > 0 && (
+            (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque) > 0 && (
 
               <div className="quantidade-container">
 
@@ -496,7 +496,7 @@ export function PaginaProduto() {
                     }
                     disabled={
                       quantidade >=
-                      variacaoSelecionada.estoque
+                      (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque)
                     }
                   >
                     +
@@ -520,7 +520,7 @@ export function PaginaProduto() {
             }
             disabled={
               variacaoSelecionada &&
-              variacaoSelecionada.estoque <= 0
+              (variacaoSelecionada.estoqueDisponivel ?? variacaoSelecionada.estoque) <= 0
             }
           >
             Adicionar ao carrinho

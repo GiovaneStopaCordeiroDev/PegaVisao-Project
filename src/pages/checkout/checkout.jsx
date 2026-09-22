@@ -295,11 +295,11 @@ export function Checkout() {
             <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
           </div>
 
-          <div className="linha-resumo-checkout">
+          {!freteSelecionado?.semFreteParaTeste && <div className="linha-resumo-checkout">
             <span>Frete</span>
 
             <span>{opcaoFrete ? `R$ ${opcaoFrete.valor.toFixed(2).replace(".", ",")}` : "A calcular"}</span>
-          </div>
+          </div>}
 
           <hr />
 

@@ -216,7 +216,7 @@ export function Produtos() {
             produto.variacoes?.some(
                 (variacao) =>
                     variacao.tamanho === tamanho &&
-                    variacao.estoque > 0
+                    (variacao.estoqueDisponivel ?? variacao.estoque) > 0
             );
 
 
@@ -229,7 +229,7 @@ export function Produtos() {
             produto.variacoes?.some(
                 (variacao) =>
                     variacao.cor === cor &&
-                    variacao.estoque > 0
+                    (variacao.estoqueDisponivel ?? variacao.estoque) > 0
             );
 
 

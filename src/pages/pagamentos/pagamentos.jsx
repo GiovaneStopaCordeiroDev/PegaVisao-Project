@@ -505,13 +505,14 @@ export function Pagamento() {
           </div>
 
           <div className="linha-resumo-pagamento">
-            <span>Frete</span>
+            <span>{cotacao?.semFreteParaTeste ? "Entrega" : "Frete"}</span>
 
-            <span>{opcaoFrete ? `R$ ${frete.toFixed(2).replace(".", ",")}` : "Validando frete..."}</span>
+            <span>{cotacao?.semFreteParaTeste ? "Suspensa para teste" : opcaoFrete ? `R$ ${frete.toFixed(2).replace(".", ",")}` : "Validando frete..."}</span>
           </div>
 
-          {opcaoFrete && <p>{opcaoFrete.transportadora} · {opcaoFrete.servico}<br />
-            Prazo estimado: {opcaoFrete.prazoDias} dias úteis após postagem.</p>}
+          {opcaoFrete && !cotacao?.semFreteParaTeste && <p>{opcaoFrete.transportadora} · {opcaoFrete.servico}<br />
+            {cotacao?.semFreteParaTeste ? "Frete zerado para teste. Nenhum envio será contratado." : `Prazo estimado: ${opcaoFrete.prazoDias} dias úteis após postagem.`}</p>}
+          {cotacao?.semFreteParaTeste && <p role="status">O modo sem frete não simula o pagamento. Com credenciais de produção, a cobrança será real.</p>}
           {cotacao?.sandbox && <p role="status">Frete de teste (Sandbox). A cobrança real exige frete de produção.</p>}
 
           <hr />

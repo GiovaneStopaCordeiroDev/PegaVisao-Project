@@ -296,7 +296,7 @@ export function Pedidos() {
                 {pedido.freteServico && <div className="informacao-pedido">
                   <span>Entrega · {pedido.freteTransportadora} / {pedido.freteServico}</span>
                   <strong>R$ {formatarValor(pedido.valorFrete)}</strong>
-                  <small>Prazo estimado: {pedido.fretePrazoDias} dias úteis após postagem</small>
+                  <small>{pedido.freteServicoId === 2147483647 ? "Sem entrega — teste de pagamento" : `Prazo estimado: ${pedido.fretePrazoDias} dias úteis após postagem`}</small>
                 </div>}
               </div>
 
