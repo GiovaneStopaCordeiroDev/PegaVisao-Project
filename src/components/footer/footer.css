@@ -8,8 +8,8 @@ footer {
   padding: 60px 40px 25px;
   box-sizing: border-box;
 
-  background-color: #202020;
-  color: #fff;
+  background-color: var(--pv-surface);
+  color: var(--pv-text);
 }
 
 /* =========================================
@@ -34,7 +34,7 @@ footer {
 .footer-marca h2 {
   margin: 0 0 15px;
 
-  color: #fff;
+  color: var(--pv-text);
 
   font-size: 25px;
   font-weight: 800;
@@ -50,7 +50,7 @@ footer {
   max-width: 260px;
   margin: 0;
 
-  color: #888;
+  color: var(--pv-muted);
 
   font-size: 13px;
   line-height: 1.7;
@@ -71,7 +71,7 @@ footer {
 .footer-coluna h4 {
   margin: 0 0 8px;
 
-  color: #fff;
+  color: var(--pv-text);
 
   font-size: 13px;
   font-weight: 700;
@@ -81,7 +81,7 @@ footer {
 }
 
 .footer-coluna a {
-  color: #888;
+  color: var(--pv-muted);
 
   font-size: 13px;
 
@@ -93,7 +93,7 @@ footer {
 }
 
 .footer-coluna a:hover {
-  color: #fff;
+  color: var(--pv-text);
 
   transform: translateX(3px);
 }
@@ -115,7 +115,7 @@ footer {
 .pagamentos-footer h4 {
   margin: 0 0 18px;
 
-  color: #fff;
+  color: var(--pv-text);
 
   font-size: 13px;
   font-weight: 700;
@@ -140,7 +140,7 @@ footer {
 
   padding: 5px;
 
-  background-color: #fff;
+  background-color: var(--pv-surface);
   border-radius: 5px;
 
   display: block;
@@ -168,13 +168,13 @@ footer {
   width: 100%;
   height: 1px;
 
-  background-color: #222;
+  background-color: var(--pv-surface);
 }
 
 .footer-final p {
   margin: 0;
 
-  color: #666;
+  color: var(--pv-muted);
 
   font-size: 11px;
 

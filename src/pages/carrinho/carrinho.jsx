@@ -83,7 +83,7 @@ export function Carrinho() {
         <div className="conteudo-carrinho">
           {/* ITENS DO PEDIDO */}
 
-          <section className="itens-pedido">
+          <section className="itens-carrinho">
             <h2>Itens do pedido</h2>
 
             {carrinho.map((item, index) => (

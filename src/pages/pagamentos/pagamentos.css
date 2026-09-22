@@ -3,7 +3,7 @@
   min-height: 100vh;
   padding: 50px 40px;
   box-sizing: border-box;
-  background-color: #f5f5f5;
+  background-color: var(--pv-surface);
 }
 
 /* ==========================================
@@ -18,12 +18,12 @@
 .cabecalho-pagamento h1 {
   margin: 0 0 8px;
   font-size: 34px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .cabecalho-pagamento p {
   margin: 0;
-  color: #666;
+  color: var(--pv-muted);
   font-size: 16px;
 }
 
@@ -53,7 +53,7 @@
 ========================================== */
 
 .bloco-pagamento {
-  background-color: #fff;
+  background-color: var(--pv-surface);
   border-radius: 12px;
   padding: 30px;
   box-sizing: border-box;
@@ -64,7 +64,7 @@
 .bloco-pagamento h2 {
   margin: 0 0 22px;
   font-size: 21px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 /* ==========================================
@@ -80,8 +80,8 @@
 .opcao-pagamento {
   width: 100%;
 
-  border: 2px solid #ddd;
-  background-color: #fff;
+  border: 2px solid var(--pv-border);
+  background-color: var(--pv-surface);
   border-radius: 10px;
 
   padding: 18px;
@@ -97,12 +97,12 @@
 }
 
 .opcao-pagamento:hover {
-  border-color: #111;
+  border-color: var(--pv-border);
 }
 
 .opcao-pagamento.selecionado {
-  border-color: #f4d000;
-  background-color: #fffbea;
+  border-color: var(--pv-accent);
+  background-color: var(--pv-accent-soft);
 }
 
 .icone-pagamento {
@@ -115,8 +115,8 @@
 
   border-radius: 8px;
 
-  background-color: #111;
-  color: #f4d000;
+  background-color: var(--pv-surface);
+  color: var(--pv-accent);
 
   font-weight: 800;
   font-size: 14px;
@@ -130,12 +130,12 @@
 }
 
 .texto-opcao strong {
-  color: #111;
+  color: var(--pv-text);
   font-size: 16px;
 }
 
 .texto-opcao span {
-  color: #777;
+  color: var(--pv-muted);
   font-size: 14px;
 }
 
@@ -143,7 +143,7 @@
   width: 22px;
   height: 22px;
 
-  border: 2px solid #aaa;
+  border: 2px solid var(--pv-border);
   border-radius: 50%;
 
   display: flex;
@@ -152,7 +152,7 @@
 }
 
 .selecionado .radio-pagamento {
-  border-color: #111;
+  border-color: var(--pv-border);
 }
 
 .selecionado .radio-pagamento span {
@@ -160,7 +160,7 @@
   height: 10px;
 
   border-radius: 50%;
-  background-color: #f4d000;
+  background-color: var(--pv-accent);
 }
 
 /* ==========================================
@@ -181,7 +181,7 @@
   border: none;
   background: none;
 
-  color: #111;
+  color: var(--pv-text);
   font-weight: 700;
 
   cursor: pointer;
@@ -196,12 +196,12 @@
   flex-direction: column;
   gap: 5px;
 
-  color: #555;
+  color: var(--pv-muted);
   font-size: 15px;
 }
 
 .endereco-resumo strong {
-  color: #111;
+  color: var(--pv-text);
   font-size: 16px;
   margin-bottom: 3px;
 }
@@ -218,8 +218,8 @@
   border: none;
   border-radius: 10px;
 
-  background-color: #f4d000;
-  color: #111;
+  background-color: var(--pv-accent);
+  color: var(--pv-text);
 
   font-size: 17px;
   font-weight: 800;
@@ -230,7 +230,7 @@
 }
 
 .botao-pagar:hover {
-  background-color: #e0c000;
+  background-color: var(--pv-accent);
 }
 
 .botao-pagar:disabled {
@@ -253,7 +253,7 @@
 .pix-gerado > p {
   margin: 0 0 25px;
 
-  color: #666;
+  color: var(--pv-muted);
   font-size: 15px;
   line-height: 1.5;
 }
@@ -282,9 +282,9 @@
 
   padding: 10px;
 
-  background-color: #fff;
+  background-color: var(--pv-surface);
 
-  border: 1px solid #ddd;
+  border: 1px solid var(--pv-border);
   border-radius: 12px;
 
   box-sizing: border-box;
@@ -305,7 +305,7 @@
 }
 
 .pix-codigo > strong {
-  color: #111;
+  color: var(--pv-text);
   font-size: 16px;
 }
 
@@ -318,9 +318,9 @@
 
   box-sizing: border-box;
 
-  background-color: #f5f5f5;
+  background-color: var(--pv-surface);
 
-  border: 1px solid #ddd;
+  border: 1px solid var(--pv-border);
   border-radius: 8px;
 
   overflow-y: auto;
@@ -328,7 +328,7 @@
 
   word-break: break-all;
 
-  color: #555;
+  color: var(--pv-muted);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -345,8 +345,8 @@
   border: none;
   border-radius: 9px;
 
-  background-color: #111;
-  color: #fff;
+  background-color: var(--pv-surface);
+  color: var(--pv-text);
 
   font-size: 15px;
   font-weight: 700;
@@ -368,7 +368,7 @@
   margin-top: 25px;
   padding-top: 20px;
 
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--pv-border);
 
   display: flex;
   flex-direction: column;
@@ -378,12 +378,12 @@
 }
 
 .pix-informacoes strong {
-  color: #111;
+  color: var(--pv-text);
   font-size: 16px;
 }
 
 .pix-informacoes span {
-  color: #777;
+  color: var(--pv-muted);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -393,7 +393,7 @@
 ========================================== */
 
 .resumo-pagamento {
-  background-color: #fff;
+  background-color: var(--pv-surface);
 
   border-radius: 12px;
 
@@ -411,7 +411,7 @@
   margin: 0 0 20px;
 
   font-size: 21px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .itens-resumo-pagamento {
@@ -446,18 +446,18 @@
 }
 
 .informacoes-item strong {
-  color: #111;
+  color: var(--pv-text);
   font-size: 14px;
 }
 
 .informacoes-item span {
-  color: #777;
+  color: var(--pv-muted);
   font-size: 12px;
 }
 
 .item-resumo-pagamento > strong {
   font-size: 14px;
-  color: #111;
+  color: var(--pv-text);
 
   white-space: nowrap;
 }
@@ -468,14 +468,14 @@
 
   margin-top: 12px;
 
-  color: #555;
+  color: var(--pv-muted);
   font-size: 15px;
 }
 
 .resumo-pagamento hr {
   border: none;
 
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--pv-border);
 
   margin: 20px 0;
 }
@@ -490,12 +490,12 @@
   font-size: 18px;
   font-weight: 700;
 
-  color: #111;
+  color: var(--pv-text);
 }
 
 .total-pagamento strong {
   font-size: 23px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 /* ==========================================

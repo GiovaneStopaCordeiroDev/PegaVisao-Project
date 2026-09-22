@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     padding: 60px 20px;
-    background-color: #f5f5f5;
+    background-color: var(--pv-surface);
 }
 
 
@@ -16,9 +16,9 @@
     width: 100%;
     max-width: 430px;
     padding: 40px;
-    background-color: #fff;
+    background-color: var(--pv-surface);
     border-radius: 12px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--pv-border);
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
 }
 
@@ -30,7 +30,7 @@
 .cadastro-container h1 {
     margin: 0;
     text-align: center;
-    color: #111;
+    color: var(--pv-text);
     font-size: 30px;
     font-weight: 700;
 }
@@ -41,7 +41,7 @@
     width: 45px;
     height: 3px;
     margin: 12px auto 15px;
-    background-color: #f5c400;
+    background-color: var(--pv-accent);
     border-radius: 3px;
 }
 
@@ -53,7 +53,7 @@
 .subtitulo-cadastro {
     margin: 0 0 30px;
     text-align: center;
-    color: #666;
+    color: var(--pv-muted);
     font-size: 14px;
     line-height: 1.5;
 }
@@ -71,7 +71,7 @@
 
 .campo-cadastro label {
     margin-bottom: 8px;
-    color: #222;
+    color: var(--pv-text);
     font-size: 14px;
     font-weight: 600;
 }
@@ -81,10 +81,10 @@
     height: 48px;
     padding: 0 14px;
 
-    background-color: #fff;
-    color: #111;
+    background-color: var(--pv-surface);
+    color: var(--pv-text);
 
-    border: 1px solid #ccc;
+    border: 1px solid var(--pv-border);
     border-radius: 7px;
 
     outline: none;
@@ -98,11 +98,11 @@
 }
 
 .campo-cadastro input::placeholder {
-    color: #888;
+    color: var(--pv-muted);
 }
 
 .campo-cadastro input:focus {
-    border-color: #111;
+    border-color: var(--pv-border);
     box-shadow: 0 0 0 2px rgba(245, 196, 0, 0.35);
 }
 
@@ -120,8 +120,8 @@
     border: none;
     border-radius: 7px;
 
-    background-color: #000;
-    color: #fff;
+    background-color: var(--pv-bg);
+    color: var(--pv-text);
 
     font-size: 15px;
     font-weight: 700;
@@ -134,7 +134,7 @@
 }
 
 .cadastro-container form > button:hover {
-    background-color: #222;
+    background-color: var(--pv-surface);
 }
 
 .cadastro-container form > button:active {
@@ -164,7 +164,7 @@
 }
 
 .login-link-cadastro span {
-    color: #666;
+    color: var(--pv-muted);
 }
 
 .login-link-cadastro button {
@@ -176,7 +176,7 @@
     border: none;
     background: transparent;
 
-    color: #111;
+    color: var(--pv-text);
 
     font-size: 14px;
     font-weight: 700;

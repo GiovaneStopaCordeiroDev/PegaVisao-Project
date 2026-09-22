@@ -1,10 +1,10 @@
 .melhor-envio-conexao {
   margin-bottom: 28px;
   padding: 20px;
-  border: 1px solid #444;
+  border: 1px solid var(--pv-border);
   border-radius: 8px;
-  background: #191919;
-  color: #fff;
+  background: var(--pv-surface);
+  color: var(--pv-text);
 }
 .melhor-envio-conexao h2 { margin: 0 0 12px; font-size: 1.2rem; }
 .melhor-envio-conexao p { margin: 8px 0; line-height: 1.5; }
@@ -12,10 +12,10 @@
 .melhor-envio-acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
 .melhor-envio-acoes button {
   padding: 10px 16px;
-  border: 1px solid #c5b100;
+  border: 1px solid var(--pv-accent);
   border-radius: 6px;
-  background: #c5b100;
-  color: #111;
+  background: var(--pv-accent);
+  color: var(--pv-text);
   font: inherit;
   cursor: pointer;
 }

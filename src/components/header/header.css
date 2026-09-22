@@ -6,9 +6,9 @@
 
 .header {
   width: 100%;
-  background-color: #000;
-  color: #fff;
-  border-bottom: 1px solid #222;
+  background-color: var(--pv-bg);
+  color: var(--pv-text);
+  border-bottom: 1px solid var(--pv-border);
   position: relative;
   z-index: 1000;
   overflow: visible;
@@ -73,8 +73,8 @@
   display: flex;
   align-items: center;
 
-  background-color: #fff;
-  border: 1px solid #ddd;
+  background-color: var(--pv-surface);
+  border: 1px solid var(--pv-border);
   border-radius: 6px;
 
   overflow: hidden;
@@ -92,13 +92,13 @@
   padding: 0 14px;
 
   background-color: transparent;
-  color: #000;
+  color: var(--pv-text);
 
   font-size: 14px;
 }
 
 .barra-pesquisa input::placeholder {
-  color: #777;
+  color: var(--pv-muted);
 }
 
 .barra-pesquisa button {
@@ -111,14 +111,14 @@
 
   border: none;
 
-  background-color: #000;
-  color: #fff;
+  background-color: var(--pv-bg);
+  color: var(--pv-text);
 
   cursor: pointer;
 }
 
 .barra-pesquisa button:hover {
-  background-color: #222;
+  background-color: var(--pv-surface);
 }
 
 /* =========================
@@ -140,7 +140,7 @@
   border: none;
   background: none;
 
-  color: #fff;
+  color: var(--pv-text);
 
   cursor: pointer;
 
@@ -148,7 +148,7 @@
 }
 
 .icone-header:hover {
-  color: #aaa;
+  color: var(--pv-muted);
 }
 
 /* =========================
@@ -165,9 +165,9 @@
 
   gap: 42px;
 
-  background-color: #000;
+  background-color: var(--pv-bg);
 
-  border-top: 1px solid #1f1f1f;
+  border-top: 1px solid var(--pv-border);
 
   box-sizing: border-box;
 
@@ -187,7 +187,7 @@
 
   text-decoration: none;
 
-  color: #fff;
+  color: var(--pv-text);
 
   font-size: 13px;
   font-weight: 600;
@@ -209,13 +209,13 @@
   width: 0;
   height: 1px;
 
-  background-color: #fff;
+  background-color: var(--pv-surface);
 
   transition: width 0.25s ease;
 }
 
 .menu-header a:hover {
-  color: #aaa;
+  color: var(--pv-muted);
 }
 
 .menu-header a:hover::after {
@@ -433,8 +433,8 @@
     top: calc(100% + 10px);
     left: 0;
     width: 250px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: var(--pv-surface);
+    border: 1px solid var(--pv-border);
     border-radius: 8px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -446,16 +446,16 @@
     flex-direction: column;
     gap: 5px;
     padding: 16px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--pv-border);
 }
 
 .usuario-info strong {
-    color: #111;
+    color: var(--pv-text);
     font-size: 15px;
 }
 
 .usuario-info span {
-    color: #777;
+    color: var(--pv-muted);
     font-size: 12px;
     word-break: break-word;
 }
@@ -468,15 +468,15 @@
     gap: 10px;
     padding: 0 16px;
     border: none;
-    background-color: #fff;
-    color: #111;
+    background-color: var(--pv-surface);
+    color: var(--pv-text);
     font-size: 14px;
     text-align: left;
     cursor: pointer;
 }
 
 .menu-usuario button:hover {
-    background-color: #f3f3f3;
+    background-color: var(--pv-surface);
 }
 
 .menu-usuario button svg {

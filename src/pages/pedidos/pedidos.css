@@ -4,7 +4,7 @@
   margin: 0 auto;
   padding: 50px 30px 80px;
   box-sizing: border-box;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .cabecalho-pedidos {
@@ -14,52 +14,52 @@
 .cabecalho-pedidos h1 {
   margin: 0 0 8px;
   font-size: 32px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .cabecalho-pedidos p {
   margin: 0;
-  color: #666;
+  color: var(--pv-muted);
 }
 
 .carregando-pedidos {
   text-align: center;
   padding: 80px 20px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .carregando-pedidos h1 {
   margin-bottom: 10px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .carregando-pedidos p {
-  color: #666;
+  color: var(--pv-muted);
 }
 
 .pedidos-vazio {
   text-align: center;
   padding: 70px 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--pv-border);
   border-radius: 12px;
-  background-color: #fff;
-  color: #111;
+  background-color: var(--pv-surface);
+  color: var(--pv-text);
 }
 
 .pedidos-vazio h2 {
   margin-bottom: 10px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .pedidos-vazio p {
-  color: #666;
+  color: var(--pv-muted);
   margin-bottom: 25px;
 }
 
 .pedidos-vazio button {
   border: none;
-  background: #000;
-  color: #fff;
+  background: var(--pv-bg);
+  color: var(--pv-text);
   padding: 12px 24px;
   border-radius: 6px;
   cursor: pointer;
@@ -77,11 +77,11 @@
 }
 
 .card-pedido {
-  border: 1px solid #ddd;
+  border: 1px solid var(--pv-border);
   border-radius: 12px;
-  background: #fff;
+  background: var(--pv-surface);
   overflow: hidden;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .cabecalho-card-pedido {
@@ -89,20 +89,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 22px 25px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--pv-border);
 }
 
 .label-pedido {
   display: block;
   font-size: 13px;
-  color: #777;
+  color: var(--pv-muted);
   margin-bottom: 3px;
 }
 
 .cabecalho-card-pedido h2 {
   margin: 0;
   font-size: 22px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .status-pedido {
@@ -137,7 +137,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 22px 25px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--pv-border);
 }
 
 .informacao-pedido {
@@ -148,16 +148,16 @@
 
 .informacao-pedido span {
   font-size: 13px;
-  color: #777;
+  color: var(--pv-muted);
 }
 
 .informacao-pedido strong {
   font-size: 16px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .informacao-pedido small {
-  color: #888;
+  color: var(--pv-muted);
 }
 
 /* =========================================
@@ -166,13 +166,13 @@
 
 .itens-pedido {
   padding: 22px 25px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--pv-border);
 }
 
 .itens-pedido h3 {
   margin: 0 0 18px;
   font-size: 18px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .lista-itens-pedido {
@@ -185,7 +185,7 @@
   align-items: center;
   gap: 18px;
   padding: 18px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--pv-border);
 }
 
 .item-pedido:last-child {
@@ -200,7 +200,7 @@
   height: 90px;
   object-fit: cover;
   border-radius: 8px;
-  background-color: #f5f5f5;
+  background-color: var(--pv-surface);
   flex-shrink: 0;
 }
 
@@ -209,7 +209,7 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  color: #888;
+  color: var(--pv-muted);
 }
 
 /* INFORMAÇÕES DO PRODUTO */
@@ -223,7 +223,7 @@
 
 .nome-produto-pedido {
   font-size: 17px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .variacoes-produto-pedido {
@@ -234,12 +234,12 @@
 
 .variacoes-produto-pedido span {
   font-size: 14px;
-  color: #555;
+  color: var(--pv-muted);
 }
 
 .quantidade-produto-pedido {
   font-size: 14px;
-  color: #777;
+  color: var(--pv-muted);
 }
 
 /* PREÇO */
@@ -254,12 +254,12 @@
 
 .preco-produto-pedido span {
   font-size: 12px;
-  color: #777;
+  color: var(--pv-muted);
 }
 
 .preco-produto-pedido strong {
   font-size: 16px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 /* =========================================
@@ -273,12 +273,12 @@
 .endereco-pedido h3 {
   margin: 0 0 18px;
   font-size: 18px;
-  color: #111;
+  color: var(--pv-text);
 }
 
 .endereco-pedido p {
   margin: 5px 0;
-  color: #444;
+  color: var(--pv-muted);
 }
 
 /* =========================================
@@ -333,14 +333,14 @@
   display: flex;
   justify-content: flex-end;
   padding: 20px 25px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--pv-border);
 }
 
 .botao-cancelar-pedido {
   padding: 11px 18px;
   border: 1px solid #d33;
   border-radius: 6px;
-  background: #fff;
+  background: var(--pv-surface);
   color: #c00;
   font-size: 14px;
   font-weight: 600;
@@ -350,7 +350,7 @@
 
 .botao-cancelar-pedido:hover {
   background: #c00;
-  color: #fff;
+  color: var(--pv-text);
 }
 
 .botao-cancelar-pedido:disabled {
@@ -361,24 +361,24 @@
 .confirmacao-cancelamento {
     width: 360px;
     padding: 20px;
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--pv-surface);
+    border: 1px solid var(--pv-border);
     border-radius: 10px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    color: #111;
+    color: var(--pv-text);
 }
 
 .confirmacao-cancelamento strong {
     display: block;
     font-size: 17px;
     margin-bottom: 8px;
-    color: #111;
+    color: var(--pv-text);
 }
 
 .confirmacao-cancelamento p {
     margin: 0 0 18px;
     font-size: 14px;
-    color: #666;
+    color: var(--pv-muted);
 }
 
 .acoes-confirmacao {
@@ -396,19 +396,19 @@
 }
 
 .botao-voltar-confirmacao {
-    border: 1px solid #ddd;
-    background: #fff;
-    color: #333;
+    border: 1px solid var(--pv-border);
+    background: var(--pv-surface);
+    color: var(--pv-text);
 }
 
 .botao-voltar-confirmacao:hover {
-    background: #f5f5f5;
+    background: var(--pv-surface);
 }
 
 .botao-confirmar-cancelamento {
     border: 1px solid #c00;
     background: #c00;
-    color: #fff;
+    color: var(--pv-text);
 }
 
 .botao-confirmar-cancelamento:hover {

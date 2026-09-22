@@ -3,8 +3,8 @@
 /* ============================= */
 
 .pagina-carrinho {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--pv-bg);
+    color: var(--pv-text);
     width: 90%;
     max-width: 1200px;
     margin: 40px auto;
@@ -21,13 +21,13 @@
 }
 
 .cabecalho-carrinho h1 {
-    color: #f3f3f3;
+    color: var(--pv-text);
     font-size: 32px;
     margin-bottom: 8px;
 }
 
 .cabecalho-carrinho p {
-    color: #666;
+    color: var(--pv-muted);
     font-size: 16px;
 }
 
@@ -42,12 +42,12 @@
 }
 
 .carrinho-vazio h2 {
-    color: #f3f3f3;
+    color: var(--pv-text);
     margin-bottom: 10px;
 }
 
 .carrinho-vazio p {
-    color: #666;
+    color: var(--pv-muted);
 }
 
 
@@ -67,12 +67,12 @@
 /* ITENS DO PEDIDO */
 /* ============================= */
 
-.itens-pedido {
+.itens-carrinho {
     min-width: 0;
 }
 
-.itens-pedido h2 {
-    color: #07232e;
+.itens-carrinho h2 {
+    color: var(--pv-text);
     font-size: 22px;
     margin-bottom: 18px;
 }
@@ -87,9 +87,9 @@
     align-items: center;
     gap: 22px;
 
-    background-color: #ffffff;
+    background-color: var(--pv-surface);
 
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--pv-border);
     border-radius: 14px;
 
     padding: 18px;
@@ -117,7 +117,7 @@
     border-radius: 50%;
 
     background-color: #e53935;
-    color: white;
+    color: var(--pv-text);
 
     font-size: 18px;
     font-weight: bold;
@@ -153,7 +153,7 @@
 
     flex-shrink: 0;
 
-    background-color: #f5f5f5;
+    background-color: var(--pv-surface);
 }
 
 
@@ -171,11 +171,11 @@
 
     min-width: 0;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 .informacoes-carrinho h3 {
-    color: #07232e;
+    color: var(--pv-text);
 
     font-size: 19px;
 
@@ -187,7 +187,7 @@
 .informacoes-carrinho p {
     margin: 0;
 
-    color: #666;
+    color: var(--pv-muted);
 
     font-size: 14px;
 }
@@ -195,7 +195,7 @@
 .informacoes-carrinho strong {
     margin-top: 8px;
 
-    color: #07232e;
+    color: var(--pv-text);
 
     font-size: 19px;
 
@@ -208,9 +208,9 @@
 /* ============================= */
 
 .resumo-pedido {
-    background-color: #ffffff;
+    background-color: var(--pv-surface);
 
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--pv-border);
     border-radius: 14px;
 
     padding: 25px;
@@ -222,7 +222,7 @@
 }
 
 .resumo-pedido h2 {
-    color: #07232e;
+    color: var(--pv-text);
 
     font-size: 22px;
 
@@ -243,7 +243,7 @@
 
     margin-bottom: 15px;
 
-    color: #555;
+    color: var(--pv-muted);
 
     font-size: 15px;
 }
@@ -251,7 +251,7 @@
 .resumo-pedido hr {
     border: none;
 
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--pv-border);
 
     margin: 20px 0;
 }
@@ -268,7 +268,7 @@
 
     align-items: center;
 
-    color: #07232e;
+    color: var(--pv-text);
 
     font-size: 19px;
 }
@@ -293,9 +293,9 @@
 
     border-radius: 8px;
 
-    background-color: #07232e;
+    background-color: var(--pv-surface);
 
-    color: #ffffff;
+    color: var(--pv-text);
 
     font-size: 15px;
 
@@ -307,7 +307,7 @@
 }
 
 .botao-pagamento:hover {
-    background-color: #0b3442;
+    background-color: var(--pv-surface-hover);
 
     transform: translateY(-1px);
 }
@@ -347,7 +347,7 @@
 
     max-width: 450px;
 
-    background-color: #ffffff;
+    background-color: var(--pv-surface);
 
     border-radius: 14px;
 
@@ -357,7 +357,7 @@
 }
 
 .modal-pagamento h2 {
-    color: #07232e;
+    color: var(--pv-text);
 
     font-size: 24px;
 
@@ -365,7 +365,7 @@
 }
 
 .modal-pagamento > p {
-    color: #666;
+    color: var(--pv-muted);
 
     margin-bottom: 25px;
 }
@@ -386,7 +386,7 @@
 
     background: none;
 
-    color: #555;
+    color: var(--pv-muted);
 
     font-size: 30px;
 
@@ -396,7 +396,7 @@
 }
 
 .fechar-modal:hover {
-    color: #000;
+    color: var(--pv-text);
 }
 
 
@@ -415,7 +415,7 @@
 
     margin-bottom: 12px;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--pv-border);
 
     border-radius: 8px;
 
@@ -425,9 +425,9 @@
 }
 
 .opcao-pagamento:hover {
-    background-color: #f7f7f7;
+    background-color: var(--pv-surface);
 
-    border-color: #07232e;
+    border-color: var(--pv-border);
 }
 
 .opcao-pagamento input {
@@ -439,7 +439,7 @@
 }
 
 .opcao-pagamento span {
-    color: #222;
+    color: var(--pv-text);
 
     font-size: 16px;
 }
@@ -460,9 +460,9 @@
 
     border-radius: 8px;
 
-    background-color: #07232e;
+    background-color: var(--pv-surface);
 
-    color: #ffffff;
+    color: var(--pv-text);
 
     font-size: 16px;
 
@@ -474,13 +474,13 @@
 }
 
 .botao-continuar-pagamento:hover:not(:disabled) {
-    background-color: #0b3442;
+    background-color: var(--pv-surface-hover);
 
     transform: translateY(-1px);
 }
 
 .botao-continuar-pagamento:disabled {
-    background-color: #aaa;
+    background-color: var(--pv-surface);
 
     cursor: not-allowed;
 }
@@ -527,7 +527,7 @@
         font-size: 14px;
     }
 
-    .itens-pedido h2 {
+    .itens-carrinho h2 {
         font-size: 20px;
     }
 
@@ -638,4 +638,70 @@
         padding: 25px 18px;
     }
 
+}
+
+/* Paleta restrita ao carrinho, sem alterar as cores das outras páginas. */
+body:has(.pagina-carrinho) {
+    background-color: var(--pv-bg);
+}
+
+.pagina-carrinho .cabecalho-carrinho h1,
+.pagina-carrinho .carrinho-vazio h2,
+.pagina-carrinho .itens-carrinho h2,
+.pagina-carrinho .informacoes-carrinho h3,
+.pagina-carrinho .resumo-pedido h2 {
+    color: var(--pv-text);
+}
+
+.pagina-carrinho .cabecalho-carrinho p,
+.pagina-carrinho .carrinho-vazio p,
+.pagina-carrinho .informacoes-carrinho p,
+.pagina-carrinho .linha-resumo {
+    color: var(--pv-muted);
+}
+
+.pagina-carrinho .card-carrinho,
+.pagina-carrinho .resumo-pedido {
+    background-color: var(--pv-surface);
+    border-color: var(--pv-border);
+    color: var(--pv-text);
+}
+
+.pagina-carrinho .itens-carrinho,
+.pagina-carrinho .resumo-pedido hr {
+    border-color: var(--pv-border);
+}
+
+.pagina-carrinho .informacoes-carrinho,
+.pagina-carrinho .linha-total {
+    color: var(--pv-text);
+}
+
+.pagina-carrinho .informacoes-carrinho strong,
+.pagina-carrinho .linha-total strong {
+    color: var(--pv-accent);
+}
+
+.pagina-carrinho .botao-pagamento {
+    background-color: var(--pv-accent);
+    color: var(--pv-text);
+}
+
+.pagina-carrinho .botao-pagamento:hover {
+    background-color: var(--pv-accent);
+}
+
+.pagina-carrinho .botao-remover {
+    background-color: var(--pv-surface);
+    color: var(--pv-text);
+}
+
+.pagina-carrinho .botao-remover:hover {
+    background-color: #b91c1c;
+    color: var(--pv-text);
+}
+
+.pagina-carrinho button:focus-visible {
+    outline: 2px solid #f5c400;
+    outline-offset: 3px;
 }

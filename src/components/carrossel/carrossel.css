@@ -18,7 +18,7 @@
 
     overflow: hidden;
 
-    background-color: #000;
+    background-color: var(--pv-bg);
 }
 
 
@@ -72,7 +72,7 @@
 
     background-color: rgba(0, 0, 0, 0.45);
 
-    color: #fff;
+    color: var(--pv-text);
 
     font-size: 25px;
 
@@ -144,7 +144,7 @@
 
     border-radius: 10px;
 
-    background-color: #fff;
+    background-color: var(--pv-surface);
 }
 
 

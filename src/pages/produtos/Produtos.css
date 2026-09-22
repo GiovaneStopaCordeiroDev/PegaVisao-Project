@@ -28,7 +28,7 @@
 .topo-produtos h1 {
     font-size: 32px;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 
@@ -40,9 +40,9 @@
     width: 500px;
     height: 48px;
 
-    background-color: white;
+    background-color: var(--pv-surface);
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--pv-border);
 
     border-radius: 10px;
 
@@ -71,7 +71,7 @@
 
     font-size: 15px;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 
@@ -93,7 +93,7 @@
 ========================================= */
 
 .filtros-produtos {
-    background-color: white;
+    background-color: var(--pv-surface);
 
     border-radius: 12px;
 
@@ -122,7 +122,7 @@
 .titulo-filtros h2 {
     font-size: 21px;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 .titulo-filtros button {
@@ -143,7 +143,7 @@
 ========================================= */
 
 .grupo-filtro {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--pv-border);
 
     padding-bottom: 20px;
 
@@ -153,7 +153,7 @@
 .grupo-filtro h3 {
     font-size: 16px;
 
-    color: #222;
+    color: var(--pv-text);
 
     margin-bottom: 14px;
 }
@@ -169,13 +169,13 @@
 
     font-size: 14px;
 
-    color: #333;
+    color: var(--pv-text);
 
     cursor: pointer;
 }
 
 .grupo-filtro input[type="radio"] {
-    accent-color: #07232e;
+    accent-color: var(--pv-accent);
 }
 
 
@@ -196,11 +196,11 @@
 
     height: 36px;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--pv-border);
 
-    background-color: white;
+    background-color: var(--pv-surface);
 
-    color: #222;
+    color: var(--pv-text);
 
     border-radius: 6px;
 
@@ -212,15 +212,15 @@
 }
 
 .opcoes-filtro button:hover {
-    border-color: #07232e;
+    border-color: var(--pv-border);
 }
 
 .opcoes-filtro .filtro-selecionado {
-    background-color: #07232e;
+    background-color: var(--pv-surface);
 
-    color: white;
+    color: var(--pv-text);
 
-    border-color: #07232e;
+    border-color: var(--pv-border);
 }
 
 
@@ -233,15 +233,15 @@
 
     height: 38px;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--pv-border);
 
     border-radius: 7px;
 
     padding: 0 8px;
 
-    background-color: white;
+    background-color: var(--pv-surface);
 
-    color: #222;
+    color: var(--pv-text);
 
     outline: none;
 
@@ -258,7 +258,7 @@
 
     align-items: center;
 
-    border: 1px solid #ddd;
+    border: 1px solid var(--pv-border);
 
     border-radius: 7px;
 
@@ -270,7 +270,7 @@
 .campo-preco span {
     font-size: 13px;
 
-    color: #666;
+    color: var(--pv-muted);
 
     margin-right: 5px;
 }
@@ -284,7 +284,7 @@
 
     font-size: 14px;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 
@@ -301,9 +301,9 @@
 
     border-radius: 7px;
 
-    background-color: #07232e;
+    background-color: var(--pv-surface);
 
-    color: white;
+    color: var(--pv-text);
 
     font-weight: bold;
 
@@ -326,13 +326,13 @@
 }
 
 .cabecalho-resultados p {
-    color: #666;
+    color: var(--pv-muted);
 
     font-size: 14px;
 }
 
 .cabecalho-resultados strong {
-    color: #222;
+    color: var(--pv-text);
 }
 
 
@@ -354,7 +354,7 @@
 ========================================= */
 
 .produto-card-filtro {
-    background-color: white;
+    background-color: var(--pv-surface);
 
     border-radius: 12px;
 
@@ -362,7 +362,7 @@
 
     text-decoration: none;
 
-    color: #222;
+    color: var(--pv-text);
 
     box-shadow:
         0 3px 10px rgba(0, 0, 0, 0.08);
@@ -423,7 +423,7 @@
 
     width: 100%;
 
-    color: #222 !important;
+    color: var(--pv-text) !important;
 
     font-size: 17px;
 
@@ -444,7 +444,7 @@
 ========================================= */
 
 .produto-card-descricao {
-    color: #666;
+    color: var(--pv-muted);
 
     font-size: 13px;
 
@@ -469,7 +469,7 @@
 .produto-card-preco {
     display: block;
 
-    color: #222;
+    color: var(--pv-text);
 
     font-size: 20px;
 
@@ -484,7 +484,7 @@
 ========================================= */
 
 .nenhum-produto {
-    background-color: white;
+    background-color: var(--pv-surface);
 
     border-radius: 12px;
 
@@ -496,11 +496,11 @@
 .nenhum-produto h2 {
     margin-bottom: 10px;
 
-    color: #222;
+    color: var(--pv-text);
 }
 
 .nenhum-produto p {
-    color: #666;
+    color: var(--pv-muted);
 
     margin-bottom: 20px;
 }
@@ -508,9 +508,9 @@
 .nenhum-produto button {
     border: none;
 
-    background-color: #07232e;
+    background-color: var(--pv-surface);
 
-    color: white;
+    color: var(--pv-text);
 
     padding: 11px 20px;
 
@@ -607,13 +607,13 @@
 
         margin-bottom: 15px;
 
-        background-color: white;
+        background-color: var(--pv-surface);
 
-        border: 1px solid #ddd;
+        border: 1px solid var(--pv-border);
 
         border-radius: 8px;
 
-        color: #222;
+        color: var(--pv-text);
 
         font-weight: bold;
 
@@ -678,7 +678,7 @@
     .produto-card-nome {
         display: block;
 
-        color: #222 !important;
+        color: var(--pv-text) !important;
 
         font-size: 15px;
 

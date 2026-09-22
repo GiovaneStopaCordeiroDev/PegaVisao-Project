@@ -1,0 +1,122 @@
+/* Component finishes. Layout and responsive rules stay in each component's CSS. */
+body { background: var(--pv-bg); color: var(--pv-text); }
+.home, .pagina-produto, .pagina-checkout, .pagina-pagamento,
+.pagina-login, .pagina-cadastro, .painel-admin { background: var(--pv-bg); color: var(--pv-text); }
+
+h1, h2, h3 { text-wrap: balance; }
+:is(.cabecalho-categoria, .cabecalho-carrinho, .cabecalho-checkout,
+.cabecalho-pagamento, .cabecalho-pedidos, .topo-produtos, .titulo-produtos) :is(h1, h2) {
+  letter-spacing: -.035em;
+}
+
+/* Brand frame */
+.header, .menu-header { background: #080808; }
+.header { border-bottom-color: var(--pv-border); }
+.menu-header a::after { background: var(--pv-accent); }
+.menu-header a:hover, .icone-header:hover, .footer-coluna a:hover { color: var(--pv-accent); }
+.barra-pesquisa { background: var(--pv-input); box-shadow: inset 0 0 0 1px var(--pv-border); }
+.barra-pesquisa input { color: var(--pv-text); }
+.barra-pesquisa button { background: var(--pv-accent); color: var(--pv-ink); }
+.barra-pesquisa button:hover { background: var(--pv-accent-hover); }
+.menu-usuario { background: var(--pv-surface); box-shadow: var(--pv-shadow); }
+.usuario-info { border-color: var(--pv-border); }
+.menu-usuario button:hover { background: var(--pv-surface-hover); color: var(--pv-accent); }
+footer { background: #080808; color: var(--pv-text); box-shadow: 0 -1px 0 var(--pv-border); }
+.footer-marca h2 span { color: var(--pv-accent); }
+.footer-final { background: #080808; }
+.logos-pagamentos img { background: #fff; color-scheme: light; }
+.carrossel-botao { background: rgb(8 8 8 / 75%); color: var(--pv-text); }
+.carrossel-botao:hover { background: var(--pv-accent); color: var(--pv-ink); }
+.indicador { background: #a3a3a3; }
+.indicador.ativo { background: var(--pv-accent); }
+
+/* Cards and product photography */
+.card-produto, .produto-card-filtro, .card-carrinho, .card-pedido,
+.card-produto-admin, .produto-container, .filtros-produtos,
+.resumo-pedido, .resumo-checkout, .resumo-pagamento, .formulario-endereco,
+.bloco-pagamento, .login-container, .cadastro-container, .modal-editar {
+  box-shadow: var(--pv-shadow), inset 0 0 0 1px var(--pv-border);
+}
+.card-produto:hover, .produto-card-filtro:hover, .card-carrinho:hover {
+  box-shadow: 0 16px 36px rgb(0 0 0 / 25%), inset 0 0 0 1px #69604a;
+}
+.imagem-card-container, .produto-imagem-container, .produto-card-filtro img,
+.imagem-produto-admin, .imagem-carrinho { background: #efefec; color-scheme: light; }
+.produto-categoria, .preco-produto, .produto-preco, .produto-card-preco,
+.card-produto-admin p, .total-checkout strong, .total-pagamento strong { color: var(--pv-accent); }
+.cabecalho-categoria a { color: var(--pv-accent); border-color: var(--pv-accent); }
+.estoque-produto { border-left-color: var(--pv-accent); background: var(--pv-accent-soft); }
+.estoque-esgotado { color: var(--pv-muted); background: var(--pv-surface-hover); border-color: var(--pv-border); }
+
+/* Main actions: yellow with dark text in every state */
+:is(.botao-carrinho-produto, .botao-adicionar-carrinho, .botao-pagar,
+.botao-continuar-checkout, .botao-copiar-pix, .botao-adicionar-produto, .botao-alterar,
+.botao-continuar-pagamento),
+.pagina-carrinho .botao-pagamento, .login-container form > button,
+.cadastro-container form > button, .pedidos-vazio button, .nenhum-produto button,
+.melhor-envio-acoes button {
+  background: var(--pv-accent); color: var(--pv-ink); border-color: var(--pv-accent);
+  font-weight: 700;
+}
+:is(.botao-carrinho-produto, .botao-adicionar-carrinho, .botao-pagar,
+.botao-continuar-checkout, .botao-copiar-pix, .botao-adicionar-produto, .botao-alterar,
+.botao-continuar-pagamento):hover:not(:disabled),
+.pagina-carrinho .botao-pagamento:hover:not(:disabled), .login-container form > button:hover:not(:disabled),
+.cadastro-container form > button:hover:not(:disabled), .pedidos-vazio button:hover,
+.nenhum-produto button:hover, .melhor-envio-acoes button:hover:not(:disabled) {
+  background: var(--pv-accent-hover); color: var(--pv-ink); border-color: var(--pv-accent-hover); opacity: 1;
+}
+.botao-editar { background: var(--pv-accent-soft); color: var(--pv-accent); }
+.cadastro-login button, .login-link-cadastro button,
+.titulo-filtros button, .titulo-endereco-pagamento button { color: var(--pv-accent); }
+.cadastro-login button:hover, .login-link-cadastro button:hover { color: var(--pv-accent-hover); background: transparent; }
+.checkout-frete > button, .campo-cep button, .botao-limpar-filtros, .botao-filtros-mobile,
+.botao-adicionar-variacao { background: var(--pv-surface-hover); color: var(--pv-text); }
+.checkout-frete > button:hover:not(:disabled), .campo-cep button:hover:not(:disabled),
+.botao-limpar-filtros:hover, .botao-adicionar-variacao:hover { background: var(--pv-accent-soft); color: var(--pv-accent); }
+
+/* Fields, selected delivery and product variants */
+:is(.campo-login, .campo-cadastro, .campo-checkout, .campo-preco) input,
+.grupo-filtro select, .modal-editar :is(input, textarea, select),
+.barra-busca, .barra-busca input { background: var(--pv-input); color: var(--pv-text); }
+:is(.campo-login, .campo-cadastro, .campo-checkout, .campo-preco) input:focus,
+.modal-editar :is(input, textarea, select):focus {
+  border-color: var(--pv-accent); box-shadow: 0 0 0 3px rgb(245 196 0 / 13%);
+}
+.barra-busca:focus-within, .barra-pesquisa:focus-within { box-shadow: 0 0 0 2px var(--pv-accent); }
+.frete-opcao { background: var(--pv-input); }
+.frete-opcao:hover { border-color: #807044; }
+.frete-opcao:has(input:checked), .opcao-pagamento.selecionado,
+.opcoes-filtro .filtro-selecionado, .opcao-selecionada, .opcao-selecionada:hover {
+  background: var(--pv-accent-soft); border-color: var(--pv-accent); color: var(--pv-text);
+}
+.frete-opcao:has(input:checked) > strong { color: var(--pv-accent); }
+.frete-opcao:has(input:focus-visible) { outline: 2px solid var(--pv-accent); outline-offset: 3px; }
+.icone-pagamento { background: var(--pv-accent-soft); color: var(--pv-accent); }
+.selecionado .radio-pagamento { border-color: var(--pv-accent); }
+.opcao-pagamento:hover { border-color: #807044; }
+.checkout-frete [role="alert"], .frete-aviso { color: #f7cf83; }
+.pix-codigo-box { background: var(--pv-input); color: var(--pv-text); }
+.qr-code-pix { background: #fff; border-color: #fff; color-scheme: light; }
+
+/* Semantic colors remain recognizable without competing with the brand. */
+.status-pendente { background: var(--pv-accent-soft); color: #ffdc70; }
+.status-enviado { background: #172b3d; color: #a7d5ff; }
+.status-entregue { background: #183326; color: #9de5b9; }
+.status-cancelado { background: var(--pv-danger-bg); color: var(--pv-danger); }
+.botao-cancelar-pedido, .botao-excluir, .botao-remover-variacao {
+  background: var(--pv-danger-bg); color: var(--pv-danger); border-color: #763e3e;
+}
+.botao-cancelar-pedido:hover:not(:disabled), .botao-excluir:hover,
+.botao-remover-variacao:hover { background: #592626; color: #fff; }
+.botao-confirmar-cancelamento { background: #b52b2b; border-color: #b52b2b; color: #fff; }
+.botao-confirmar-cancelamento:hover { background: #942020; }
+.confirmacao-cancelamento { max-width: calc(100vw - 32px); box-shadow: var(--pv-shadow); }
+.botao-voltar-confirmacao:hover { background: var(--pv-surface-hover); }
+.dados-envio-produto { border-color: var(--pv-border); }
+.dados-envio-produto legend { color: var(--pv-accent); }
+.melhor-envio-conexao { background: var(--pv-surface); border-color: var(--pv-border); }
+
+@media (max-width: 600px) {
+  .botao-whatsapp { right: 12px; }
+}
