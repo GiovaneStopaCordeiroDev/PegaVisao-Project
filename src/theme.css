@@ -42,8 +42,9 @@ footer { background: #080808; color: var(--pv-text); box-shadow: 0 -1px 0 var(--
 }
 .imagem-card-container, .produto-imagem-container, .produto-card-filtro img,
 .imagem-produto-admin, .imagem-carrinho { background: #efefec; color-scheme: light; }
-.produto-categoria, .preco-produto, .produto-preco, .produto-card-preco,
-.card-produto-admin p, .total-checkout strong, .total-pagamento strong { color: var(--pv-accent); }
+.produto-categoria, .total-checkout strong, .total-pagamento strong { color: var(--pv-accent); }
+.preco-produto, .produto-preco, .produto-card-preco,
+.card-produto-admin p, .pagina-carrinho .informacoes-carrinho strong { color: var(--pv-text); }
 .cabecalho-categoria a { color: var(--pv-accent); border-color: var(--pv-accent); }
 .estoque-produto { border-left-color: var(--pv-accent); background: var(--pv-accent-soft); }
 .estoque-esgotado { color: var(--pv-muted); background: var(--pv-surface-hover); border-color: var(--pv-border); }
@@ -76,14 +77,17 @@ footer { background: #080808; color: var(--pv-text); box-shadow: 0 -1px 0 var(--
 .botao-limpar-filtros:hover, .botao-adicionar-variacao:hover { background: var(--pv-accent-soft); color: var(--pv-accent); }
 
 /* Fields, selected delivery and product variants */
-:is(.campo-login, .campo-cadastro, .campo-checkout, .campo-preco) input,
+:is(.campo-login, .campo-cadastro, .campo-checkout) input,
 .grupo-filtro select, .modal-editar :is(input, textarea, select),
 .barra-busca, .barra-busca input { background: var(--pv-input); color: var(--pv-text); }
-:is(.campo-login, .campo-cadastro, .campo-checkout, .campo-preco) input:focus,
+:is(.campo-login, .campo-cadastro, .campo-checkout) input:focus,
+.campo-preco:focus-within,
 .modal-editar :is(input, textarea, select):focus {
   border-color: var(--pv-accent); box-shadow: 0 0 0 3px rgb(245 196 0 / 13%);
 }
 .barra-busca:focus-within, .barra-pesquisa:focus-within { box-shadow: 0 0 0 2px var(--pv-accent); }
+.campo-preco { background: var(--pv-surface); }
+.campo-preco input { background: transparent; color: var(--pv-text); }
 .frete-opcao { background: var(--pv-input); }
 .frete-opcao:hover { border-color: #807044; }
 .frete-opcao:has(input:checked), .opcao-pagamento.selecionado,
