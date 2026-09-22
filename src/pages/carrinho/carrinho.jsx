@@ -138,6 +138,11 @@ export function Carrinho() {
               <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
             </div>
 
+            <div className="linha-resumo">
+              <span>Frete</span>
+              <span>Calculado no checkout</span>
+            </div>
+
             <hr />
 
             <div className="linha-total">
