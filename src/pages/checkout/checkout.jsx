@@ -284,6 +284,8 @@ export function Checkout() {
                   </span>
 
                   <span>Quantidade: {item.quantidade}</span>
+                  <span>Unitário: {Number(item.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
+                  <strong>Total do item: {(Number(item.preco) * Number(item.quantidade)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
                 </div>
               </div>
             ))}

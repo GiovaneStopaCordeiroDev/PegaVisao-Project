@@ -1,4 +1,5 @@
 import { GaleriaProduto } from "../../components/GaleriaProduto";
+import { AvaliacoesProduto } from "../../components/AvaliacoesProduto";
 import { useEffect, useState } from "react";
 
 import { useParams, useNavigate } from "react-router-dom";
@@ -608,6 +609,7 @@ export function PaginaProduto() {
 
       </section>
 
+      <AvaliacoesProduto key={produto.id} produtoId={produto.id} />
     </main>
   );
 }

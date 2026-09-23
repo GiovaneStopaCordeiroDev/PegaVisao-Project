@@ -353,6 +353,11 @@ export function Pedidos() {
                         <span className="quantidade-produto-pedido">
                           Quantidade: {item.quantidade}
                         </span>
+                        {item.produtoId && ["Pago", "Enviado", "Entregue"].includes(pedido.status) && (
+                          <button type="button" onClick={() => navigate(`/produto/${item.produtoId}#avaliacoes`)}>
+                            Avaliar produto ★
+                          </button>
+                        )}
                       </div>
 
                       <div className="preco-produto-pedido">

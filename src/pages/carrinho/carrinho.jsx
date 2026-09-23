@@ -129,7 +129,18 @@ export function Carrinho() {
             <div className="linha-resumo">
               <span>Itens</span>
 
-              <span>{carrinho.length}</span>
+              <span>{carrinho.reduce((soma, item) => soma + Number(item.quantidade), 0)}</span>
+            </div>
+
+            <div className="valores-itens-carrinho">
+              {carrinho.map((item, index) => (
+                <div className="valor-item-carrinho" key={`${item.variacaoId}-${index}`}>
+                  <span>{item.nome}<small>{item.cor} / {item.tamanho}</small>
+                    <small>{item.quantidade} × {Number(item.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</small>
+                  </span>
+                  <strong>{(Number(item.preco) * Number(item.quantidade)).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</strong>
+                </div>
+              ))}
             </div>
 
             <div className="linha-resumo">

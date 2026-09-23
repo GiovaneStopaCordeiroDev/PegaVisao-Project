@@ -496,6 +496,7 @@ export function Pagamento() {
                   </span>
 
                   <span>Quantidade: {item.quantidade}</span>
+                  <span>Unitário: {Number(item.preco).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}</span>
                 </div>
 
                 <strong>

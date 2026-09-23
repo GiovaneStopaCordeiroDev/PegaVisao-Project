@@ -705,3 +705,8 @@ body:has(.pagina-carrinho) {
     outline: 2px solid #f5c400;
     outline-offset: 3px;
 }
+.valores-itens-carrinho { display: grid; gap: 16px; margin: 20px 0; padding: 16px 0; border-top: 1px solid #444; border-bottom: 1px solid #444; }
+.valor-item-carrinho { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.valor-item-carrinho > span { min-width: 0; overflow-wrap: anywhere; }
+.valor-item-carrinho small { display: block; color: #bbb; margin-top: 5px; }
+.valor-item-carrinho > strong { white-space: nowrap; }
