@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { login } from "../../services/auth";
+import { Link } from "react-router-dom";
+import { GoogleLogin } from "./GoogleLogin";
 
 import "./login.css";
 
@@ -38,10 +40,8 @@ export function Login() {
 
         } catch (error) {
 
-            console.error(error);
-
             const mensagem =
-                error.response?.data?.mensagem ||
+                (error.response?.status === 429 ? "Muitas tentativas. Aguarde um minuto e tente novamente." : error.response?.data?.mensagem) ||
                 "E-mail ou senha inválidos.";
 
             toast.error(mensagem);
@@ -72,6 +72,8 @@ export function Login() {
                         <input
                             id="email"
                             type="email"
+                            autoComplete="email"
+                            required
                             placeholder="Digite seu e-mail"
                             value={email}
                             onChange={(e) =>
@@ -90,6 +92,8 @@ export function Login() {
                         <input
                             id="senha"
                             type="password"
+                            autoComplete="current-password"
+                            required
                             placeholder="Digite sua senha"
                             value={senha}
                             onChange={(e) =>
@@ -109,6 +113,9 @@ export function Login() {
                     </button>
 
                 </form>
+
+                <Link className="login-link" to="/esqueci-senha">Esqueceu a senha?</Link>
+                <GoogleLogin onSuccess={() => { toast.success("Login realizado com sucesso!"); navigate("/"); }} />
 
                 {/* CADASTRO */}
 

@@ -7,6 +7,7 @@ import { Carrinho } from "./pages/carrinho/carrinho";
 import Footer from "./components/footer/footer";
 
 import { Login } from "./pages/login/login";
+import { RecuperarSenha } from "./pages/login/RecuperarSenha";
 
 import { Cadastro } from "./pages/cadastro/cadastro";
 
@@ -141,6 +142,8 @@ function App() {
                 ========================================= */}
 
         <Route path="/login" element={<Login />} />
+        <Route path="/esqueci-senha" element={<RecuperarSenha key="solicitar" />} />
+        <Route path="/redefinir-senha" element={<RecuperarSenha key="redefinir" redefinir />} />
 
         {/* =========================================
                     CHECKOUT

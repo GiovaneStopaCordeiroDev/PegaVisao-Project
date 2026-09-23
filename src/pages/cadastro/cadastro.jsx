@@ -23,8 +23,8 @@ export function Cadastro() {
             return;
         }
 
-        if (senha.length < 6) {
-            toast.error("A senha deve ter pelo menos 6 caracteres.");
+        if (senha.length < 8 || new TextEncoder().encode(senha).length > 72) {
+            toast.error("A senha deve ter pelo menos 8 caracteres e no máximo 72 bytes.");
             return;
         }
 
