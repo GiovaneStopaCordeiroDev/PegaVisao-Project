@@ -154,6 +154,8 @@ export function Pagamento() {
           quantidade: Number(item.quantidade),
         })),
 
+        cpfDestinatario: endereco.cpf?.replace(/\D/g, "") || null,
+        telefoneDestinatario: endereco.telefone?.replace(/\D/g, "") || null,
         cep: endereco.cep,
         rua: endereco.rua,
         numero: endereco.numero,
