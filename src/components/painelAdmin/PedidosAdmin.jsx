@@ -76,6 +76,34 @@ export function PedidosAdmin() {
     }
   }
 
+  async function atualizarRastreio(pedido) {
+    setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "rastreio" }));
+    setMensagemEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+
+    try {
+      const { data } = await api.post(
+        `/api/admin/pedidos/${pedido.id}/rastreio/atualizar`,
+        {},
+        { timeout: 30000 },
+      );
+
+      setMensagemEtiqueta((atual) => ({
+        ...atual,
+        [pedido.id]: data.melhorEnvioTracking
+          ? `Rastreio atualizado: ${data.melhorEnvioTracking}`
+          : "Rastreio atualizado. A transportadora ainda não liberou o código.",
+      }));
+      setAtualizacao((n) => n + 1);
+    } catch (error) {
+      setMensagemEtiqueta((atual) => ({
+        ...atual,
+        [pedido.id]: error.response?.data?.mensagem || "Não foi possível atualizar o rastreio.",
+      }));
+    } finally {
+      setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+    }
+  }
+
   async function imprimirEtiqueta(pedido) {
     const janela = window.open("about:blank", "_blank");
     setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "imprimindo" }));
@@ -206,6 +234,34 @@ export function PedidosAdmin() {
                           onChange={(event) => alterarDadoEtiqueta(pedido.id, "chaveNfe", event.target.value)}
                         />
                       </label>
+                    </div>
+                  )}
+
+                  {pedido.melhorEnvioOrderId && (
+                    <div className="admin-rastreio">
+                      <strong>Rastreamento</strong>
+                      {pedido.melhorEnvioTracking ? (
+                        <>
+                          <span className="admin-rastreio-codigo">{pedido.melhorEnvioTracking}</span>
+                          {pedido.melhorEnvioRastreioStatus && (
+                            <small>Status: {pedido.melhorEnvioRastreioStatus}</small>
+                          )}
+                          {pedido.melhorEnvioTrackingUrl && (
+                            <a href={pedido.melhorEnvioTrackingUrl} target="_blank" rel="noreferrer">
+                              Acompanhar entrega
+                            </a>
+                          )}
+                        </>
+                      ) : (
+                        <span>A transportadora ainda não liberou o código de rastreio.</span>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => atualizarRastreio(pedido)}
+                        disabled={Boolean(acaoEtiqueta[pedido.id])}
+                      >
+                        {acaoEtiqueta[pedido.id] === "rastreio" ? "Atualizando..." : "Atualizar rastreio"}
+                      </button>
                     </div>
                   )}
 
