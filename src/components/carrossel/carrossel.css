@@ -43,6 +43,7 @@
     flex-shrink: 0;
 
     object-fit: cover;
+    object-position: center top;
 
     display: block;
 }
@@ -160,6 +161,10 @@
         min-height: 400px;
     }
 
+    .carrossel-imagens img {
+        object-position: center;
+    }
+
     .carrossel-botao {
         width: 40px;
         height: 40px;
@@ -195,6 +200,7 @@
 
     .carrossel-imagens img {
         object-fit: cover;
+        object-position: center;
     }
 
     .carrossel-botao {
