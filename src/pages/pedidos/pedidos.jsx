@@ -385,6 +385,31 @@ export function Pedidos() {
                 <p>CEP: {pedido.cep}</p>
               </div>
 
+              {(pedido.melhorEnvioTracking || pedido.melhorEnvioRastreioStatus) && (
+                <section className="rastreio-pedido">
+                  <h3>Rastreamento</h3>
+                  {pedido.melhorEnvioTracking ? (
+                    <>
+                      <span>Código de rastreio</span>
+                      <strong>{pedido.melhorEnvioTracking}</strong>
+                      {pedido.melhorEnvioRastreioStatus && (
+                        <small>Status: {pedido.melhorEnvioRastreioStatus}</small>
+                      )}
+                      <a
+                        href={pedido.melhorEnvioTrackingUrl ||
+                          `https://rastreamento.correios.com.br/app/index.php?objetos=${encodeURIComponent(pedido.melhorEnvioTracking)}`}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Acompanhar entrega
+                      </a>
+                    </>
+                  ) : (
+                    <p>O envio já foi atualizado, mas o código de rastreio ainda não foi liberado.</p>
+                  )}
+                </section>
+              )}
+
               {pedido.status === "Pendente" && <ContadorPagamento
                 expiraEm={pedido.pagamentoExpiraEm} servidorAgora={pedido.servidorAgora} />}
               {pedido.status === "Pendente" && (
