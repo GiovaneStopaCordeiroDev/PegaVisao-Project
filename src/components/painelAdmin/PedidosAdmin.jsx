@@ -4,6 +4,18 @@ import "./pedidosAdmin.css";
 
 const moeda = (valor) => Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 const filtros = [["todos", "Todos"], ["pendentes", "Pendentes"], ["concluidos", "Concluídos"], ["cancelados", "Cancelados"]];
+const statusRastreio = {
+  pending: "Pendente",
+  released: "Etiqueta paga",
+  generated: "Etiqueta gerada",
+  received: "Recebido no ponto de distribuição",
+  posted: "Postado",
+  delivered: "Entregue",
+  cancelled: "Cancelado",
+  undelivered: "Não entregue",
+  paused: "Entrega interrompida",
+  suspended: "Envio suspenso",
+};
 
 export function PedidosAdmin() {
   const [filtro, setFiltro] = useState("todos");
@@ -244,7 +256,7 @@ export function PedidosAdmin() {
                         <>
                           <span className="admin-rastreio-codigo">{pedido.melhorEnvioTracking}</span>
                           {pedido.melhorEnvioRastreioStatus && (
-                            <small>Status: {pedido.melhorEnvioRastreioStatus}</small>
+                            <small>Status: {statusRastreio[pedido.melhorEnvioRastreioStatus] || pedido.melhorEnvioRastreioStatus}</small>
                           )}
                           {pedido.melhorEnvioTrackingUrl && (
                             <a href={pedido.melhorEnvioTrackingUrl} target="_blank" rel="noreferrer">
