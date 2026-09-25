@@ -8,10 +8,17 @@ import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteC
 export function Checkout() {
   const navigate = useNavigate();
   const [salvo] = useState(() => lerJsonSeguro("enderecoCheckout") || {});
+  const [destinatarioSalvo] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("destinatarioCheckout")) || {};
+    } catch {
+      return {};
+    }
+  });
   const [freteSelecionado, setFreteSelecionado] = useState(null);
 
-  const [cpf, setCpf] = useState(salvo.cpf || "");
-  const [telefone, setTelefone] = useState(salvo.telefone || "");
+  const [cpf, setCpf] = useState(destinatarioSalvo.cpf || "");
+  const [telefone, setTelefone] = useState(destinatarioSalvo.telefone || "");
   const [cep, setCep] = useState(salvo.cep || "");
   const [rua, setRua] = useState(salvo.rua || "");
   const [numero, setNumero] = useState(salvo.numero || "");
@@ -153,8 +160,6 @@ export function Checkout() {
     }
 
     const endereco = {
-      cpf: cpf.replace(/\D/g, ""),
-      telefone: telefone.replace(/\D/g, ""),
       cep,
       rua,
       numero,
@@ -165,6 +170,10 @@ export function Checkout() {
     };
 
     localStorage.setItem("enderecoCheckout", JSON.stringify(endereco));
+    sessionStorage.setItem("destinatarioCheckout", JSON.stringify({
+      cpf: cpf.replace(/\D/g, ""),
+      telefone: telefone.replace(/\D/g, ""),
+    }));
     localStorage.setItem("freteCheckout", JSON.stringify(freteSelecionado));
 
     navigate("/pagamento");
