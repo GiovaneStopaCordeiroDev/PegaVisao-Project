@@ -73,6 +73,14 @@ export function Pagamento() {
     return JSON.parse(localStorage.getItem("enderecoCheckout")) || null;
   });
 
+  const [destinatario] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("destinatarioCheckout")) || null;
+    } catch {
+      return null;
+    }
+  });
+
   const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
@@ -105,6 +113,12 @@ export function Pagamento() {
   }, [freteSalvo, endereco, carrinho, navigate]);
 
   useEffect(() => {
+    if (!destinatario?.cpf || !destinatario?.telefone) {
+      toast.error("CPF e telefone do destinatário não foram encontrados. Confirme os dados novamente.");
+      navigate("/checkout", { replace: true });
+      return;
+    }
+
     if (!endereco) {
       toast.error("Endereço de entrega não encontrado.");
       navigate("/checkout");
@@ -115,7 +129,7 @@ export function Pagamento() {
       toast.error("Seu carrinho está vazio.");
       navigate("/carrinho");
     }
-  }, [endereco, carrinho.length, navigate]);
+  }, [destinatario, endereco, carrinho.length, navigate]);
 
   async function continuarPagamento() {
     if (pedidoCriado) {
@@ -154,8 +168,8 @@ export function Pagamento() {
           quantidade: Number(item.quantidade),
         })),
 
-        cpfDestinatario: endereco.cpf?.replace(/\D/g, "") || null,
-        telefoneDestinatario: endereco.telefone?.replace(/\D/g, "") || null,
+        cpfDestinatario: destinatario?.cpf?.replace(/\D/g, "") || null,
+        telefoneDestinatario: destinatario?.telefone?.replace(/\D/g, "") || null,
         cep: endereco.cep,
         rua: endereco.rua,
         numero: endereco.numero,
@@ -173,6 +187,7 @@ export function Pagamento() {
 
       const response = await api.post("/Pedido", pedido);
       setPedidoCriado(response.data);
+      sessionStorage.removeItem("destinatarioCheckout");
 
       console.log("Pedido criado:", response.data);
 
@@ -223,6 +238,7 @@ export function Pagamento() {
       localStorage.removeItem("enderecoCheckout");
       localStorage.removeItem("formaPagamento");
       localStorage.removeItem("freteCheckout");
+      sessionStorage.removeItem("destinatarioCheckout");
 
       // Redireciona para o Mercado Pago
       window.location.href = checkoutUrl;
