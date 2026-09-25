@@ -8,8 +8,17 @@ import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteC
 export function Checkout() {
   const navigate = useNavigate();
   const [salvo] = useState(() => lerJsonSeguro("enderecoCheckout") || {});
+  const [destinatarioSalvo] = useState(() => {
+    try {
+      return JSON.parse(sessionStorage.getItem("destinatarioCheckout")) || {};
+    } catch {
+      return {};
+    }
+  });
   const [freteSelecionado, setFreteSelecionado] = useState(null);
 
+  const [cpf, setCpf] = useState(destinatarioSalvo.cpf || "");
+  const [telefone, setTelefone] = useState(destinatarioSalvo.telefone || "");
   const [cep, setCep] = useState(salvo.cep || "");
   const [rua, setRua] = useState(salvo.rua || "");
   const [numero, setNumero] = useState(salvo.numero || "");
@@ -31,6 +40,22 @@ export function Checkout() {
   const opcaoFrete = freteValido(freteSelecionado, cep, carrinho)
     ? freteSelecionado.opcoes.find((opcao) => opcao.servicoId === freteSelecionado.servicoId) : null;
   const total = subtotal + (opcaoFrete?.valor ?? 0);
+
+  function formatarCpf(valor) {
+    const numeros = valor.replace(/\D/g, "").slice(0, 11);
+    if (numeros.length <= 3) return numeros;
+    if (numeros.length <= 6) return `${numeros.slice(0, 3)}.${numeros.slice(3)}`;
+    if (numeros.length <= 9) return `${numeros.slice(0, 3)}.${numeros.slice(3, 6)}.${numeros.slice(6)}`;
+    return `${numeros.slice(0, 3)}.${numeros.slice(3, 6)}.${numeros.slice(6, 9)}-${numeros.slice(9)}`;
+  }
+
+  function formatarTelefone(valor) {
+    const numeros = valor.replace(/\D/g, "").slice(0, 11);
+    if (numeros.length <= 2) return numeros;
+    if (numeros.length <= 6) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+    if (numeros.length <= 10) return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+  }
 
   function formatarCep(valor) {
     const apenasNumeros = valor.replace(/\D/g, "").slice(0, 8);
@@ -94,6 +119,16 @@ export function Checkout() {
       return;
     }
 
+    if (cpf.replace(/\D/g, "").length !== 11) {
+      toast.error("Informe um CPF válido com 11 dígitos.");
+      return;
+    }
+
+    if (![10, 11].includes(telefone.replace(/\D/g, "").length)) {
+      toast.error("Informe um telefone válido com DDD.");
+      return;
+    }
+
     if (!cep || cep.replace(/\D/g, "").length !== 8) {
       toast.error("Informe um CEP válido.");
       return;
@@ -135,6 +170,10 @@ export function Checkout() {
     };
 
     localStorage.setItem("enderecoCheckout", JSON.stringify(endereco));
+    sessionStorage.setItem("destinatarioCheckout", JSON.stringify({
+      cpf: cpf.replace(/\D/g, ""),
+      telefone: telefone.replace(/\D/g, ""),
+    }));
     localStorage.setItem("freteCheckout", JSON.stringify(freteSelecionado));
 
     navigate("/pagamento");
@@ -153,6 +192,38 @@ export function Checkout() {
           <h2>Endereço de entrega</h2>
 
           <form onSubmit={continuarPagamento}>
+            <div className="linha-checkout">
+              <div className="campo-checkout">
+                <label htmlFor="cpf">CPF do destinatário</label>
+                <input
+                  id="cpf"
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="000.000.000-00"
+                  value={cpf}
+                  onChange={(event) => setCpf(formatarCpf(event.target.value))}
+                  maxLength={14}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+
+              <div className="campo-checkout">
+                <label htmlFor="telefone">Telefone do destinatário</label>
+                <input
+                  id="telefone"
+                  type="tel"
+                  inputMode="tel"
+                  placeholder="(14) 99999-9999"
+                  value={telefone}
+                  onChange={(event) => setTelefone(formatarTelefone(event.target.value))}
+                  maxLength={15}
+                  autoComplete="tel"
+                  required
+                />
+              </div>
+            </div>
+
             <div className="campo-checkout cep">
               <label htmlFor="cep">CEP</label>
 
