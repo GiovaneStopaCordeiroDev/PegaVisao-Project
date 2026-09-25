@@ -8,6 +8,19 @@ import { concluirPixPendente } from "../../services/pixPendente";
 
 import "./pedidos.css";
 
+const statusRastreio = {
+  pending: "Pendente",
+  released: "Etiqueta paga",
+  generated: "Etiqueta gerada",
+  received: "Recebido no ponto de distribuição",
+  posted: "Postado",
+  delivered: "Entregue",
+  cancelled: "Cancelado",
+  undelivered: "Não entregue",
+  paused: "Entrega interrompida",
+  suspended: "Envio suspenso",
+};
+
 export function Pedidos() {
   const navigate = useNavigate();
 
@@ -393,11 +406,13 @@ export function Pedidos() {
                       <span>Código de rastreio</span>
                       <strong>{pedido.melhorEnvioTracking}</strong>
                       {pedido.melhorEnvioRastreioStatus && (
-                        <small>Status: {pedido.melhorEnvioRastreioStatus}</small>
+                        <small>Status: {statusRastreio[pedido.melhorEnvioRastreioStatus] || pedido.melhorEnvioRastreioStatus}</small>
                       )}
                       <a
                         href={pedido.melhorEnvioTrackingUrl ||
-                          `https://rastreamento.correios.com.br/app/index.php?objetos=${encodeURIComponent(pedido.melhorEnvioTracking)}`}
+                          (pedido.freteTransportadora?.toLowerCase().includes("correios")
+                            ? `https://rastreamento.correios.com.br/app/index.php?objetos=${encodeURIComponent(pedido.melhorEnvioTracking)}`
+                            : "https://melhorrastreio.com.br/")}
                         target="_blank"
                         rel="noreferrer"
                       >
