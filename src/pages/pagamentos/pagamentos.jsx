@@ -183,8 +183,6 @@ export function Pagamento() {
         freteServicoId: opcaoFrete.servicoId,
       };
 
-      console.log("Payload enviado:", pedido);
-
       const response = await api.post("/Pedido", pedido);
       setPedidoCriado(response.data);
       sessionStorage.removeItem("destinatarioCheckout");
