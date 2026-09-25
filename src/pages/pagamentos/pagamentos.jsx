@@ -47,7 +47,7 @@ export function Pagamento() {
         if (data.status === "Pago") {
           concluirPixPendente(data);
           toast.success("Pagamento confirmado!");
-          navigate("/pedidos", { replace: true });
+          navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
           return;
         }
         if (data.status === "Cancelado") {
@@ -104,7 +104,7 @@ export function Pagamento() {
         concluirPagamentoPendente(data);
         setPagamentoPendente(null);
         toast.success("Pagamento confirmado!");
-        navigate("/pedidos", { replace: true });
+        navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
       } else if (data.status === "Cancelado") {
         limparPagamentoPendente();
         setPagamentoPendente(null);
@@ -178,7 +178,7 @@ export function Pagamento() {
         if (data.status === "Pago") {
           concluirPagamentoPendente(data);
           toast.success("Pagamento já confirmado!");
-          navigate("/pedidos", { replace: true });
+          navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
           return;
         }
 
