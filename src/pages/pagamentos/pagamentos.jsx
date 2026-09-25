@@ -6,7 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import api from "../../services/api";
-import { registrarPixPendente, concluirPixPendente } from "../../services/pixPendente";
+import {
+  registrarPixPendente,
+  concluirPixPendente,
+  registrarPagamentoPendente,
+  obterPagamentoPendente,
+  limparPagamentoPendente,
+  concluirPagamentoPendente,
+} from "../../services/pixPendente";
 import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 import "./pagamentos.css";
@@ -23,6 +30,7 @@ export function Pagamento() {
   const [freteSalvo] = useState(() => lerJsonSeguro("freteCheckout"));
   const [cotacao, setCotacao] = useState(null);
   const [pedidoCriado, setPedidoCriado] = useState(null);
+  const [pagamentoPendente, setPagamentoPendente] = useState(() => obterPagamentoPendente());
 
   useEffect(() => {
     if (!pixData?.pedidoId) return;
@@ -75,11 +83,41 @@ export function Pagamento() {
 
   const [destinatario] = useState(() => {
     try {
-      return JSON.parse(sessionStorage.getItem("destinatarioCheckout")) || null;
+      return JSON.parse(
+        sessionStorage.getItem("destinatarioCheckout") ||
+        localStorage.getItem("destinatarioCheckout")
+      ) || null;
     } catch {
       return null;
     }
   });
+
+  useEffect(() => {
+    if (!pagamentoPendente?.pedidoId || pixData) return;
+    const controller = new AbortController();
+
+    api.get(`/Pedido/${pagamentoPendente.pedidoId}`, {
+      signal: controller.signal,
+      timeout: 10000,
+    }).then(({ data }) => {
+      if (data.status === "Pago") {
+        concluirPagamentoPendente(data);
+        setPagamentoPendente(null);
+        toast.success("Pagamento confirmado!");
+        navigate("/pedidos", { replace: true });
+      } else if (data.status === "Cancelado") {
+        limparPagamentoPendente();
+        setPagamentoPendente(null);
+      }
+    }).catch((error) => {
+      if (!controller.signal.aborted && error.response?.status === 404) {
+        limparPagamentoPendente();
+        setPagamentoPendente(null);
+      }
+    });
+
+    return () => controller.abort();
+  }, [pagamentoPendente?.pedidoId, pixData, navigate]);
 
   const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? carrinho.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
@@ -132,6 +170,40 @@ export function Pagamento() {
   }, [destinatario, endereco, carrinho.length, navigate]);
 
   async function continuarPagamento() {
+    if (pagamentoPendente?.pedidoId) {
+      try {
+        setFinalizando(true);
+        const { data } = await api.get(`/Pedido/${pagamentoPendente.pedidoId}`);
+
+        if (data.status === "Pago") {
+          concluirPagamentoPendente(data);
+          toast.success("Pagamento já confirmado!");
+          navigate("/pedidos", { replace: true });
+          return;
+        }
+
+        if (data.status === "Cancelado") {
+          limparPagamentoPendente();
+          setPagamentoPendente(null);
+          toast.error("O pagamento anterior foi cancelado. Gere um novo pedido.");
+          return;
+        }
+
+        if (pagamentoPendente.checkoutUrl) {
+          window.location.href = pagamentoPendente.checkoutUrl;
+          return;
+        }
+
+        toast.error("Não foi possível reabrir o checkout. Consulte o pedido.");
+        navigate("/pedidos");
+      } catch {
+        toast.error("Não foi possível consultar o pagamento pendente.");
+      } finally {
+        setFinalizando(false);
+      }
+      return;
+    }
+
     if (pedidoCriado) {
       navigate("/pedidos");
       return;
@@ -185,7 +257,6 @@ export function Pagamento() {
 
       const response = await api.post("/Pedido", pedido);
       setPedidoCriado(response.data);
-      sessionStorage.removeItem("destinatarioCheckout");
 
       console.log("Pedido criado:", response.data);
 
@@ -230,15 +301,13 @@ export function Pagamento() {
         return;
       }
 
-      // Só limpa o carrinho quando temos
-      // certeza de que o checkout foi criado
-      localStorage.removeItem("carrinho");
-      localStorage.removeItem("enderecoCheckout");
-      localStorage.removeItem("formaPagamento");
-      localStorage.removeItem("freteCheckout");
-      sessionStorage.removeItem("destinatarioCheckout");
+      registrarPagamentoPendente({
+        ...response.data,
+        mercadoPagoCheckoutUrl: checkoutUrl,
+      });
+      setPagamentoPendente(obterPagamentoPendente());
 
-      // Redireciona para o Mercado Pago
+      // Mantém carrinho, endereço, CPF e frete até o backend confirmar o pagamento.
       window.location.href = checkoutUrl;
     } catch (error) {
       console.error("Erro ao criar pedido:", error);
@@ -294,9 +363,9 @@ export function Pagamento() {
   }
 
   function voltarCheckout() {
-    if (pixData) {
+    if (pixData || pagamentoPendente?.pedidoId) {
       toast.error(
-        "Finalize ou copie o código Pix antes de alterar o endereço.",
+        "Há um pagamento em andamento. Finalize ou cancele o pedido antes de alterar o endereço.",
       );
 
       return;
@@ -321,7 +390,9 @@ export function Pagamento() {
         <p>
           {pixData
             ? "Escaneie o QR Code ou copie o código Pix para pagar."
-            : "Escolha como deseja pagar seu pedido."}
+            : pagamentoPendente?.pedidoId
+              ? `Pedido #${pagamentoPendente.pedidoId} aguardando pagamento.`
+              : "Escolha como deseja pagar seu pedido."}
         </p>
       </div>
 
@@ -375,6 +446,20 @@ export function Pagamento() {
 
                 <span>Após realizar o pagamento, aguarde a confirmação.</span>
               </div>
+            </div>
+          ) : pagamentoPendente?.pedidoId ? (
+            <div className="bloco-pagamento">
+              <h2>Pagamento pendente</h2>
+              <p>Seu pedido já foi criado. Continue no mesmo pagamento para evitar um pedido duplicado.</p>
+              <button
+                type="button"
+                className="botao-pagar"
+                onClick={continuarPagamento}
+                disabled={finalizando}
+              >
+                {finalizando ? "Consultando pagamento..." : "Continuar pagamento"}
+              </button>
+              <button type="button" onClick={() => navigate("/pedidos")}>Ver meus pedidos</button>
             </div>
           ) : (
             <>
