@@ -12,6 +12,9 @@ export function PedidosAdmin() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
   const [atualizacao, setAtualizacao] = useState(0);
+  const [dadosEtiqueta, setDadosEtiqueta] = useState({});
+  const [acaoEtiqueta, setAcaoEtiqueta] = useState({});
+  const [mensagemEtiqueta, setMensagemEtiqueta] = useState({});
 
   useEffect(() => {
     const controller = new AbortController();
@@ -30,6 +33,77 @@ export function PedidosAdmin() {
       .finally(() => { if (!controller.signal.aborted) setCarregando(false); });
     return () => controller.abort();
   }, [filtro, pagina, atualizacao]);
+
+  function alterarDadoEtiqueta(pedidoId, campo, valor) {
+    setDadosEtiqueta((atual) => ({
+      ...atual,
+      [pedidoId]: { ...(atual[pedidoId] || {}), [campo]: valor },
+    }));
+  }
+
+  async function gerarEtiqueta(pedido) {
+    setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "gerando" }));
+    setMensagemEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+    const dados = dadosEtiqueta[pedido.id] || {};
+
+    try {
+      const { data } = await api.post(
+        `/api/admin/pedidos/${pedido.id}/etiqueta`,
+        pedido.melhorEnvioOrderId
+          ? { documento: "", telefone: "", chaveNfe: null }
+          : {
+              documento: dados.documento || "",
+              telefone: dados.telefone || "",
+              chaveNfe: dados.chaveNfe?.trim() || null,
+            },
+        { timeout: 35000 },
+      );
+
+      setMensagemEtiqueta((atual) => ({
+        ...atual,
+        [pedido.id]: data.statusEtiqueta === "gerada"
+          ? "Etiqueta gerada. Agora você já pode imprimir."
+          : "Envio atualizado no Melhor Envio.",
+      }));
+      setAtualizacao((n) => n + 1);
+    } catch (error) {
+      setMensagemEtiqueta((atual) => ({
+        ...atual,
+        [pedido.id]: error.response?.data?.mensagem || "Não foi possível gerar a etiqueta.",
+      }));
+    } finally {
+      setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+    }
+  }
+
+  async function imprimirEtiqueta(pedido) {
+    const janela = window.open("about:blank", "_blank");
+    setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "imprimindo" }));
+    setMensagemEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+
+    try {
+      const { data } = await api.get(
+        `/api/admin/pedidos/${pedido.id}/etiqueta/impressao`,
+        { timeout: 30000 },
+      );
+
+      if (!data?.url) throw new Error("Link de impressão ausente.");
+      if (janela) {
+        janela.opener = null;
+        janela.location.href = data.url;
+      } else {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      if (janela) janela.close();
+      setMensagemEtiqueta((atual) => ({
+        ...atual,
+        [pedido.id]: error.response?.data?.mensagem || "Não foi possível abrir a etiqueta para impressão.",
+      }));
+    } finally {
+      setAcaoEtiqueta((atual) => ({ ...atual, [pedido.id]: "" }));
+    }
+  }
 
   return <section className="admin-pedidos" aria-labelledby="admin-pedidos-titulo">
     <div className="admin-pedidos-topo">
@@ -77,6 +151,90 @@ export function PedidosAdmin() {
                 {pedido.fretePrazoDias != null && ` — ${pedido.fretePrazoDias} dias úteis após postagem`}</p>}
               <address>{pedido.endereco.rua}, {pedido.endereco.numero}{pedido.endereco.complemento && ` — ${pedido.endereco.complemento}`}<br />
                 {pedido.endereco.bairro} · {pedido.endereco.cidade}/{pedido.endereco.estado}<br />CEP {pedido.endereco.cep}</address>
+
+              {(pedido.status === "Pago" || pedido.status === "Enviado" || pedido.melhorEnvioOrderId) && (
+                <div className="admin-etiqueta">
+                  <div className="admin-etiqueta-cabecalho">
+                    <div>
+                      <h4>Etiqueta de envio</h4>
+                      <p>
+                        {pedido.melhorEnvioOrderId
+                          ? `Envio Melhor Envio: ${pedido.melhorEnvioOrderId}`
+                          : "Preencha os dados do destinatário para criar e comprar a etiqueta."}
+                      </p>
+                    </div>
+                    {pedido.melhorEnvioEtiquetaStatus && (
+                      <span className="admin-etiqueta-status">{pedido.melhorEnvioEtiquetaStatus}</span>
+                    )}
+                  </div>
+
+                  {!pedido.melhorEnvioOrderId && (
+                    <div className="admin-etiqueta-campos">
+                      <label>
+                        CPF do destinatário
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          placeholder="Somente números"
+                          value={dadosEtiqueta[pedido.id]?.documento || ""}
+                          onChange={(event) => alterarDadoEtiqueta(pedido.id, "documento", event.target.value)}
+                        />
+                      </label>
+                      <label>
+                        Telefone do destinatário
+                        <input
+                          type="tel"
+                          placeholder="DDD + número"
+                          value={dadosEtiqueta[pedido.id]?.telefone || ""}
+                          onChange={(event) => alterarDadoEtiqueta(pedido.id, "telefone", event.target.value)}
+                        />
+                      </label>
+                      <label className="admin-etiqueta-nfe">
+                        Chave da NF-e
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={44}
+                          placeholder="44 dígitos; deixe vazio somente se puder usar declaração de conteúdo"
+                          value={dadosEtiqueta[pedido.id]?.chaveNfe || ""}
+                          onChange={(event) => alterarDadoEtiqueta(pedido.id, "chaveNfe", event.target.value)}
+                        />
+                      </label>
+                    </div>
+                  )}
+
+                  <div className="admin-etiqueta-acoes">
+                    {pedido.melhorEnvioEtiquetaStatus !== "gerada" && (
+                      <button
+                        type="button"
+                        onClick={() => gerarEtiqueta(pedido)}
+                        disabled={Boolean(acaoEtiqueta[pedido.id])}
+                      >
+                        {acaoEtiqueta[pedido.id] === "gerando"
+                          ? "Gerando..."
+                          : pedido.melhorEnvioOrderId
+                            ? "Continuar geração"
+                            : "Gerar etiqueta"}
+                      </button>
+                    )}
+
+                    {pedido.melhorEnvioEtiquetaStatus === "gerada" && (
+                      <button
+                        type="button"
+                        className="admin-etiqueta-imprimir"
+                        onClick={() => imprimirEtiqueta(pedido)}
+                        disabled={Boolean(acaoEtiqueta[pedido.id])}
+                      >
+                        {acaoEtiqueta[pedido.id] === "imprimindo" ? "Abrindo..." : "Imprimir etiqueta"}
+                      </button>
+                    )}
+                  </div>
+
+                  {mensagemEtiqueta[pedido.id] && (
+                    <p className="admin-etiqueta-mensagem" role="status">{mensagemEtiqueta[pedido.id]}</p>
+                  )}
+                </div>
+              )}
             </>}
           </details>
         </article>)}
