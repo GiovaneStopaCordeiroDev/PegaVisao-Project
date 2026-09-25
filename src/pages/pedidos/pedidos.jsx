@@ -8,6 +8,19 @@ import { concluirPixPendente } from "../../services/pixPendente";
 
 import "./pedidos.css";
 
+const statusRastreio = {
+  pending: "Pendente",
+  released: "Etiqueta paga",
+  generated: "Etiqueta gerada",
+  received: "Recebido no ponto de distribuição",
+  posted: "Postado",
+  delivered: "Entregue",
+  cancelled: "Cancelado",
+  undelivered: "Não entregue",
+  paused: "Entrega interrompida",
+  suspended: "Envio suspenso",
+};
+
 export function Pedidos() {
   const navigate = useNavigate();
 
@@ -384,6 +397,33 @@ export function Pedidos() {
 
                 <p>CEP: {pedido.cep}</p>
               </div>
+
+              {(pedido.melhorEnvioTracking || pedido.melhorEnvioRastreioStatus) && (
+                <section className="rastreio-pedido">
+                  <h3>Rastreamento</h3>
+                  {pedido.melhorEnvioTracking ? (
+                    <>
+                      <span>Código de rastreio</span>
+                      <strong>{pedido.melhorEnvioTracking}</strong>
+                      {pedido.melhorEnvioRastreioStatus && (
+                        <small>Status: {statusRastreio[pedido.melhorEnvioRastreioStatus] || pedido.melhorEnvioRastreioStatus}</small>
+                      )}
+                      <a
+                        href={pedido.melhorEnvioTrackingUrl ||
+                          (pedido.freteTransportadora?.toLowerCase().includes("correios")
+                            ? `https://rastreamento.correios.com.br/app/index.php?objetos=${encodeURIComponent(pedido.melhorEnvioTracking)}`
+                            : "https://melhorrastreio.com.br/")}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Acompanhar entrega
+                      </a>
+                    </>
+                  ) : (
+                    <p>O envio já foi atualizado, mas o código de rastreio ainda não foi liberado.</p>
+                  )}
+                </section>
+              )}
 
               {pedido.status === "Pendente" && <ContadorPagamento
                 expiraEm={pedido.pagamentoExpiraEm} servidorAgora={pedido.servidorAgora} />}

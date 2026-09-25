@@ -64,3 +64,11 @@
   .admin-etiqueta-campos { grid-template-columns: 1fr; }
   .admin-etiqueta-nfe { grid-column: auto; }
 }
+
+.admin-rastreio { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; padding: 14px; border: 1px solid var(--pv-border); border-radius: 8px; }
+.admin-rastreio > strong { flex-basis: 100%; }
+.admin-rastreio > span, .admin-rastreio > small { color: var(--pv-muted); }
+.admin-rastreio-codigo { font-family: monospace; font-size: 15px; letter-spacing: .04em; color: var(--pv-text) !important; }
+.admin-rastreio a { color: var(--pv-accent); font-weight: 700; text-decoration: none; }
+.admin-rastreio button { margin-left: auto; }
+@media (max-width: 550px) { .admin-rastreio button { width: 100%; margin-left: 0; } }
