@@ -52,8 +52,8 @@ export function PedidosAdmin() {
         pedido.melhorEnvioOrderId
           ? { documento: "", telefone: "", chaveNfe: null }
           : {
-              documento: dados.documento || "",
-              telefone: dados.telefone || "",
+              documento: dados.documento || null,
+              telefone: dados.telefone || null,
               chaveNfe: dados.chaveNfe?.trim() || null,
             },
         { timeout: 35000 },
@@ -160,7 +160,9 @@ export function PedidosAdmin() {
                       <p>
                         {pedido.melhorEnvioOrderId
                           ? `Envio Melhor Envio: ${pedido.melhorEnvioOrderId}`
-                          : "Preencha os dados do destinatário para criar e comprar a etiqueta."}
+                          : pedido.temCpfDestinatario && pedido.temTelefoneDestinatario
+                            ? "CPF e telefone já foram salvos no checkout. Informe apenas a NF-e e gere a etiqueta."
+                            : "Pedido antigo: preencha somente os dados do destinatário que estão faltando."}
                       </p>
                     </div>
                     {pedido.melhorEnvioEtiquetaStatus && (
@@ -170,25 +172,29 @@ export function PedidosAdmin() {
 
                   {!pedido.melhorEnvioOrderId && (
                     <div className="admin-etiqueta-campos">
-                      <label>
-                        CPF do destinatário
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="Somente números"
-                          value={dadosEtiqueta[pedido.id]?.documento || ""}
-                          onChange={(event) => alterarDadoEtiqueta(pedido.id, "documento", event.target.value)}
-                        />
-                      </label>
-                      <label>
-                        Telefone do destinatário
-                        <input
-                          type="tel"
-                          placeholder="DDD + número"
-                          value={dadosEtiqueta[pedido.id]?.telefone || ""}
-                          onChange={(event) => alterarDadoEtiqueta(pedido.id, "telefone", event.target.value)}
-                        />
-                      </label>
+                      {!pedido.temCpfDestinatario && (
+                        <label>
+                          CPF do destinatário
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            placeholder="Somente números"
+                            value={dadosEtiqueta[pedido.id]?.documento || ""}
+                            onChange={(event) => alterarDadoEtiqueta(pedido.id, "documento", event.target.value)}
+                          />
+                        </label>
+                      )}
+                      {!pedido.temTelefoneDestinatario && (
+                        <label>
+                          Telefone do destinatário
+                          <input
+                            type="tel"
+                            placeholder="DDD + número"
+                            value={dadosEtiqueta[pedido.id]?.telefone || ""}
+                            onChange={(event) => alterarDadoEtiqueta(pedido.id, "telefone", event.target.value)}
+                          />
+                        </label>
+                      )}
                       <label className="admin-etiqueta-nfe">
                         Chave da NF-e
                         <input
