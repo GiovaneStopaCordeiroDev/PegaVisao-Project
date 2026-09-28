@@ -1,18 +1,28 @@
 import { ContadorPagamento } from "../../components/ContadorPagamento";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import { toast } from "sonner";
 
 import api from "../../services/api";
-import { registrarPixPendente, concluirPixPendente } from "../../services/pixPendente";
+import {
+  registrarPixPendente,
+  consultarPagamento,
+  urlCheckoutSegura,
+  concluirPixPendente,
+  registrarPagamentoPendente,
+  obterPagamentoPendente,
+  limparPagamentoPendente,
+  concluirPagamentoPendente,
+} from "../../services/pixPendente";
 import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 import "./pagamentos.css";
 
 export function Pagamento() {
   const navigate = useNavigate();
+  const enviando = useRef(false);
 
   const [formaPagamento, setFormaPagamento] = useState("");
   const [finalizando, setFinalizando] = useState(false);
@@ -23,6 +33,7 @@ export function Pagamento() {
   const [freteSalvo] = useState(() => lerJsonSeguro("freteCheckout"));
   const [cotacao, setCotacao] = useState(null);
   const [pedidoCriado, setPedidoCriado] = useState(null);
+  const [pagamentoPendente, setPagamentoPendente] = useState(() => obterPagamentoPendente());
 
   useEffect(() => {
     if (!pixData?.pedidoId) return;
@@ -39,10 +50,11 @@ export function Pagamento() {
         if (data.status === "Pago") {
           concluirPixPendente(data);
           toast.success("Pagamento confirmado!");
-          navigate("/pedidos", { replace: true });
+          navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
           return;
         }
         if (data.status === "Cancelado") {
+          limparPagamentoPendente(data.id);
           setPrazoVencido(true);
           navigate("/pedidos", { replace: true });
           toast.error("Este pedido foi cancelado. Consulte seus pedidos.");
@@ -66,31 +78,82 @@ export function Pagamento() {
   }, [pixData?.pedidoId, navigate]);
 
   const [carrinho] = useState(() => {
-    return JSON.parse(localStorage.getItem("carrinho")) || [];
+    return lerJsonSeguro("carrinho") || [];
   });
 
   const [endereco] = useState(() => {
-    return JSON.parse(localStorage.getItem("enderecoCheckout")) || null;
+    return lerJsonSeguro("enderecoCheckout");
   });
 
   const [destinatario] = useState(() => {
     try {
-      return JSON.parse(sessionStorage.getItem("destinatarioCheckout")) || null;
+      return JSON.parse(
+        localStorage.getItem("destinatarioCheckout") ||
+        sessionStorage.getItem("destinatarioCheckout")
+      ) || null;
     } catch {
       return null;
     }
   });
 
-  const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? carrinho.reduce((total, item) => {
+  useEffect(() => {
+    if (!pagamentoPendente?.pedidoId || pixData) return;
+    const controller = new AbortController();
+    let timer;
+    async function consultar() {
+      try {
+        const data = await consultarPagamento(api, pagamentoPendente.pedidoId, controller.signal);
+        if (controller.signal.aborted) return;
+        setPedidoCriado(data);
+        if (data.status === "Pago") {
+          concluirPagamentoPendente(data);
+          navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
+          return;
+        }
+        if (data.status === "Cancelado") {
+          limparPagamentoPendente(data.id);
+          setPagamentoPendente(null);
+          setPedidoCriado(null);
+          return;
+        }
+        if (data.status !== "Pendente") {
+          if (["Enviado", "Entregue"].includes(data.status)) limparPagamentoPendente(data.id);
+          navigate("/pedidos", { replace: true }); return;
+        }
+        if (data.pixQrCode) {
+          setPixData({ pedidoId: data.id, qrCode: data.pixQrCode, qrCodeBase64: data.pixQrCodeBase64 });
+          return;
+        }
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        if (error.response?.status === 404) {
+          limparPagamentoPendente(pagamentoPendente.pedidoId);
+          setPagamentoPendente(null);
+          return;
+        }
+        if (error.response?.status === 401) { navigate("/login"); return; }
+        toast.error("Não foi possível consultar o pagamento. Tentaremos novamente.");
+      }
+      timer = setTimeout(consultar, 5000);
+    }
+    consultar();
+    return () => { controller.abort(); clearTimeout(timer); };
+  }, [pagamentoPendente?.pedidoId, pixData, navigate]);
+
+  let itensResumo = carrinho;
+  if (pagamentoPendente) {
+    try { itensResumo = JSON.parse(pagamentoPendente.carrinho) || []; } catch { itensResumo = []; }
+  }
+  const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? itensResumo.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
 
-  const opcaoFrete = cotacao?.opcoes.find((opcao) => opcao.servicoId === freteSalvo?.servicoId);
+  const opcaoFrete = (cotacao || freteSalvo)?.opcoes?.find((opcao) => opcao.servicoId === freteSalvo?.servicoId);
   const frete = pedidoCriado?.valorFrete ?? opcaoFrete?.valor ?? 0;
   const total = subtotal + frete;
 
   useEffect(() => {
-    if (!endereco || !carrinho.length) return;
+    if (finalizando || pagamentoPendente || pixData || pedidoCriado || !endereco || !carrinho.length) return;
     if (!freteValido(freteSalvo, endereco.cep, carrinho)) {
       toast.error("Calcule o frete novamente antes de continuar.");
       navigate("/checkout", { replace: true });
@@ -110,9 +173,10 @@ export function Pagamento() {
         navigate("/checkout", { replace: true });
       });
     return () => controller.abort();
-  }, [freteSalvo, endereco, carrinho, navigate]);
+  }, [freteSalvo, endereco, carrinho, navigate, pagamentoPendente, pixData, pedidoCriado, finalizando]);
 
   useEffect(() => {
+    if (pagamentoPendente || pixData || pedidoCriado) return;
     if (!destinatario?.cpf || !destinatario?.telefone) {
       toast.error("CPF e telefone do destinatário não foram encontrados. Confirme os dados novamente.");
       navigate("/checkout", { replace: true });
@@ -129,14 +193,53 @@ export function Pagamento() {
       toast.error("Seu carrinho está vazio.");
       navigate("/carrinho");
     }
-  }, [destinatario, endereco, carrinho.length, navigate]);
+  }, [destinatario, endereco, carrinho.length, navigate, pagamentoPendente, pixData, pedidoCriado]);
 
   async function continuarPagamento() {
+    if (enviando.current) return;
+    if (pagamentoPendente?.pedidoId) {
+      try {
+        enviando.current = true;
+        setFinalizando(true);
+        const data = await consultarPagamento(api, pagamentoPendente.pedidoId);
+
+        if (data.status === "Pago") {
+          concluirPagamentoPendente(data);
+          toast.success("Pagamento já confirmado!");
+          navigate(`/pagamento-concluido?pedido=${data.id}`, { replace: true });
+          return;
+        }
+
+        if (data.status === "Cancelado") {
+          limparPagamentoPendente(data.id);
+          setPedidoCriado(null);
+          setPagamentoPendente(null);
+          toast.error("O pagamento anterior foi cancelado. Gere um novo pedido.");
+          return;
+        }
+
+        const vencido = data.pagamentoExpiraEm && Date.parse(data.pagamentoExpiraEm) <= Date.parse(data.servidorAgora || new Date().toISOString());
+        if (data.status === "Pendente" && !vencido && urlCheckoutSegura(data.mercadoPagoCheckoutUrl)) {
+          window.location.href = data.mercadoPagoCheckoutUrl;
+          return;
+        }
+
+        toast.error("Não foi possível reabrir o checkout. Consulte o pedido.");
+        navigate("/pedidos");
+      } catch {
+        toast.error("Não foi possível consultar o pagamento pendente.");
+      } finally {
+        enviando.current = false;
+        setFinalizando(false);
+      }
+      return;
+    }
+
     if (pedidoCriado) {
       navigate("/pedidos");
       return;
     }
-    if (!opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
+    if (!cotacao || !opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
         chaveCarrinho(lerJsonSeguro("carrinho") || []) !== chaveCarrinho(carrinho)) {
       toast.error("Sua cotação venceu ou o carrinho mudou. Calcule o frete novamente.");
       navigate("/checkout");
@@ -160,6 +263,7 @@ export function Pagamento() {
     }
 
     try {
+      enviando.current = true;
       setFinalizando(true);
 
       const pedido = {
@@ -185,9 +289,9 @@ export function Pagamento() {
 
       const response = await api.post("/Pedido", pedido);
       setPedidoCriado(response.data);
-      sessionStorage.removeItem("destinatarioCheckout");
 
-      console.log("Pedido criado:", response.data);
+      registrarPagamentoPendente(response.data);
+      setPagamentoPendente(obterPagamentoPendente());
 
       // ==========================================
       // PIX
@@ -223,27 +327,21 @@ export function Pagamento() {
 
       const checkoutUrl = response.data.mercadoPagoCheckoutUrl;
 
-      if (!checkoutUrl) {
+      if (!urlCheckoutSegura(checkoutUrl)) {
         toast.error(
           "O pedido foi criado, mas o checkout do Mercado Pago não foi gerado.",
         );
         return;
       }
 
-      // Só limpa o carrinho quando temos
-      // certeza de que o checkout foi criado
-      localStorage.removeItem("carrinho");
-      localStorage.removeItem("enderecoCheckout");
-      localStorage.removeItem("formaPagamento");
-      localStorage.removeItem("freteCheckout");
-      sessionStorage.removeItem("destinatarioCheckout");
-
-      // Redireciona para o Mercado Pago
+      // Mantém carrinho, endereço, CPF e frete até o backend confirmar o pagamento.
       window.location.href = checkoutUrl;
     } catch (error) {
-      console.error("Erro ao criar pedido:", error);
+
       if (error.response?.data?.pedidoId) {
         setPedidoCriado({ id: error.response.data.pedidoId });
+        registrarPagamentoPendente({ id: error.response.data.pedidoId });
+        setPagamentoPendente(obterPagamentoPendente());
       }
 
       if (error.response?.status === 401) {
@@ -273,6 +371,7 @@ export function Pagamento() {
           : "Não foi possível realizar o pedido.",
       );
     } finally {
+      enviando.current = false;
       setFinalizando(false);
     }
   }
@@ -294,9 +393,9 @@ export function Pagamento() {
   }
 
   function voltarCheckout() {
-    if (pixData) {
+    if (pixData || pagamentoPendente?.pedidoId) {
       toast.error(
-        "Finalize ou copie o código Pix antes de alterar o endereço.",
+        "Há um pagamento em andamento. Finalize ou cancele o pedido antes de alterar o endereço.",
       );
 
       return;
@@ -321,7 +420,9 @@ export function Pagamento() {
         <p>
           {pixData
             ? "Escaneie o QR Code ou copie o código Pix para pagar."
-            : "Escolha como deseja pagar seu pedido."}
+            : pagamentoPendente?.pedidoId
+              ? `Pedido #${pagamentoPendente.pedidoId} aguardando pagamento.`
+              : "Escolha como deseja pagar seu pedido."}
         </p>
       </div>
 
@@ -375,6 +476,20 @@ export function Pagamento() {
 
                 <span>Após realizar o pagamento, aguarde a confirmação.</span>
               </div>
+            </div>
+          ) : pagamentoPendente?.pedidoId ? (
+            <div className="bloco-pagamento">
+              <h2>Pagamento pendente</h2>
+              <p>Seu pedido já foi criado. Continue no mesmo pagamento para evitar um pedido duplicado.</p>
+              <button
+                type="button"
+                className="botao-pagar"
+                onClick={continuarPagamento}
+                disabled={finalizando}
+              >
+                {finalizando ? "Consultando pagamento..." : "Continuar pagamento"}
+              </button>
+              <button type="button" onClick={() => navigate("/pedidos")}>Ver meus pedidos</button>
             </div>
           ) : (
             <>
@@ -477,7 +592,7 @@ export function Pagamento() {
                 type="button"
                 className="botao-pagar"
                 onClick={continuarPagamento}
-                disabled={finalizando || !opcaoFrete}
+                disabled={finalizando || !cotacao || !opcaoFrete}
               >
                 {pedidoCriado ? `Ver pedido #${pedidoCriado.id}` : finalizando
                   ? formaPagamento === "pix"
@@ -496,8 +611,9 @@ export function Pagamento() {
         <aside className="resumo-pagamento">
           <h2>Resumo do pedido</h2>
 
+          {pagamentoPendente && <p>Pedido #{pagamentoPendente.pedidoId} · Consulte os itens em Meus pedidos.</p>}
           <div className="itens-resumo-pagamento">
-            {carrinho.map((item, index) => (
+            {itensResumo.map((item, index) => (
               <div
                 className="item-resumo-pagamento"
                 key={`${item.variacaoId}-${index}`}

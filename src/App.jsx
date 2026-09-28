@@ -16,6 +16,7 @@ import { Checkout } from "./pages/checkout/checkout";
 import { Pedidos } from "./pages/pedidos/pedidos";
 
 import { Pagamento } from "./pages/pagamentos/pagamentos";
+import { PagamentoConcluido } from "./pages/pagamentoConcluido/PagamentoConcluido";
 
 import { ProtectedRoute } from "./components/protectedroute/protectedroute";
 
@@ -156,6 +157,7 @@ function App() {
                 ========================================= */}
 
         <Route path="/pagamento" element={<Pagamento />} />
+        <Route path="/pagamento-concluido" element={<PagamentoConcluido />} />
 
        {/* =========================================
                     PAGAMENTOS

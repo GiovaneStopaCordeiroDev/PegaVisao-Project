@@ -1,10 +1,10 @@
 import { ContadorPagamento } from "../../components/ContadorPagamento";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import api from "../../services/api";
-import { concluirPixPendente } from "../../services/pixPendente";
+import { concluirPixPendente, concluirPagamentoPendente, obterPagamentoPendente, limparPagamentoPendente } from "../../services/pixPendente";
 
 import "./pedidos.css";
 
@@ -28,6 +28,13 @@ export function Pedidos() {
   const [carregando, setCarregando] = useState(true);
   const [cancelando, setCancelando] = useState(null);
   const [excluindo, setExcluindo] = useState(null);
+  const conferirPagamento = useCallback((pedido) => {
+    const pendente = obterPagamentoPendente();
+    concluirPixPendente(pedido);
+    concluirPagamentoPendente(pedido);
+    if (["Cancelado", "Enviado", "Entregue"].includes(pedido.status)) limparPagamentoPendente(pedido.id);
+    if (pendente?.pedidoId === pedido.id && pedido.status === "Pago") navigate(`/pagamento-concluido?pedido=${pedido.id}`, { replace: true });
+  }, [navigate]);
   const temPendentes = pedidos.some((pedido) => pedido.status === "Pendente");
 
   useEffect(() => {
@@ -39,7 +46,7 @@ export function Pedidos() {
         const { data } = await api.get("/Pedido", { signal: controller.signal, timeout: 10000 });
         if (controller.signal.aborted) return;
         setPedidos(data);
-        data.forEach(concluirPixPendente);
+        data.forEach(conferirPagamento);
       } catch (error) {
         if (controller.signal.aborted || error.response?.status === 401) return;
       }
@@ -47,7 +54,7 @@ export function Pedidos() {
     }
     timer = setTimeout(atualizar, 10000);
     return () => { controller.abort(); clearTimeout(timer); };
-  }, [temPendentes]);
+  }, [temPendentes, conferirPagamento]);
 
   useEffect(() => {
     carregarPedidos();
@@ -60,7 +67,7 @@ export function Pedidos() {
       const response = await api.get("/Pedido");
 
       setPedidos(response.data);
-      response.data.forEach(concluirPixPendente);
+      response.data.forEach(conferirPagamento);
     } catch (error) {
       console.error("Erro ao carregar pedidos:", error);
 

@@ -310,6 +310,12 @@ export function Produtos() {
 
                     </strong>
 
+                    {Number(produto.parcelamento?.quantidade) >= 2 && Number(produto.parcelamento?.valorParcela) > 0 && (
+                        <span className="produto-card-parcelamento">
+                            ou {produto.parcelamento.quantidade}x de {Number(produto.parcelamento.valorParcela).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} sem juros
+                        </span>
+                    )}
+
                     <button
                         type="button"
                         className="botao-carrinho-produto"
@@ -661,4 +667,3 @@ export function Produtos() {
 
     );
 }
-
