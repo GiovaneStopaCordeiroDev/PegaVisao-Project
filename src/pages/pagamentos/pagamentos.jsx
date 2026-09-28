@@ -19,6 +19,8 @@ import {
 import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 import "./pagamentos.css";
+import { useCupom } from "./useCupom";
+import { moedaCupom } from "../../services/cupons";
 
 export function Pagamento() {
   const navigate = useNavigate();
@@ -85,6 +87,9 @@ export function Pagamento() {
     return lerJsonSeguro("enderecoCheckout");
   });
 
+  const cupomBloqueado = Boolean(pedidoCriado || pagamentoPendente || pixData);
+  const cupom = useCupom(carrinho, cupomBloqueado);
+
   const [destinatario] = useState(() => {
     try {
       return JSON.parse(
@@ -144,13 +149,15 @@ export function Pagamento() {
   if (pagamentoPendente) {
     try { itensResumo = JSON.parse(pagamentoPendente.carrinho) || []; } catch { itensResumo = []; }
   }
-  const subtotal = pedidoCriado?.subtotalProdutos ?? cotacao?.subtotal ?? itensResumo.reduce((total, item) => {
+  const subtotal = pedidoCriado?.subtotalProdutos ?? (!cupomBloqueado ? cupom.dados?.subtotal : null) ?? cotacao?.subtotal ?? itensResumo.reduce((total, item) => {
     return total + Number(item.preco) * Number(item.quantidade);
   }, 0);
 
   const opcaoFrete = (cotacao || freteSalvo)?.opcoes?.find((opcao) => opcao.servicoId === freteSalvo?.servicoId);
   const frete = pedidoCriado?.valorFrete ?? opcaoFrete?.valor ?? 0;
-  const total = subtotal + frete;
+  const desconto = pedidoCriado?.valorDesconto ?? (!cupomBloqueado ? cupom.dados?.desconto : 0) ?? 0;
+  const codigoCupom = pedidoCriado?.cupomCodigo ?? (!cupomBloqueado ? cupom.dados?.codigo : null);
+  const total = pedidoCriado?.valorTotal ?? subtotal - desconto + frete;
 
   useEffect(() => {
     if (finalizando || pagamentoPendente || pixData || pedidoCriado || !endereco || !carrinho.length) return;
@@ -239,6 +246,7 @@ export function Pagamento() {
       navigate("/pedidos");
       return;
     }
+    if (cupom.impedido) { toast.error("Valide ou remova o cupom antes de continuar."); return; }
     if (!cotacao || !opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
         chaveCarrinho(lerJsonSeguro("carrinho") || []) !== chaveCarrinho(carrinho)) {
       toast.error("Sua cotação venceu ou o carrinho mudou. Calcule o frete novamente.");
@@ -266,7 +274,9 @@ export function Pagamento() {
       enviando.current = true;
       setFinalizando(true);
 
+      const cupomConfirmado = await cupom.revalidar();
       const pedido = {
+        cupomCodigo: cupomConfirmado?.codigo || null,
         itens: carrinho.map((item) => ({
           variacaoProdutoId: Number(item.variacaoId),
           quantidade: Number(item.quantidade),
@@ -363,6 +373,7 @@ export function Pagamento() {
         error.response?.data?.mensagem ||
         error.response?.data?.erro ||
         error.response?.data ||
+        error.message ||
         "Não foi possível realizar o pedido.";
 
       toast.error(
@@ -592,7 +603,7 @@ export function Pagamento() {
                 type="button"
                 className="botao-pagar"
                 onClick={continuarPagamento}
-                disabled={finalizando || !cotacao || !opcaoFrete}
+                disabled={finalizando || !cotacao || !opcaoFrete || cupom.impedido}
               >
                 {pedidoCriado ? `Ver pedido #${pedidoCriado.id}` : finalizando
                   ? formaPagamento === "pix"
@@ -647,10 +658,25 @@ export function Pagamento() {
             <span>R$ {subtotal.toFixed(2).replace(".", ",")}</span>
           </div>
 
+          {!cupomBloqueado && <div className="cupom-checkout">
+            <label htmlFor="codigo-cupom">Cupom de desconto</label>
+            <div className="cupom-checkout-campos">
+              <input id="codigo-cupom" maxLength={40} value={cupom.texto} disabled={finalizando || cupom.carregando}
+                placeholder="Digite seu código" autoCapitalize="characters" onChange={e => cupom.setTexto(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); cupom.aplicar(); } }} />
+              <button type="button" onClick={cupom.aplicar} disabled={finalizando || cupom.carregando || !cupom.texto.trim()}>Aplicar</button>
+            </div>
+            {cupom.codigo && <button type="button" className="cupom-remover" onClick={cupom.remover} disabled={finalizando}>Remover cupom</button>}
+            {cupom.carregando && <p role="status">Validando cupom…</p>}
+            {cupom.erro && <p role="alert">{cupom.erro}</p>}
+            {cupom.dados && <p role="status">Cupom aplicado aos produtos participantes.</p>}
+          </div>}
+          {codigoCupom && <div className="linha-resumo-pagamento"><span>Desconto ({codigoCupom})</span><strong>− {moedaCupom(desconto)}</strong></div>}
+
           <div className="linha-resumo-pagamento">
             <span>{cotacao?.semFreteParaTeste ? "Entrega" : "Frete"}</span>
 
-            <span>{cotacao?.semFreteParaTeste ? "Suspensa para teste" : opcaoFrete ? `R$ ${frete.toFixed(2).replace(".", ",")}` : "Validando frete..."}</span>
+            <span>{pedidoCriado?.valorFrete != null ? moedaCupom(frete) : cotacao?.semFreteParaTeste ? "Suspensa para teste" : opcaoFrete ? `R$ ${frete.toFixed(2).replace(".", ",")}` : "Validando frete..."}</span>
           </div>
 
           {opcaoFrete && !cotacao?.semFreteParaTeste && <p>{opcaoFrete.transportadora} · {opcaoFrete.servico}<br />
@@ -663,7 +689,7 @@ export function Pagamento() {
           <div className="total-pagamento">
             <span>Total</span>
 
-            <strong>R$ {total.toFixed(2).replace(".", ",")}</strong>
+            <strong>{cupomBloqueado && pedidoCriado?.valorTotal == null ? "Consultando pedido…" : moedaCupom(total)}</strong>
           </div>
         </aside>
       </div>

@@ -1,0 +1,21 @@
+.cupons-admin { color: var(--pv-text); min-width: 0; }
+.cupons-cabecalho { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.cupons-admin h1, .cupons-admin h2 { margin: 0 0 12px; overflow-wrap: anywhere; }
+.cupons-admin p { line-height: 1.6; margin: 10px 0; }
+.cupons-admin button { padding: 11px 16px; border-radius: 8px; border: 1px solid var(--pv-accent); background: var(--pv-accent); color: #111; font: inherit; font-weight: 600; cursor: pointer; }
+.cupons-admin .cupom-secundario { background: var(--pv-surface); color: var(--pv-text); border-color: var(--pv-border); }
+.cupons-admin button:disabled { opacity: .55; cursor: not-allowed; }
+.cupom-form, .cupom-card { margin: 20px 0; padding: 24px; background: var(--pv-surface); border: 1px solid var(--pv-border); border-radius: 12px; }
+.cupom-form fieldset { padding: 0; border: 0; min-width: 0; }
+.cupom-campos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.cupons-admin label { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+.cupons-admin input, .cupons-admin select { min-width: 0; width: 100%; min-height: 44px; padding: 10px; border-radius: 7px; background: var(--pv-bg); border: 1px solid var(--pv-border); color: var(--pv-text); font: inherit; }
+.cupons-admin .cupom-checkbox { flex-direction: row; align-items: center; }
+.cupons-admin input[type=checkbox] { width: 18px; height: 18px; min-height: 18px; flex-shrink: 0; accent-color: var(--pv-accent); }
+.cupom-selecao { margin-top: 22px; }
+.cupom-produtos { max-height: 240px; overflow: auto; padding: 12px; border: 1px solid var(--pv-border); border-radius: 8px; display: grid; gap: 14px; }
+.cupom-ajuda { color: var(--pv-muted); font-size: 14px; }
+.cupom-acoes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.cupons-mensagem { padding: 14px; border-left: 3px solid var(--pv-accent); background: var(--pv-surface); }
+.cupons-admin :is(button, input, select):focus-visible { outline: 2px solid var(--pv-accent); outline-offset: 3px; }
+@media (max-width: 600px) { .cupom-campos { grid-template-columns: 1fr; } .cupom-form, .cupom-card { padding: 16px; } }

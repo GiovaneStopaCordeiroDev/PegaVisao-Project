@@ -549,3 +549,12 @@
     font-size: 11px;
   }
 }
+.cupom-checkout { margin: 20px 0; padding: 16px 0; border-block: 1px solid var(--pv-border); }
+.cupom-checkout label { display: block; margin-bottom: 10px; font-weight: 600; }
+.cupom-checkout-campos { display: flex; gap: 8px; }
+.cupom-checkout input { min-width: 0; width: 100%; min-height: 44px; padding: 10px; border: 1px solid var(--pv-border); border-radius: 7px; background: var(--pv-bg); color: var(--pv-text); font: inherit; }
+.cupom-checkout button { min-height: 44px; padding: 10px 14px; border: 0; border-radius: 7px; background: var(--pv-accent); color: #111; font: inherit; cursor: pointer; }
+.cupom-checkout button:disabled { opacity: .55; cursor: not-allowed; }
+.cupom-checkout .cupom-remover { background: transparent; color: var(--pv-text); padding-inline: 0; text-decoration: underline; }
+.cupom-checkout p { font-size: 14px; line-height: 1.5; margin: 8px 0; }
+.cupom-checkout :is(input, button):focus-visible { outline: 2px solid var(--pv-accent); outline-offset: 3px; }

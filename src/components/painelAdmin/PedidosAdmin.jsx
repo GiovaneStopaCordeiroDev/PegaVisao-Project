@@ -183,6 +183,7 @@ export function PedidosAdmin() {
             </ul>
             <dl className="admin-pedido-valores">
               <div><dt>Produtos</dt><dd>{moeda(pedido.subtotalProdutos)}</dd></div>
+              {pedido.cupomCodigo && <div><dt>Desconto ({pedido.cupomCodigo})</dt><dd>− {moeda(pedido.valorDesconto)}</dd></div>}
               <div><dt>Frete</dt><dd>{moeda(pedido.valorFrete)}</dd></div>
             </dl>
             <h3>Entrega</h3>

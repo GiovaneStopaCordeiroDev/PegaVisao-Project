@@ -32,6 +32,7 @@ function snapshotCheckout() {
     destinatario: localStorage.getItem("destinatarioCheckout"),
     destinatarioSessao: typeof sessionStorage !== "undefined" ? sessionStorage.getItem("destinatarioCheckout") : null,
     forma: localStorage.getItem("formaPagamento"),
+    cupom: localStorage.getItem("cupomCheckout"),
     usuarioId: ler("usuario")?.id,
   };
 }
@@ -83,6 +84,7 @@ function limparSnapshotSeInalterado(pendente) {
     localStorage.removeItem("destinatarioCheckout");
   }
   if (localStorage.getItem("formaPagamento") === pendente.forma) localStorage.removeItem("formaPagamento");
+  if (localStorage.getItem("cupomCheckout") === pendente.cupom) localStorage.removeItem("cupomCheckout");
   if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("destinatarioCheckout") === pendente.destinatarioSessao) {
     sessionStorage.removeItem("destinatarioCheckout");
   }

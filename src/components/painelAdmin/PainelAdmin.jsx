@@ -1,4 +1,5 @@
 import { PedidosAdmin } from "./PedidosAdmin";
+import { CuponsAdmin } from "./CuponsAdmin";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import { toast } from "sonner";
@@ -347,9 +348,11 @@ export function PainelAdmin() {
           onClick={() => setSecao("produtos")}>Produtos</button>
         <button type="button" aria-current={secao === "pedidos" ? "page" : undefined}
           onClick={() => setSecao("pedidos")}>Pedidos</button>
+        <button type="button" aria-current={secao === "cupons" ? "page" : undefined}
+          onClick={() => setSecao("cupons")}>Cupons</button>
       </nav>
       <div className="admin-conteudo">
-      {secao === "pedidos" ? <PedidosAdmin /> : <>
+      {secao === "cupons" ? <CuponsAdmin /> : secao === "pedidos" ? <PedidosAdmin /> : <>
       <MelhorEnvioConexao />
       {/* =========================
           TÍTULO + ADICIONAR

@@ -334,6 +334,10 @@ export function Pedidos() {
 
                   <strong>R$ {formatarValor(pedido.valorTotal)}</strong>
                 </div>
+                {pedido.cupomCodigo && <div className="informacao-pedido">
+                  <span>Desconto ({pedido.cupomCodigo})</span>
+                  <strong>− R$ {formatarValor(pedido.valorDesconto)}</strong>
+                </div>}
                 {pedido.freteServico && <div className="informacao-pedido">
                   <span>Entrega · {pedido.freteTransportadora} / {pedido.freteServico}</span>
                   <strong>R$ {formatarValor(pedido.valorFrete)}</strong>
