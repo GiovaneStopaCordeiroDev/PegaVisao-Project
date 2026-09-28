@@ -46,16 +46,28 @@ export function GoogleLogin({ onSuccess }) {
     useEffect(() => {
         if (!clientId) return;
         let ativo = true;
+        let observador;
         carregarGoogle().then(() => {
             if (!ativo || !container.current) return;
             window.google.accounts.id.initialize({ client_id: clientId, auto_select: false,
                 callback: response => { if (ativo) autenticar(response.credential); } });
-            window.google.accounts.id.renderButton(container.current, {
-                theme: "outline", size: "large", text: "signin_with", locale: "pt-BR",
-                width: Math.min(350, container.current.clientWidth), shape: "rectangular"
-            });
+            const elemento = container.current;
+            let larguraAnterior = 0;
+            const renderizar = () => {
+                const largura = Math.min(400, Math.floor(elemento.clientWidth));
+                if (!ativo || largura <= 0 || largura === larguraAnterior) return;
+                larguraAnterior = largura;
+                elemento.replaceChildren();
+                window.google.accounts.id.renderButton(elemento, {
+                    theme: "filled_black", size: "large", text: "signin_with", locale: "pt-BR",
+                    width: largura, shape: "rectangular"
+                });
+            };
+            renderizar();
+            observador = new ResizeObserver(renderizar);
+            observador.observe(elemento);
         }).catch(error => { if (ativo) setErro(error.message); });
-        return () => { ativo = false; };
+        return () => { ativo = false; observador?.disconnect(); };
     }, [clientId]);
 
     return <section className="login-google" aria-label="Acesso com Google" aria-busy={ocupado}>

@@ -32,7 +32,7 @@ import { PaginaProduto } from "./pages/paginaProduto/paginaProduto";
 
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import { FaWhatsapp } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
 import { Toaster } from "sonner";
 
@@ -126,15 +126,26 @@ function App() {
 
       <Header />
 
+      <div className="contatos-flutuantes">
       <a
         href="https://wa.me/5514991851217"
         target="_blank"
         rel="noopener noreferrer"
-        className="botao-whatsapp"
+        className="botao-social botao-whatsapp"
         aria-label="Fale conosco pelo WhatsApp"
       >
         <FaWhatsapp />
       </a>
+      <a
+        href="https://www.instagram.com/pegavisaostreetwear/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="botao-social botao-instagram"
+        aria-label="Visite a PegaVisão no Instagram"
+      >
+        <FaInstagram />
+      </a>
+      </div>
 
       <Routes>  
 

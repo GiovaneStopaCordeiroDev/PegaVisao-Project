@@ -262,44 +262,53 @@ body {
    BOTÃO WHATSAPP
 ========================================= */
 
-.botao-whatsapp {
+.contatos-flutuantes {
   position: fixed;
-
   right: 25px;
-  top: 50%;
+  top: 60%;
   transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
 
-  width: 60px;
-  height: 60px;
+.botao-social {
+  width: 54px;
+  height: 54px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background-color: #25d366;
-  color: var(--pv-text);
+  color: #fff;
 
   border-radius: 50%;
 
-  font-size: 34px;
+  font-size: 30px;
 
   text-decoration: none;
 
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 
-  z-index: 9999;
-
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.botao-whatsapp:hover {
-  transform: translateY(-50%) scale(1.08);
+.botao-whatsapp { background-color: #25d366; }
+.botao-instagram { background: linear-gradient(135deg, #833ab4, #e1306c, #fcb045); }
+
+.botao-social:hover {
+  transform: scale(1.08);
 
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
-.botao-whatsapp:active {
-  transform: translateY(-50%) scale(0.95);
+.botao-social:active {
+  transform: scale(0.95);
+}
+.botao-social:focus-visible {
+  outline: 2px solid var(--pv-accent);
+  outline-offset: 4px;
 }
 /* =========================================
    ROTA NÃO ENCONTRADA
@@ -358,13 +367,14 @@ body {
 
 @media (max-width: 768px) {
 
-  .botao-whatsapp {
-    width: 52px;
-    height: 52px;
-
+  .contatos-flutuantes {
     right: 15px;
+  }
 
-    font-size: 29px;
+  .botao-social {
+    width: 48px;
+    height: 48px;
+    font-size: 27px;
   }
 
   .secao-categoria {

@@ -122,5 +122,5 @@ footer { background: #080808; color: var(--pv-text); box-shadow: 0 -1px 0 var(--
 .melhor-envio-conexao { background: var(--pv-surface); border-color: var(--pv-border); }
 
 @media (max-width: 600px) {
-  .botao-whatsapp { right: 12px; }
+  .contatos-flutuantes { right: 12px; }
 }
