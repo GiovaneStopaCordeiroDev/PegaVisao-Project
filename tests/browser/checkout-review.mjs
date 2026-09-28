@@ -27,6 +27,12 @@ await page.evaluate(({cart,address,freight,recipient})=>{localStorage.setItem('t
 const seed=async()=>page.evaluate(async()=>{const m=await import('/src/services/pixPendente.js');m.registrarPagamentoPendente({id:40});});
 try{await run({page,seed,status:v=>status=v,extra:v=>extra=v,posts:()=>posts});checks++;console.log('OK '+name);}catch(error){console.log("URL",page.url());console.log((await page.locator("body").innerText()).slice(0,2500));throw error;}finally{await ctx.close();}}
 try{
+await scenario('Frete deve ser validado antes de liberar novo pagamento',async({page,posts})=>{
+let liberar;const gate=new Promise(resolve=>{liberar=resolve;});
+await page.route('**/api/Frete/cotacoes/*',async route=>{await gate;await route.fulfill({json:freight});});
+await page.goto(base+'/pagamento');const button=page.getByRole('button',{name:'Ir para pagamento'});await button.waitFor();
+assert.equal(await button.isDisabled(),true);assert.equal(posts(),0);liberar();await page.waitForFunction(()=>!document.querySelector('.botao-pagar').disabled);
+});
 await scenario('A/B cartão cria uma vez, conserva dados e retoma após refresh',async({page,posts})=>{
 await page.goto(base+'/checkout');await page.getByLabel('CPF do destinat\u00e1rio').fill('12345678909');await page.getByLabel('Telefone do destinat\u00e1rio').fill('14999999999');await page.getByRole('button',{name:'Calcular frete',exact:true}).click();await page.locator('input[name=servicoFrete]').check();await page.getByRole('button',{name:'Continuar para pagamento'}).click();await page.getByRole('button',{name:/Cart/}).click();await page.getByRole('button',{name:"Ir para pagamento"}).click();await page.waitForURL('https://www.mercadopago.com.br/**');assert.equal(posts(),1);
 await page.goto(base+'/pagamento');await page.getByRole('heading',{name:'Pagamento pendente',exact:true}).waitFor();await page.reload();await page.getByRole('button',{name:'Continuar pagamento',exact:true}).click();await page.waitForURL('https://www.mercadopago.com.br/**');assert.equal(posts(),1);

@@ -239,7 +239,7 @@ export function Pagamento() {
       navigate("/pedidos");
       return;
     }
-    if (!opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
+    if (!cotacao || !opcaoFrete || !freteValido(freteSalvo, endereco?.cep, carrinho) ||
         chaveCarrinho(lerJsonSeguro("carrinho") || []) !== chaveCarrinho(carrinho)) {
       toast.error("Sua cotação venceu ou o carrinho mudou. Calcule o frete novamente.");
       navigate("/checkout");
@@ -592,7 +592,7 @@ export function Pagamento() {
                 type="button"
                 className="botao-pagar"
                 onClick={continuarPagamento}
-                disabled={finalizando || !opcaoFrete}
+                disabled={finalizando || !cotacao || !opcaoFrete}
               >
                 {pedidoCriado ? `Ver pedido #${pedidoCriado.id}` : finalizando
                   ? formaPagamento === "pix"

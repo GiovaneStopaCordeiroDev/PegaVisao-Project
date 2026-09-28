@@ -10,7 +10,7 @@ Apta para PR após as correções abaixo; aprovação para produção depende do
 - `npm.cmd run build`: passou.
 - `npm.cmd run lint`: passou, sem erros; 8 avisos preexistentes de hooks/efeitos em ContadorPagamento, carrinho, FreteCheckout, Produtos, Pedidos e PainelAdmin. Não foram feitos refactors fora do escopo para eliminá-los.
 - O package.json não possui script de testes. As três suítes existentes usam `node:test`; executadas com `node --test src/services/*.test.js`: 18 testes passaram, incluindo 7 novos.
-- Chrome headless: 10 cenários com API/Mercado Pago simulados passaram. Nenhum POST alcançou a API real.
+- Chrome headless: 11 cenários com API/Mercado Pago simulados passaram. Nenhum POST alcançou a API real.
 - Tamanhos verificados: 1366×900, 768×1024 e 390×844; capturas em `artifacts/checkout-review/` (ignoradas no Git).
 - Backend consultado somente para confirmar contrato: status compacto em `/Pedido/{id}`, dados completos na listagem autenticada `/Pedido`; parcelamento usa DTO/regra do backend. O backend local já não contém `installments_cost` na configuração do parcelamento.
 
@@ -28,7 +28,7 @@ Apta para PR após as correções abaixo; aprovação para produção depende do
 
 ## Cobertura de navegador e limites
 
-Cenários: cartão com CPF/telefone, frete simulado e seleção; saída sem pagar e retomada após refresh sem POST adicional; frete vencido com pedido pendente; Pago e limpeza; novo carrinho preservado; sucesso acessado diretamente com Cancelado; cancelamento sem apagar carrinho; geração/cópia/polling Pix; Pix restaurado com prazo vencido; rastreio de pedido enviado; visual de carrossel e parcelas nas três larguras (alguns itens agrupados nos 10 cenários).
+Cenários: cartão com CPF/telefone, frete simulado e seleção; saída sem pagar e retomada após refresh sem POST adicional; frete vencido com pedido pendente; Pago e limpeza; novo carrinho preservado; sucesso acessado diretamente com Cancelado; cancelamento sem apagar carrinho; geração/cópia/polling Pix; Pix restaurado com prazo vencido; rastreio de pedido enviado; visual de carrossel e parcelas nas três larguras (alguns itens agrupados nos 11 cenários).
 
 O código e a captura de tela verificam apresentação de QR/código, não validam uma cobrança Pix real. Serviços externos, entrega real de webhook, autorização de cartão e logística não foram exercitados. O rastreio foi testado com pedido simulado novo.
 
@@ -76,3 +76,5 @@ Tabela abaixo inclui a branch original e as correções da revisão; adições d
 | src/services/pixPendente.test.js | +50/-0 | Casos de estado, seguranca da URL e retomada. |
 | tests/browser/checkout-review.mjs | +45/-0 | Cenarios reproduziveis no navegador, API simulada. |
 | REVISAO-CHECKOUT.md | +78/-0 | Relatorio de validacao, riscos e checklist. |
+
+Revisão final de 28/09: botão e handler de nova compra aguardam a validação da cotação pela API. Novo cenário de rede lenta aprovado; evita acessar cotacao.id antes da resposta. Build e testes repetidos com sucesso.
