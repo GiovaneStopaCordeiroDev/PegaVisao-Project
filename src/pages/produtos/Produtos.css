@@ -733,3 +733,10 @@
     }
 
 }
+.produto-card-parcelamento {
+    display: block;
+    margin: 4px 0 10px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--pv-muted);
+}

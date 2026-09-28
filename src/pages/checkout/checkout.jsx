@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import "./checkout.css";
+import { obterPagamentoPendente } from "../../services/pixPendente";
 import { FreteCheckout } from "./FreteCheckout";
 import { freteValido, chaveCarrinho, lerJsonSeguro } from "../../services/freteCheckout";
 
 export function Checkout() {
   const navigate = useNavigate();
+  const [pendente] = useState(obterPagamentoPendente);
+  useEffect(() => { if (pendente) navigate("/pagamento", { replace: true }); }, [pendente, navigate]);
   const [salvo] = useState(() => lerJsonSeguro("enderecoCheckout") || {});
   const [destinatarioSalvo] = useState(() => {
     try {

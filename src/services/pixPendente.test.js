@@ -42,3 +42,53 @@ test("Marcador inválido e pedido cancelado não limpam carrinho", () => {
   assert.equal(concluirPixPendente({ id: 22, status: "Pago" }), false);
   assert.ok(localStorage.getItem("carrinho"));
 });
+import { registrarPagamentoPendente, obterPagamentoPendente, concluirPagamentoPendente, limparPagamentoPendente, consultarPagamento, urlCheckoutSegura } from './pixPendente.js';
+
+test('Cartão conserva dados até confirmação e limpa destinatário nas duas storages', () => {
+  preparar();
+  const dados = new Map();
+  globalThis.sessionStorage = { getItem:k=>dados.get(k)??null, setItem:(k,v)=>dados.set(k,v), removeItem:k=>dados.delete(k) };
+  localStorage.setItem('destinatarioCheckout', 'dados'); sessionStorage.setItem('destinatarioCheckout', 'dados');
+  registrarPagamentoPendente({id:33});
+  assert.equal(concluirPagamentoPendente({id:33,status:'Pendente'}),false);
+  assert.equal(concluirPagamentoPendente({id:33,status:'Pago'}),true);
+  assert.equal(localStorage.getItem('destinatarioCheckout'),null);
+  assert.equal(sessionStorage.getItem('destinatarioCheckout'),null);
+});
+test('Novo carrinho mantém todos os dados e outro marcador pendente', () => {
+  preparar(); registrarPagamentoPendente({id:33});
+  localStorage.setItem('carrinho','nova compra');
+  concluirPixPendente({id:22,status:'Pago'});
+  assert.equal(obterPagamentoPendente().pedidoId,33);
+  concluirPagamentoPendente({id:33,status:'Pago'});
+  assert.equal(localStorage.getItem('enderecoCheckout'),'{"rua":"Teste"}');
+});
+test('Cancelamento remove somente referência correspondente, preservando checkout', () => {
+  preparar(); registrarPagamentoPendente({id:33});
+  limparPagamentoPendente(22);
+  assert.equal(obterPagamentoPendente().pedidoId,33);
+  limparPagamentoPendente(33);
+  assert.equal(obterPagamentoPendente(),null);
+  assert.ok(localStorage.getItem('carrinho'));
+});
+test('Marcador de outra conta não é usado', () => {
+  preparar(); localStorage.setItem('usuario','{"id":1}'); registrarPagamentoPendente({id:33});
+  localStorage.setItem('usuario','{"id":2}'); assert.equal(obterPagamentoPendente(),null);
+});
+test('Retomada consulta status e URL autenticados sem POST', async () => {
+  const chamadas=[];
+  const api={ get:async path=>{chamadas.push(path); return {data:path==='/Pedido/33'?{id:33,status:'Pendente'}:[{id:33,status:'Pendente',mercadoPagoCheckoutUrl:'https://www.mercadopago.com.br/checkout'}]};}};
+  assert.equal((await consultarPagamento(api,33)).mercadoPagoCheckoutUrl,'https://www.mercadopago.com.br/checkout');
+  assert.deepEqual(chamadas,['/Pedido/33','/Pedido']);
+});
+test('Pago e Cancelado não consultam nem reabrem checkout', async () => {
+  for (const status of ['Pago','Cancelado']) {
+    const api={get:async path=>{assert.equal(path,'/Pedido/33');return {data:{id:33,status}};}};
+    assert.equal((await consultarPagamento(api,33)).status,status);
+  }
+});
+test('Falha HTTP não autoriza retomada; URL externa ou javascript é bloqueada', async () => {
+  await assert.rejects(consultarPagamento({get:async()=>{throw Error('503');}},33));
+  for(const url of ['javascript:alert(1)','http://mercadopago.com','https://mercadopago.com.evil.test','https://user:pass@mercadopago.com']) assert.equal(urlCheckoutSegura(url),false);
+  assert.equal(urlCheckoutSegura('https://www.mercadopago.com.br/checkout'),true);
+});
