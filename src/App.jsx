@@ -97,6 +97,11 @@ function App() {
             <p className="preco-produto">
               R$ {Number(produto.preco).toFixed(2).replace(".", ",")}
             </p>
+            {Number(produto.parcelamento?.quantidade) >= 2 && Number(produto.parcelamento?.valorParcela) > 0 && (
+              <p className="parcelamento-produto-home">
+                ou {produto.parcelamento.quantidade}x de {Number(produto.parcelamento.valorParcela).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })} sem juros
+              </p>
+            )}
           </div>
         </Link>
 

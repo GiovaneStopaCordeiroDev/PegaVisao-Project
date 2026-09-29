@@ -217,6 +217,14 @@ body {
   margin-top: auto;
 }
 
+.parcelamento-produto-home {
+  margin: 4px 0 0;
+  color: var(--pv-muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
 /* =========================================
    BOTÃO
 ========================================= */
